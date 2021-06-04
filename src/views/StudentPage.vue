@@ -1,29 +1,26 @@
 <template>
   <div id="studentPage">
-    <v-dialog v-model="adddialog" width="1200px" persistent>
-      <template v-slot:activator="{ on, attrs }">
-        <v-btn
-          depressed
-          small
-          style="border:1px solid rgba(71, 112, 166, 0.996); width:100px; height:38px; float:right; color:rgba(71, 112, 166, 0.996); font-size:13px;"
-          v-bind="attrs"
-          v-on="on"
-        >
-          添加学生信息
-        </v-btn>
-      </template>
+    <div class="basic_info_background">
+      <img :src="basicInfoBackgroundSrc" width="100%" height="100%" alt="" />
+    </div>
+    <div class="login_bar">
+      <div class="login_bar_pic">
+        <img :src="titlePicSrc">
+      </div>
+      <div class="login_bar_title">
+        学生信息管理系统
+      </div>
+    </div>
+    <div style="position:absolute;top:230px;left:50%;transform:translate(-50%);width:90%;">
       <v-card>
-        <v-card-title>
-          <span class="headline">添加学生信息</span>
-        </v-card-title>
         <div class="basic_info_form">
           <v-form
             ref="form"
             v-model="valid"
             :lazy-validation="lazy"
           >
-            <v-container>
-              <v-row dense no-gutters>
+            <v-container class="ma-0 pb-12" fluid>
+              <v-row dense no-gutters class="ma-0 pb-12">
                 <v-col
                   v-for="w in formlist"
                   :key="w.name"
@@ -133,14 +130,13 @@
             </v-container>
           </v-form>
         </div>
-        <v-card-actions>
-          <div style="margin:0 auto;">
-          <v-btn color="#EBECF1" @click="adddialog = false" dark depressed style="color:rgba(71, 112, 166, 0.996078431372549);margin-top:10px;margin-right:10px;margin-bottom:10px;">取消</v-btn>
-          <v-btn color="rgba(71, 112, 166, 0.996078431372549)" @click="adddialog = false" dark depressed style="margin-top:10px;margin-left:10px;margin-bottom:10px;">添加</v-btn>
-          </div>
-        </v-card-actions>
       </v-card>
-    </v-dialog>
+      <div style="margin-left:50%;transform: translateX(-110px)">
+        <v-btn color="#EBECF1" dark depressed style="color:rgba(71, 112, 166, 0.996078431372549);margin-right:10px;margin-top:20px;margin-bottom:40px;" width="100px">重置</v-btn>
+        <v-btn color="rgba(71, 112, 166, 0.996078431372549)" dark depressed width="100px" style="margin-left:10px;margin-top:20px;margin-bottom:40px;">确定</v-btn>
+      </div>
+    </div>
+
   </div>  
 </template>
 
@@ -150,7 +146,6 @@ export default {
   data(){
     return{
       valid: true,
-      adddialog: false,
       formlist: [
         {
           name: 'item0',
@@ -656,6 +651,8 @@ export default {
           ]
         },
       ],
+      titlePicSrc:require('../assets/login/u3.svg'),
+      basicInfoBackgroundSrc: require('../assets/basicinfo/u15.jpg'),
     }  
   },
   methods: {
@@ -667,6 +664,30 @@ export default {
 }
 </script>
 
-<style>
-
+<style scoped>
+.basic_info_background{
+  opacity: 0.7;
+  width: 100%;
+  height: 350px;
+  min-width: 1200px;
+}
+.login_bar{
+  position: absolute;
+  top:0;
+  width:100%;
+  height:80px;
+  background-color: rgba(128, 152, 192, 0.6);
+}
+.login_bar_pic{
+  display: inline-block;
+}
+.login_bar_title{
+  position: absolute;
+  margin-top: 20px;
+  display: inline-block;
+  color: #E1E4E9;
+  font-weight:700;
+  font-size: 32px;
+  margin-left: 20px;
+}
 </style>
