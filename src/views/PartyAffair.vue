@@ -99,36 +99,66 @@
               v-model="valid"
               :lazy-validation="lazy"
             >
-              <v-container class="grey lighten-5">
-                <v-row no-gutters>
+              <v-container>
+                <v-row dense no-gutters>
                   <v-col
-                    v-for="n in formlist"
-                    :key="n.name"
+                    v-for="w in formlist"
+                    :key="w.name"
+                    class="ma-0 pb-12"
                     cols="12"
-                    sm="3"
+                    xs="6"
+                    sm="6"
+                    md="6"
+                    lg="6"
+                    xl="6"
                   >
-                    <v-container fluid>
-                      <v-row dense>
-                        <v-col cols="4">
+                    <v-container fluid v-for="n in w.data" :key="n.name" class="ma-0 pa-0">
+                      <v-row dense no-gutters class="ma-0 pa-0">
+                        <v-col cols="4"  class="ma-0 pa-0">
                           <v-subheader style="font-size:10px;">{{n.chinesename}}</v-subheader>
                         </v-col>
                         <v-col cols="8">
+                          <div v-if="n.type=='addtextfield'">
+                            <v-container class="ma-0 pa-0" v-for="q in n.valuelist" :key="q.index">
+                              <v-row dense no-gutters class="ma-0 pa-0">
+                                <v-col
+                                  cols="9"
+                                >
+                                  <v-text-field
+                                    class="ma-0 pa-0"
+                                    v-model="q.value"
+                                    required
+                                    outlined
+                                    dense
+                                    style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col
+                                  cols="3"
+                                >
+                                  <v-btn @click="q.func(n,q.index)" v-model="q.buttontext">
+                                    {{q.buttontext}}
+                                  </v-btn>
+                                </v-col>
+                              </v-row>
+                            </v-container>
+                          </div>
                           <v-text-field
                             class="ma-0 pa-0"
                             v-model="n.value"
-                            single-line
                             required
                             outlined
                             dense
-                            style="font-size:10px;"
+                            style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
                             v-if="n.type=='singleline'"
                           ></v-text-field>
-                          <v-radio-group v-model="n.value" v-if="n.type=='radio'" row>
+                          <v-radio-group v-model="n.value" v-if="n.type=='radio'" row style="width=:100%;transform:scale(0.75,0.75);" class="ma-2 pa-0">
                             <v-radio
                               v-for="i in n.radiochoice"
                               :key="i"
                               :label="i"
                               :value="i"
+                              style="font-size:10px;"
                             ></v-radio>
                           </v-radio-group>
                           <v-menu
@@ -143,15 +173,14 @@
                             <template v-slot:activator="{ on, attrs }">
                               <v-text-field
                                 v-model="n.value"
-                                label="Picker in menu"
                                 prepend-icon="event"
                                 readonly
-                                single-line
                                 required
                                 outlined
                                 dense
                                 v-bind="attrs"
                                 v-on="on"
+                                style="font-size:20px;width:100%;transform:scale(0.75,0.75);"
                               ></v-text-field>
                             </template>
                             <v-date-picker v-model="n.value" no-title scrollable>
@@ -177,6 +206,7 @@
         </v-card>
       </v-dialog>
       <div style="height:15px;"></div>
+      <div style="min-width:960px;">
       <v-data-table
         v-model="selected"
         :headers="headers"
@@ -188,15 +218,25 @@
         show-expand
         class="elevation-1"
         show-select
+        :page.sync="page"
+        :items-per-page="itemsPerPage"
+        hide-default-footer
+        @page-count="pageCount = $event"
+        mobile-breakpoint=0
       >
         <template v-slot:expanded-item="{ headers, item }">
           <td :colspan="headers.length" class="basic_info_expand_td">
             <v-container class="grey lighten-5">
-              <v-row no-gutters>
+              <v-row no-gutters dense>
                 <v-col
                   cols="12"
+                  xs="3"
                   sm="3"
+                  md="3"
+                  lg="3"
+                  xl="3"
                   class="basic_info_expand_td"
+                  align-self="center"
                 >
                   <v-card
                     class="pa-2 basic_info_expand_td"
@@ -208,8 +248,13 @@
                 </v-col>
                 <v-col
                   cols="12"
+                  xs="9"
                   sm="9"
+                  md="9"
+                  lg="9"
+                  xl="9"
                   class="basic_info_expand_td"
+                  align-self="center"
                 >
                   <v-card
                     class="pa-2 basic_info_expand_td"
@@ -217,12 +262,16 @@
                     flat
                   >
                     <v-container class="grey lighten-5">
-                      <v-row no-gutters>
+                      <v-row no-gutters dense>
                         <v-col
                           v-for="n in infolist"
                           :key="n[1]"
                           cols="12"
+                          xs="4"
                           sm="4"
+                          md="4"
+                          lg="4"
+                          xl="4"
                           class="basic_info_expand_td"
                         >
                           <v-card
@@ -247,6 +296,76 @@
         </template>
       </v-data-table>
     </div>
+      <v-card style="overflow:hidden;" mobile-breakpoint=0>
+          <div style="display: inline-block;float:left;padding-left:20px;width:80%;">
+            <div style="position: absolute; top:50%;transform: translateY(-50%);font-size:10px;">
+              合计：男10人，女10人；贫困生5人，非贫困生15人；关心关爱8人，非关心关爱12人；已毕业2人，未毕业18人
+            </div>
+          </div>
+          <div style="display: inline-block;float:right;padding-right:20px;width:20%;">
+            <v-btn
+              :loading="loading3"
+              :disabled="loading3"
+              color="rgba(128, 152, 192, 0.8)"
+              class="ma-2 white--text"
+              @click="loader = 'loading3'"
+              small
+            >
+              导出
+            </v-btn>
+            <v-btn
+              :loading="loading3"
+              :disabled="loading3"
+              color="rgba(128, 152, 192, 0.8)"
+              class="ma-2 white--text"
+              @click="loader = 'loading3'"
+              small
+            >
+              生成简历
+            </v-btn>
+          </div>
+      </v-card>
+      <div class="text-center pt-2">
+        <div style="display: inline-block; margin-right:10px; font-weight:700; color:#0D4C7F;">
+          共50条
+        </div>
+        <div style="display: inline-block;">
+          <v-select
+            :items="selectitems"
+            item-text="state"
+            item-value="abbr"
+            v-model="itemsPerPage"
+            solo
+            dense
+            outlined
+            flat
+            style="width: 100px;font-size:10px;"
+          ></v-select>
+        </div>
+        <div style="display: inline-block; position: relative; top: 5px;">
+          <v-pagination v-model="page" :length="pageCount"></v-pagination>
+        </div>
+        <div style="display: inline-block; margin-right:10px; font-weight:700; color:#0D4C7F;">
+          跳至
+        </div>
+        <div style="display: inline-block;">
+          <v-text-field
+            :value="page"
+            type="number"
+            min="1"
+            style="width: 100px;"
+            :max="pageCount"
+            single-line
+            required
+            outlined
+            dense
+          ></v-text-field>
+        </div>
+        <div style="display: inline-block; margin-left:10px; font-weight:700; color:#0D4C7F;">
+          页
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -262,295 +381,148 @@ export default {
       valid: true,
       formlist: [
         {
-          name: 'name',
-          chinesename: '姓名',
-          value: '',
-          type: 'singleline',
+          name: 'item0',
+          data: [
+            {
+              name: 'name',
+              chinesename: '姓名',
+              value: '',
+              type: 'singleline',
+            },
+            {
+              name: 'schoolid',
+              chinesename: '学号',
+              value: '',
+              type: 'singleline',
+            },
+            {
+              name: 'activetime',
+              chinesename: '成为积极分子时间',
+              value: '',
+              type: 'timeselect',
+              menu: false,
+            },
+            {
+              name: 'score',
+              chinesename: '党课成绩',
+              value: '',
+              type: 'radio',
+              radiochoice: ['通过','未通过'],
+            },
+            {
+              name: 'activebranch',
+              chinesename: '积极分子支部名称',
+              value: '',
+              type: 'singleline',
+            },
+            {
+              name: 'preparedtime',
+              chinesename: '成为预备党员时间',
+              value: '',
+              type: 'timeselect',
+              menu: false,
+            },
+            {
+              name: 'preparedbranch',
+              chinesename: '所在党支部名称',
+              value: '',
+              type: 'singleline',
+            },
+            {
+              name: 'formaltime',
+              chinesename: '转正时间',
+              value: '',
+              type: 'timeselect',
+              menu: false,
+            }
+          ]
         },
         {
-          name: 'schoolid',
-          chinesename: '学号',
-          value: '',
-          type: 'singleline',
-        },
-        {
-          name: 'sex',
-          chinesename: '性别',
-          value: '',
-          type: 'radio',
-          radiochoice: ['男','女'],
-        },
-        {
-          name: 'race',
-          chinesename: '民族',
-          value: '',
-          type: 'singleline',
-        },
-        {
-          name: 'age',
-          chinesename: '年龄',
-          value: '',
-          type: 'singleline',
-        },
-        {
-          name: 'nativeplace',
-          chinesename: '籍贯',
-          value: '',
-          type: 'singleline',
-        },
-        {
-          name: 'nowplace',
-          chinesename: '现家庭住址',
-          value: '',
-          type: 'singleline',
-        },
-        {
-          name: 'householdplace',
-          chinesename: '户口所在地',
-          value: '',
-          type: 'singleline',
-        },
-        {
-          name: 'urgentcontactname',
-          chinesename: '紧急联系人姓名',
-          value: '',
-          type: 'singleline',
-        },
-        {
-          name: 'urgentcontactrelation',
-          chinesename: '紧急联系人关系',
-          value: '',
-          type: 'singleline',
-        },
-        {
-          name: 'urgentcontactphone',
-          chinesename: '紧急联系人电话',
-          value: '',
-          type: 'singleline',
-        },
-        {
-          name: 'iscared',
-          chinesename: '关心关爱',
-          value: '',
-          type: 'radio',
-          radiochoice: ['是','否'],
-        },
-        {
-          name: 'caredlevel',
-          chinesename: '关心等级',
-          value: '',
-          type: 'singleline',
-        },
-        {
-          name: 'registerdtime',
-          chinesename: '登记时间',
-          value: '',
-          type: 'timeselect',
-          menu: false,
-        },
-        {
-          name: 'mainreason',
-          chinesename: '主要原因',
-          value: '',
-          type: 'singleline',
-        },
-        {
-          name: 'ispoverty',
-          chinesename: '贫困生',
-          value: '',
-          type: 'radio',
-          radiochoice: ['是','否'],
-        },
-        {
-          name: 'povertylevel',
-          chinesename: '困难等级',
-          value: '',
-          type: 'singleline',
-        },
-        {
-          name: 'istemperaryhelpapplied',
-          chinesename: '是否申请临时困难补助',
-          value: '',
-          type: 'radio',
-          radiochoice: ['是','否'],
-        },
-        {
-          name: 'appliedtime',
-          chinesename: '申请时间',
-          value: '',
-          type: 'timeselect',
-          menu: false,
-        },
-        {
-          name: 'appliedaccount',
-          chinesename: '申请金额',
-          value: '',
-          type: 'singleline',
-        },
-        {
-          name: 'birthdate',
-          chinesename: '出生年月',
-          value: '',
-          type: 'timeselect',
-          menu: false,
-        },
-        {
-          name: 'idnum',
-          chinesename: '身份证号',
-          value: '',
-          type: 'singleline',
-        },
-        {
-          name: 'schoolstartyear',
-          chinesename: '入学年份',
-          value: '',
-          type: 'singleline',
-        },
-        {
-          name: 'politics',
-          chinesename: '政治面貌',
-          value: '',
-          type: 'singleline',
-        },
-        {
-          name: 'phonenumber',
-          chinesename: '手机号',
-          value: '',
-          type: 'singleline',
-        },
-        {
-          name: 'schoolzone',
-          chinesename: '所属校区',
-          value: '',
-          type: 'singleline',
-        },
-        {
-          name: 'studenttype',
-          chinesename: '学生类型',
-          value: '',
-          type: 'singleline',
-        },
-        {
-          name: 'classnum',
-          chinesename: '班号',
-          value: '',
-          type: 'singleline',
-        },
-        {
-          name: 'guider',
-          chinesename: '辅导员',
-          value: '',
-          type: 'singleline',
-        },
-        {
-          name: 'isschoolended',
-          chinesename: '是否毕业',
-          value: '',
-          type: 'radio',
-          radiochoice: ['是','否'],
-        },
-        {
-          name: 'fosterway',
-          chinesename: '培养方式',
-          value: '',
-          type: 'singleline',
-        },
-        {
-          name: 'recentplace',
-          chinesename: '近期所在地',
-          value: '',
-          type: 'singleline',
-        },
-        {
-          name: 'labdoornum',
-          chinesename: '实验室门牌号',
-          value: '',
-          type: 'singleline',
-        },
-        {
-          name: 'outsideschoolplace',
-          chinesename: '校外住址',
-          value: '',
-          type: 'singleline',
-        },
-        {
-          name: 'specialproblem',
-          chinesename: '特殊问题',
-          value: '',
-          type: 'singleline',
-        },
-        {
-          name: 'professorname',
-          chinesename: '主导师姓名',
-          value: '',
-          type: 'singleline',
-        },
-        {
-          name: 'professorphonenumber',
-          chinesename: '主导师手机号',
-          value: '',
-          type: 'singleline',
-        },
-        {
-          name: 'directprofessorname',
-          chinesename: '直带导师姓名',
-          value: '',
-          type: 'singleline',
-        },
-        {
-          name: 'directprofessorphonenumber',
-          chinesename: '直带导师手机号',
-          value: '',
-          type: 'singleline',
-        },
-        {
-          name: 'undergraduateschool',
-          chinesename: '本科学校',
-          value: '',
-          type: 'singleline',
-        },
-        {
-          name: 'undergraduatemajor',
-          chinesename: '本科专业',
-          value: '',
-          type: 'singleline',
-        },
-        {
-          name: 'masterschool',
-          chinesename: '硕士学校',
-          value: '',
-          type: 'singleline',
-        },
-        {
-          name: 'mastermajor',
-          chinesename: '硕士专业',
-          value: '',
-          type: 'singleline',
-        },
-        {
-          name: 'dormitoryarea',
-          chinesename: '宿舍区域',
-          value: '',
-          type: 'singleline',
-        },
-        {
-          name: 'dormitorybuilding',
-          chinesename: '宿舍楼号',
-          value: '',
-          type: 'singleline',
-        },
-        {
-          name: 'dormitoryroom',
-          chinesename: '房间号',
-          value: '',
-          type: 'singleline',
-        },
-        {
-          name: 'dormitorybed',
-          chinesename: '床号',
-          value: '',
-          type: 'singleline',
-        },
+          name: 'item1',
+          data: [
+            {
+              name: 'branch',
+              chinesename: '党支部名称',
+              value: '',
+              type: 'singleline',
+            },
+            {
+              name: 'buildtime',
+              chinesename: '成立时间',
+              value: '',
+              type: 'timeselect',
+              menu: false,
+            },
+            {
+              name: 'secretaryname',
+              chinesename: '书记姓名',
+              value: '',
+              type: 'singleline',
+            },
+            {
+              name: 'formalmembernum',
+              chinesename: '正式党员人数',
+              value: '',
+              type: 'singleline',
+            },
+            {
+              name: 'preparedmembernum',
+              chinesename: '预备党员人数',
+              value: '',
+              type: 'singleline',
+            },
+            {
+              name: 'activemembernum',
+              chinesename: '积极分子人数',
+              value: '',
+              type: 'singleline',
+            },
+            {
+              name: 'isatcollege',
+              chinesename: '组织关系是否在院',
+              value: '',
+              type: 'radio',
+              radiochoice: ['是', '否'],
+            },
+            {
+              name: 'ischangedbranch',
+              chinesename: '是否转过党支部',
+              value: '',
+              type: 'radio',
+              radiochoice: ['是', '否'],
+            },
+            {
+              name: 'changeinfo',
+              chinesename: '转党支部信息',
+              maxval:1,
+              valuelist: [
+                {
+                  index: 1,
+                  value: '',
+                  buttontext: '添加',
+                  func: function(obj,index){
+                    console.log(index);
+                    obj.maxval += 1;
+                    obj.valuelist.push({
+                      index: obj.maxval,
+                      value: '',
+                      buttontext: '删除',
+                      func: function(newobj,newindex){
+                        console.log(newobj);
+                        for(let i in obj.valuelist){
+                          if(obj.valuelist[i].index==newindex){
+                            obj.valuelist.splice(i,1);
+                          }
+                        }
+                      }
+                    });
+                  }
+                }
+              ],
+              type: 'addtextfield',
+            },
+          ]
+        }
       ],
       checkbox: false,
       selectdialog: false,
@@ -599,15 +571,23 @@ export default {
       ],
       headers: [
         { text: '', value: 'data-table-expand' },
-        { text: '学号', value: 'schoolid', align: 'center' },
-        { text: '姓名', value: 'name', align: 'center' },
-        { text: '成为积极分子时间', value: 'activetime', align: 'center' },
-        { text: '党课成绩', value: 'score', align: 'center' },
-        { text: '积极分子支部名称', value: 'activebranch', align: 'center' },
-        { text: '成为预备党员时间', value: 'preparedtime', align: 'center' },
-        { text: '党支部名称', value: 'branch', align: 'center' },
-        { text: '转正时间', value: 'formaltime', align: 'center' },
-        { text: '操作', value: 'operation', align: 'center', sortable:false },
+        { text: '学号', value: 'schoolid', align: 'center',width: '100px' },
+        { text: '姓名', value: 'name', align: 'center',width: '100px' },
+        { text: '成为积极分子时间', value: 'activetime', align: 'center',width: '100px' },
+        { text: '党课成绩', value: 'score', align: 'center',width: '100px' },
+        { text: '积极分子支部名称', value: 'activebranch', align: 'center',width: '100px' },
+        { text: '成为预备党员时间', value: 'preparedtime', align: 'center',width: '100px' },
+        { text: '党支部名称', value: 'branch', align: 'center',width: '100px' },
+        { text: '转正时间', value: 'formaltime', align: 'center',width: '100px' },
+        { text: '操作', value: 'operation', align: 'center', sortable:false,width: '200px' },
+      ],
+      page: 1,
+      pageCount: 0,
+      itemsPerPage: 10,
+      selectitems: [
+        { state: '10条/页', abbr: 10},
+        { state: '20条/页', abbr: 20},
+        { state: '30条/页', abbr: 30},
       ],
       desserts: [
         {
@@ -653,13 +633,19 @@ export default {
       ];
       for(let k of this.infolist){
         if(k[2]){
-          obj.splice(obj.length-1,0,{ text: k[0], value: k[1], align: 'center'});
+          obj.splice(obj.length-1,0,{ text: k[0], value: k[1], align: 'center',width: '100px'});
         }
       }
       this.headers = obj;
     }
   },
   watch:{
+    formlist:{
+      handler(val){
+        console.log(val);
+      },
+      deep:true 
+    },
     checkbox(val){
       if(val){
         for(let i of this.checkinfolist){

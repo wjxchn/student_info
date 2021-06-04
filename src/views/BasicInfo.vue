@@ -130,7 +130,18 @@
                           <v-subheader class="ma-0 pa-0" style="font-size:10px;">{{n.chinesename}}</v-subheader>
                         </v-col>
                         <v-col cols="8" class="ma-0 pa-0">
-                        <input type="file" id="upload" ref="upload" @change="changeimg" accept=".jpg, .jpeg, .png" v-if="n.type=='pictureupload'" style="display:block;width:90%;font-size:10px;margin-top:10px;">
+                          <v-textarea
+                            v-model="n.value"
+                            required
+                            outlined
+                            flat
+                            dense
+                            background-color="white"
+                            style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
+                            auto-grow
+                            v-if="n.type=='textarea'"
+                          ></v-textarea>
+                          <input type="file" id="upload" ref="upload" @change="changeimg" accept=".jpg, .jpeg, .png" v-if="n.type=='pictureupload'" style="display:block;width:90%;font-size:10px;margin-top:10px;">
                           <img :src="n.src" width="70%" alt="" v-if="n.type=='picture'"/>
                           <v-text-field
                             class="ma-0 pa-0"
@@ -490,7 +501,7 @@ export default {
               name: 'mainreason',
               chinesename: '主要原因',
               value: '',
-              type: 'singleline',
+              type: 'textarea',
             },
           ]
         },
