@@ -11,6 +11,11 @@
         学生信息管理系统
       </div>
     </div>
+    <div class="basic_info_title">
+      <div class="basic_info_title_text">
+        学生信息填写
+      </div>
+    </div>
     <div style="position:absolute;top:230px;left:50%;transform:translate(-50%);width:90%;">
       <v-card>
         <div class="basic_info_form">
@@ -689,5 +694,17 @@ export default {
   font-weight:700;
   font-size: 32px;
   margin-left: 20px;
+}
+.basic_info_title{
+  position: absolute;
+  top:130px;
+  left: 50%;
+  transform: translate(-50%);
+}
+.basic_info_title_text{
+  display: inline-block;
+  font-size: 32px;
+  color: #E1E4E9;
+  font-weight: 700;
 }
 </style>
