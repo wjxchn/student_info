@@ -129,19 +129,19 @@
                         <v-col cols="4" class="ma-0 pa-0">
                           <v-subheader class="ma-0 pa-0" style="font-size:10px;">{{n.chinesename}}</v-subheader>
                         </v-col>
-                        <v-col cols="8" style="height:15px;" class="ma-0 pa-0">
-                          <img :src="n.src" width="100%" height="100%" alt="" v-if="n.type=='picture'"/>
+                        <v-col cols="8" class="ma-0 pa-0">
+                        <input type="file" id="upload" ref="upload" @change="changeimg" accept=".jpg, .jpeg, .png" v-if="n.type=='pictureupload'" style="display:block;width:90%;font-size:10px;margin-top:10px;">
+                          <img :src="n.src" width="70%" alt="" v-if="n.type=='picture'"/>
                           <v-text-field
                             class="ma-0 pa-0"
                             v-model="n.value"
-                            single-line
                             required
                             outlined
                             dense
-                            style="font-size:20px;width:100%;transform:scale(0.75,0.75);"
+                            style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
                             v-if="n.type=='singleline'"
                           ></v-text-field>
-                          <v-radio-group v-model="n.value" v-if="n.type=='radio'" row style="width=:100%;height:20px;transform:scale(0.75,0.75);">
+                          <v-radio-group v-model="n.value" v-if="n.type=='radio'" row style="width=:100%;transform:scale(0.75,0.75);" class="ma-2 pa-0">
                             <v-radio
                               v-for="i in n.radiochoice"
                               :key="i"
@@ -162,10 +162,8 @@
                             <template v-slot:activator="{ on, attrs }">
                               <v-text-field
                                 v-model="n.value"
-                                label="Picker in menu"
                                 prepend-icon="event"
                                 readonly
-                                single-line
                                 required
                                 outlined
                                 dense
@@ -376,7 +374,15 @@ export default {
           data: [
             {
               name: 'imgsrc',
-              
+              chinesename: '非证件照片',
+              files: [],
+              type: 'pictureupload'
+            },
+            {
+              name: 'imgshow',
+              chinesename: '上传图片预览',
+              src: require('../assets/basicinfo/u264.svg'),
+              type: 'picture'
             }
           ]
         },
@@ -903,6 +909,10 @@ export default {
     }
   },
   methods: {
+    changeimg(item){
+       this.formlist[0].data[0].files = item.target.files;
+       this.formlist[0].data[1].src = window.webkitURL.createObjectURL(this.formlist[0].data[0].files[0]);
+    },
     getstr(item,name){
       return item[name[1]];
     },
@@ -928,6 +938,12 @@ export default {
     }
   },
   watch:{
+    formlist:{
+      handler(val){
+        console.log(val);
+      },
+      deep:true 
+    },
     checkbox(val){
       if(val){
         for(let i of this.checkinfolist){
