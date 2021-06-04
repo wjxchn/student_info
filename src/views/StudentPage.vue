@@ -136,9 +136,8 @@
           </v-form>
         </div>
       </v-card>
-      <div style="margin-left:50%;transform: translateX(-110px)">
-        <v-btn color="#EBECF1" dark depressed style="color:rgba(71, 112, 166, 0.996078431372549);margin-right:10px;margin-top:20px;margin-bottom:40px;" width="100px">重置</v-btn>
-        <v-btn color="rgba(71, 112, 166, 0.996078431372549)" dark depressed width="100px" style="margin-left:10px;margin-top:20px;margin-bottom:40px;">确定</v-btn>
+      <div style="margin-left:50%;transform: translateX(-50px)">
+        <v-btn color="rgba(71, 112, 166, 0.996078431372549)" dark depressed width="100px" style="margin-top:20px;margin-bottom:40px;">确定</v-btn>
       </div>
     </div>
 
