@@ -202,17 +202,17 @@ export default {
               value: '',
               type: 'singleline',
             },
+          ]
+        },
+        {
+          name: 'item2',
+          data: [
             {
               name: 'nativeplace',
               chinesename: '籍贯',
               value: '',
               type: 'singleline',
             },
-          ]
-        },
-        {
-          name: 'item2',
-          data: [
             {
               name: 'nowplace',
               chinesename: '现家庭住址',
@@ -237,27 +237,14 @@ export default {
               value: '',
               type: 'singleline',
             },
-            {
-              name: 'urgentcontactphone',
-              chinesename: '紧急联系人电话',
-              value: '',
-              type: 'singleline',
-            },
           ]
         },
         {
           name: 'item3',
           data: [
             {
-              name: 'iscared',
-              chinesename: '关心关爱',
-              value: '',
-              type: 'radio',
-              radiochoice: ['是','否'],
-            },
-            {
-              name: 'caredlevel',
-              chinesename: '关心等级',
+              name: 'urgentcontactphone',
+              chinesename: '紧急联系人电话',
               value: '',
               type: 'singleline',
             },
@@ -274,44 +261,6 @@ export default {
               value: '',
               type: 'textarea',
             },
-          ]
-        },
-        {
-          name: 'item4',
-          data: [
-            {
-              name: 'ispoverty',
-              chinesename: '贫困生',
-              value: '',
-              type: 'radio',
-              radiochoice: ['是','否'],
-            },
-            {
-              name: 'povertylevel',
-              chinesename: '困难等级',
-              value: '',
-              type: 'singleline',
-            },
-            {
-              name: 'istemperaryhelpapplied',
-              chinesename: '是否申请临时困难补助',
-              value: '',
-              type: 'radio',
-              radiochoice: ['是','否'],
-            },
-            {
-              name: 'appliedtime',
-              chinesename: '申请时间',
-              value: '',
-              type: 'timeselect',
-              menu: false,
-            },
-            {
-              name: 'appliedaccount',
-              chinesename: '申请金额',
-              value: '',
-              type: 'singleline',
-            },            
           ]
         },
         {
@@ -617,11 +566,6 @@ export default {
               type: 'radio',
               radiochoice: ['是', '否'],
             },
-          ]
-        },
-        {
-          name: 'item15',
-          data: [
             {
               name: 'changeinfo',
               chinesename: '转党支部信息',
