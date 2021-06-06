@@ -11,6 +11,9 @@ Vue.use(ElementUI);
 Vue.prototype.$echarts = echarts
 Vue.config.productionTip = false
 
+import { VueAxios } from './utils/http/request'
+Vue.use(VueAxios)
+
 new Vue({
   router,
   vuetify,
