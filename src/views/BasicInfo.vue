@@ -1,35 +1,6 @@
 <template>
   <div id="basicInfo">
-    <div class="basic_info_background">
-      <img :src="basicInfoBackgroundSrc" width="100%" height="100%" alt="" />
-    </div>
-    <HeadBar class="basic_info_head_bar"></HeadBar>
-    <div class="basic_info_title">
-      <div class="basic_info_title_icon">
-        <!-- 学校 (组合) -->
-        <div id="u25" class="ax_default" data-label="学校" data-left="1511" data-top="20" data-width="48" data-height="40">
-
-          <!-- Unnamed (形状) -->
-          <div id="u26" class="ax_default _形状2">
-            <img id="u26_img" class="img " :src="schoolPicSrc1"/>
-            <div id="u26_text" class="text " style="display:none; visibility: hidden">
-              <p></p>
-            </div>
-          </div>
-
-          <!-- Unnamed (形状) -->
-          <div id="u27" class="ax_default _形状2">
-            <img id="u27_img" class="img " :src="schoolPicSrc2"/>
-            <div id="u27_text" class="text " style="display:none; visibility: hidden">
-              <p></p>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="basic_info_title_text">
-        基本信息管理
-      </div>
-    </div>
+    <background></background>
     <div class="basic_info_table">
       <v-dialog v-model="selectdialog" width="1000px" persistent>
         <template v-slot:activator="{ on, attrs }">
@@ -370,11 +341,11 @@
 </template>
 
 <script>
-import HeadBar from '@/components/HeadBar.vue'
+import Background from '@/components/Background.vue'
 export default {
   name: 'BasicInfo',
   components: {
-    HeadBar,
+    Background,
   },
   data () {
     return {
@@ -741,9 +712,6 @@ export default {
       checkbox: false,
       selectdialog: false,
       adddialog: false,
-      basicInfoBackgroundSrc: require('../assets/basicinfo/u15.jpg'),
-      schoolPicSrc1: require('../assets/basicinfo/u26.svg'),
-      schoolPicSrc2: require('../assets/basicinfo/u27.svg'),
       expanded: [],
       singleExpand: false,
       singleSelect: false,
@@ -846,15 +814,15 @@ export default {
       ],
       headers: [
         { text: '', value: 'data-table-expand' },
-        { text: '学号', value: 'schoolid', align: 'center',width: '100px' },
-        { text: '姓名', value: 'name', align: 'center',width: '100px' },
-        { text: '性别', value: 'sex', align: 'center',width: '100px' },
-        { text: '年龄', value: 'age', align: 'center',width: '100px' },
-        { text: '手机号', value: 'phonenumber', align: 'center',width: '100px' },
-        { text: '校区', value: 'schoolzone', align: 'center',width: '100px' },
-        { text: '学生类型', value: 'studenttype', align: 'center',width: '100px' },
-        { text: '特殊问题', value: 'specialproblem', align: 'center',width: '100px' },
-        { text: '操作', value: 'operation', align: 'center', sortable:false, width: '200px' },
+        { text: '学号', value: 'schoolid', align: 'center',width: '150px' },
+        { text: '姓名', value: 'name', align: 'center',width: '150px' },
+        { text: '性别', value: 'sex', align: 'center',width: '150px' },
+        { text: '年龄', value: 'age', align: 'center',width: '150px' },
+        { text: '手机号', value: 'phonenumber', align: 'center',width: '150px' },
+        { text: '校区', value: 'schoolzone', align: 'center',width: '150px' },
+        { text: '学生类型', value: 'studenttype', align: 'center',width: '150px' },
+        { text: '特殊问题', value: 'specialproblem', align: 'center',width: '150px' },
+        { text: '操作', value: 'operation', align: 'center', sortable:false, width: '300px' },
       ],
       page: 1,
       pageCount: 0,
@@ -942,7 +910,7 @@ export default {
       ];
       for(let k of this.infolist){
         if(k[2]){
-          obj.splice(obj.length-1,0,{ text: k[0], value: k[1], align: 'center', width:'100px'});
+          obj.splice(obj.length-1,0,{ text: k[0], value: k[1], align: 'center', width:'150px'});
         }
       }
       this.headers = obj;
@@ -997,108 +965,14 @@ export default {
 </script>
 
 <style scoped>
-.basic_info_background{
-  opacity: 0.7;
-  width: 100%;
-  height: 350px;
-  min-width: 1200px;
-}
-.basic_info_head_bar{
-  position: absolute;
-  top:0px;
-}
-.basic_info_title{
-  position: absolute;
-  top:130px;
-  left: 50%;
-  transform: translate(-60px);
-}
-.basic_info_title_icon{
-  display: inline-block;
-}
-.basic_info_title_text{
-  display: inline-block;
-  font-size: 32px;
-  color: #E1E4E9;
-  font-weight: 700;
-}
 .basic_info_table{
   position: absolute;
   top:230px;
   width:80%;
-  min-width:960px;
   margin-left: 50%;
   transform: translate(-50%);
 }
 .basic_info_expand_td{
   background-color: #FAFAFA;
-}
-#u25 {
-  border-width:0px;
-  position:absolute;
-  left:0px;
-  top:0px;
-  width:0px;
-  height:0px;
-}
-#u26_img {
-  border-width:0px;
-  position:absolute;
-  left:0px;
-  top:0px;
-  width:34px;
-  height:19px;
-}
-#u26 {
-  border-width:0px;
-  position:absolute;
-  left:-55px;
-  top:23px;
-  width:34px;
-  height:19px;
-  display:flex;
-}
-#u26 .text {
-  position:absolute;
-  align-self:center;
-  padding:2px 2px 2px 20px;
-  box-sizing:border-box;
-  width:100%;
-}
-#u26_text {
-  border-width:0px;
-  word-wrap:break-word;
-  text-transform:none;
-  visibility:hidden;
-}
-#u27_img {
-  border-width:0px;
-  position:absolute;
-  left:0px;
-  top:0px;
-  width:48px;
-  height:34px;
-}
-#u27 {
-  border-width:0px;
-  position:absolute;
-  left:-61px;
-  top:2px;
-  width:48px;
-  height:34px;
-  display:flex;
-}
-#u27 .text {
-  position:absolute;
-  align-self:center;
-  padding:2px 2px 2px 20px;
-  box-sizing:border-box;
-  width:100%;
-}
-#u27_text {
-  border-width:0px;
-  word-wrap:break-word;
-  text-transform:none;
-  visibility:hidden;
 }
 </style>

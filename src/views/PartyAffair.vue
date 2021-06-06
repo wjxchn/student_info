@@ -1,23 +1,6 @@
 <template>
   <div id="partyAffair">
-    <div class="party_affair_background">
-      <img :src="partyAffairBackgroundSrc" width="100%" height="100%" alt="" />
-    </div>
-    <HeadBar class="party_affair_head_bar"></HeadBar>
-    <div class="party_affair_title">
-      <div class="party_affair_title_icon">
-        <!-- 公文包 (形状) -->
-        <div id="u21" class="ax_default _形状2" data-label="公文包">
-          <img id="u21_img" class="img " :src="packagePicSrc1"/>
-          <div id="u21_text" class="text " style="display:none; visibility: hidden">
-            <p></p>
-          </div>
-        </div>
-      </div>
-      <div class="party_affair_title_text">
-        党务管理
-      </div>
-    </div>
+    <background></background>
     <div class="party_affair_table">
       <v-dialog v-model="selectdialog" width="1000px" persistent>
         <template v-slot:activator="{ on, attrs }">
@@ -370,11 +353,11 @@
 </template>
 
 <script>
-import HeadBar from '@/components/HeadBar.vue'
+import Background from '@/components/Background.vue'
 export default {
   name: 'PartyAffair',
   components: {
-    HeadBar,
+    Background,
   },
   data () {
     return {
@@ -527,8 +510,6 @@ export default {
       checkbox: false,
       selectdialog: false,
       adddialog: false,
-      partyAffairBackgroundSrc: require('../assets/basicinfo/u15.jpg'),
-      packagePicSrc1: require('../assets/basicinfo/公文包_u21.svg'),
       expanded: [],
       singleExpand: false,
       singleSelect: false,
@@ -571,15 +552,15 @@ export default {
       ],
       headers: [
         { text: '', value: 'data-table-expand' },
-        { text: '学号', value: 'schoolid', align: 'center',width: '100px' },
-        { text: '姓名', value: 'name', align: 'center',width: '100px' },
-        { text: '成为积极分子时间', value: 'activetime', align: 'center',width: '100px' },
-        { text: '党课成绩', value: 'score', align: 'center',width: '100px' },
-        { text: '积极分子支部名称', value: 'activebranch', align: 'center',width: '100px' },
-        { text: '成为预备党员时间', value: 'preparedtime', align: 'center',width: '100px' },
-        { text: '党支部名称', value: 'branch', align: 'center',width: '100px' },
-        { text: '转正时间', value: 'formaltime', align: 'center',width: '100px' },
-        { text: '操作', value: 'operation', align: 'center', sortable:false,width: '200px' },
+        { text: '学号', value: 'schoolid', align: 'center',width: '150px' },
+        { text: '姓名', value: 'name', align: 'center',width: '105px' },
+        { text: '成为积极分子时间', value: 'activetime', align: 'center',width: '150px' },
+        { text: '党课成绩', value: 'score', align: 'center',width: '150px' },
+        { text: '积极分子支部名称', value: 'activebranch', align: 'center',width: '150px' },
+        { text: '成为预备党员时间', value: 'preparedtime', align: 'center',width: '150px' },
+        { text: '党支部名称', value: 'branch', align: 'center',width: '150px' },
+        { text: '转正时间', value: 'formaltime', align: 'center',width: '150px' },
+        { text: '操作', value: 'operation', align: 'center', sortable:false,width: '300px' },
       ],
       page: 1,
       pageCount: 0,
@@ -633,7 +614,7 @@ export default {
       ];
       for(let k of this.infolist){
         if(k[2]){
-          obj.splice(obj.length-1,0,{ text: k[0], value: k[1], align: 'center',width: '100px'});
+          obj.splice(obj.length-1,0,{ text: k[0], value: k[1], align: 'center',width: '150px'});
         }
       }
       this.headers = obj;

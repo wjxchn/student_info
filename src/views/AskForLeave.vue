@@ -122,7 +122,8 @@
         </div>
       </v-card>
       <div style="margin-left:50%;transform: translateX(-50px)">
-        <v-btn color="rgba(71, 112, 166, 0.996078431372549)" dark depressed width="100px" style="margin-top:20px;margin-bottom:40px;">确定</v-btn>
+        <v-btn color="#EBECF1" dark depressed width="50px" style="color:rgba(71, 112, 166, 0.996078431372549);margin-top:20px;margin-bottom:40px;margin-right:10px;">取消</v-btn>
+        <v-btn color="rgba(71, 112, 166, 0.996078431372549)" dark depressed width="50px" style="margin-top:20px;margin-bottom:40px;margin-left:10px;">确定</v-btn>
       </div>
     </div>
 
