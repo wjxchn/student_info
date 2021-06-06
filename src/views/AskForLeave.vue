@@ -9,18 +9,18 @@
             v-model="valid"
             :lazy-validation="lazy"
           >
-            <v-container class="ma-0 pb-12" fluid>
-              <v-row dense no-gutters class="ma-0 pb-12">
+            <v-container class="ma-0 pt-12 mb-12" fluid>
+              <v-row dense no-gutters class="ma-0 pa-0" justify="center">
                 <v-col
                   v-for="w in formlist"
                   :key="w.name"
                   class="ma-0 pb-12"
                   cols="12"
-                  xs="3"
-                  sm="3"
-                  md="3"
-                  lg="3"
-                  xl="3"
+                  xs="4"
+                  sm="4"
+                  md="4"
+                  lg="4"
+                  xl="4"
                 >
                   <v-container fluid v-for="n in w.data" :key="n.name" class="ma-0 pa-0">
                     <v-row dense no-gutters class="ma-0 pa-0">
@@ -115,16 +115,17 @@
                       </v-col>
                     </v-row>
                   </v-container>
+                  <div style="margin-left:50%;transform: translateX(-50px)">
+                    <v-btn color="#EBECF1" dark depressed width="50px" style="color:rgba(71, 112, 166, 0.996078431372549);margin-top:20px;margin-right:10px;">取消</v-btn>
+                    <v-btn color="rgba(71, 112, 166, 0.996078431372549)" dark depressed width="50px" style="margin-top:20px;margin-left:10px;">确定</v-btn>
+                  </div>                  
                 </v-col>
               </v-row>
             </v-container>
           </v-form>
         </div>
       </v-card>
-      <div style="margin-left:50%;transform: translateX(-50px)">
-        <v-btn color="#EBECF1" dark depressed width="50px" style="color:rgba(71, 112, 166, 0.996078431372549);margin-top:20px;margin-bottom:40px;margin-right:10px;">取消</v-btn>
-        <v-btn color="rgba(71, 112, 166, 0.996078431372549)" dark depressed width="50px" style="margin-top:20px;margin-bottom:40px;margin-left:10px;">确定</v-btn>
-      </div>
+
     </div>
 
   </div>  
@@ -142,142 +143,17 @@ export default {
       valid: true,
       formlist: [
         {
-          name: 'item0',
-          data: [
-            {
-              name: 'imgsrc',
-              chinesename: '非证件照片',
-              files: [],
-              type: 'pictureupload'
-            },
-            {
-              name: 'imgshow',
-              chinesename: '上传图片预览',
-              src: require('../assets/basicinfo/u264.svg'),
-              type: 'picture'
-            }
-          ]
-        },
-        {
           name: 'item1',
           data: [
             {
-              name: 'name',
-              chinesename: '姓名',
-              value: '',
-              type: 'singleline',
-            },
-            {
-              name: 'schoolid',
+              name: 'studentid',
               chinesename: '学号',
               value: '',
               type: 'singleline',
-            },
+            },            
             {
-              name: 'sex',
-              chinesename: '性别',
-              value: '',
-              type: 'radio',
-              radiochoice: ['男','女'],
-            },
-            {
-              name: 'race',
-              chinesename: '民族',
-              value: '',
-              type: 'singleline',
-            },
-            {
-              name: 'age',
-              chinesename: '年龄',
-              value: '',
-              type: 'singleline',
-            },
-          ]
-        },
-        {
-          name: 'item2',
-          data: [
-            {
-              name: 'nativeplace',
-              chinesename: '籍贯',
-              value: '',
-              type: 'singleline',
-            },
-            {
-              name: 'nowplace',
-              chinesename: '现家庭住址',
-              value: '',
-              type: 'singleline',
-            },
-            {
-              name: 'householdplace',
-              chinesename: '户口所在地',
-              value: '',
-              type: 'singleline',
-            },
-            {
-              name: 'urgentcontactname',
-              chinesename: '紧急联系人姓名',
-              value: '',
-              type: 'singleline',
-            },
-            {
-              name: 'urgentcontactrelation',
-              chinesename: '紧急联系人关系',
-              value: '',
-              type: 'singleline',
-            },
-          ]
-        },
-        {
-          name: 'item3',
-          data: [
-            {
-              name: 'urgentcontactphone',
-              chinesename: '紧急联系人电话',
-              value: '',
-              type: 'singleline',
-            },
-            {
-              name: 'registerdtime',
-              chinesename: '登记时间',
-              value: '',
-              type: 'timeselect',
-              menu: false,
-            },
-            {
-              name: 'mainreason',
-              chinesename: '主要原因',
-              value: '',
-              type: 'textarea',
-            },
-          ]
-        },
-        {
-          name: 'item5',
-          data: [
-            {
-              name: 'birthdate',
-              chinesename: '出生年月',
-              value: '',
-              type: 'timeselect',
-              menu: false,
-            },
-            {
-              name: 'idnum',
-              chinesename: '身份证号',
-              value: '',
-              type: 'singleline',
-            },
-            {
-              name: 'schoolstartyear',
-              chinesename: '入学年份',
-              value: '',
-              type: 'singleline',
-            },
-            {
-              name: 'politics',
-              chinesename: '政治面貌',
+              name: 'studentname',
+              chinesename: '姓名',
               value: '',
               type: 'singleline',
             },
@@ -286,305 +162,38 @@ export default {
               chinesename: '手机号',
               value: '',
               type: 'singleline',
-            },
-          ]
-        },
-        {
-          name: 'item6',
-          data: [
-            {
-              name: 'schoolzone',
-              chinesename: '所属校区',
-              value: '',
-              type: 'singleline',
-            },
-            {
-              name: 'studenttype',
-              chinesename: '学生类型',
-              value: '',
-              type: 'singleline',
-            },
-            {
-              name: 'classnum',
-              chinesename: '班号',
-              value: '',
-              type: 'singleline',
-            },
-            {
-              name: 'guider',
-              chinesename: '辅导员',
-              value: '',
-              type: 'singleline',
-            },
-            {
-              name: 'isschoolended',
-              chinesename: '是否毕业',
-              value: '',
-              type: 'radio',
-              radiochoice: ['是','否'],
-            },
-          ]
-        },
-        {
-          name: 'item7',
-          data: [
-            {
-              name: 'fosterway',
-              chinesename: '培养方式',
-              value: '',
-              type: 'singleline',
-            },
-            {
-              name: 'recentplace',
-              chinesename: '近期所在地',
-              value: '',
-              type: 'singleline',
-            },
-            {
-              name: 'labdoornum',
-              chinesename: '实验室门牌号',
-              value: '',
-              type: 'singleline',
-            },
-            {
-              name: 'outsideschoolplace',
-              chinesename: '校外住址',
-              value: '',
-              type: 'singleline',
-            },
-            {
-              name: 'specialproblem',
-              chinesename: '特殊问题',
-              value: '',
-              type: 'singleline',
             },            
-          ]
-        },
-        {
-          name: 'item8',
-          data: [
             {
               name: 'professorname',
-              chinesename: '主导师姓名',
+              chinesename: '导师姓名',
               value: '',
               type: 'singleline',
             },
             {
-              name: 'professorphonenumber',
-              chinesename: '主导师手机号',
-              value: '',
-              type: 'singleline',
-            },
-            {
-              name: 'directprofessorname',
-              chinesename: '直带导师姓名',
-              value: '',
-              type: 'singleline',
-            },
-            {
-              name: 'directprofessorphonenumber',
-              chinesename: '直带导师手机号',
-              value: '',
-              type: 'singleline',
-            },            
-          ]
-        },
-        {
-          name: 'item9',
-          data: [
-            {
-              name: 'undergraduateschool',
-              chinesename: '本科学校',
-              value: '',
-              type: 'singleline',
-            },
-            {
-              name: 'undergraduatemajor',
-              chinesename: '本科专业',
-              value: '',
-              type: 'singleline',
-            },
-            {
-              name: 'masterschool',
-              chinesename: '硕士学校',
-              value: '',
-              type: 'singleline',
-            },
-            {
-              name: 'mastermajor',
-              chinesename: '硕士专业',
-              value: '',
-              type: 'singleline',
-            },            
-          ]
-        },
-        {
-          name: 'item10',
-          data: [
-            {
-              name: 'dormitoryarea',
-              chinesename: '宿舍区域',
-              value: '',
-              type: 'singleline',
-            },
-            {
-              name: 'dormitorybuilding',
-              chinesename: '宿舍楼号',
-              value: '',
-              type: 'singleline',
-            },
-            {
-              name: 'dormitoryroom',
-              chinesename: '房间号',
-              value: '',
-              type: 'singleline',
-            },
-            {
-              name: 'dormitorybed',
-              chinesename: '床号',
-              value: '',
-              type: 'singleline',
-            },            
-          ]
-        },
-        {
-          name: 'item11',
-          data: [
-            {
-              name: 'activetime',
-              chinesename: '成为积极分子时间',
+              name: 'leavestarttime',
+              chinesename: '请假开始时间',
               value: '',
               type: 'timeselect',
               menu: false,
             },
             {
-              name: 'score',
-              chinesename: '党课成绩',
-              value: '',
-              type: 'radio',
-              radiochoice: ['通过','未通过'],
-            },
-            {
-              name: 'activebranch',
-              chinesename: '积极分子支部名称',
-              value: '',
-              type: 'singleline',
-            },
-            {
-              name: 'preparedtime',
-              chinesename: '成为预备党员时间',
-              value: '',
-              type: 'timeselect',
-              menu: false,
-            },
-          ]
-        },
-        {
-          name: 'item12',
-          data: [
-            {
-              name: 'preparedbranch',
-              chinesename: '所在党支部名称',
-              value: '',
-              type: 'singleline',
-            },
-            {
-              name: 'formaltime',
-              chinesename: '转正时间',
+              name: 'leaveendtime',
+              chinesename: '请假结束时间',
               value: '',
               type: 'timeselect',
               menu: false,
             },
             {
-              name: 'branch',
-              chinesename: '党支部名称',
+              name: 'leavereason',
+              chinesename: '请假理由',
               value: '',
-              type: 'singleline',
+              type: 'textarea',
             },
             {
-              name: 'buildtime',
-              chinesename: '成立时间',
+              name: 'leaveto',
+              chinesename: '请假去向',
               value: '',
-              type: 'timeselect',
-              menu: false,
-            },
-          ]
-        },
-        {
-          name: 'item13',
-          data: [
-            {
-              name: 'secretaryname',
-              chinesename: '书记姓名',
-              value: '',
-              type: 'singleline',
-            },
-            {
-              name: 'formalmembernum',
-              chinesename: '正式党员人数',
-              value: '',
-              type: 'singleline',
-            },
-            {
-              name: 'preparedmembernum',
-              chinesename: '预备党员人数',
-              value: '',
-              type: 'singleline',
-            },
-            {
-              name: 'activemembernum',
-              chinesename: '积极分子人数',
-              value: '',
-              type: 'singleline',
-            },
-          ]
-        },
-        {
-          name: 'item14',
-          data: [
-            {
-              name: 'isatcollege',
-              chinesename: '组织关系是否在院',
-              value: '',
-              type: 'radio',
-              radiochoice: ['是', '否'],
-            },
-            {
-              name: 'ischangedbranch',
-              chinesename: '是否转过党支部',
-              value: '',
-              type: 'radio',
-              radiochoice: ['是', '否'],
-            },
-            {
-              name: 'changeinfo',
-              chinesename: '转党支部信息',
-              maxval:1,
-              valuelist: [
-                {
-                  index: 1,
-                  value: '',
-                  buttontext: '添加',
-                  func: function(obj,index){
-                    console.log(index);
-                    obj.maxval += 1;
-                    obj.valuelist.push({
-                      index: obj.maxval,
-                      value: '',
-                      buttontext: '删除',
-                      func: function(newobj,newindex){
-                        console.log(newobj);
-                        for(let i in obj.valuelist){
-                          if(obj.valuelist[i].index==newindex){
-                            obj.valuelist.splice(i,1);
-                          }
-                        }
-                      }
-                    });
-                  }
-                }
-              ],
-              type: 'addtextfield',
+              type: 'textarea',
             },
           ]
         },
