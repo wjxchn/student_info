@@ -1,6 +1,6 @@
 <template>
   <div id="studentPage">
-    <background></background>
+    <background :titlevalue="chinesename"></background>
     <div style="position:absolute;top:230px;left:50%;transform:translate(-50%);width:90%;">
       <v-card>
         <div class="basic_info_form">
@@ -9,12 +9,12 @@
             v-model="valid"
             :lazy-validation="lazy"
           >
-            <v-container class="ma-0 pb-12" fluid>
-              <v-row dense no-gutters class="ma-0 pb-12">
+            <v-container class="ma-0 pa-0 pt-4 pl-2 pr-2" fluid>
+              <v-row dense class="ma-0 pa-0">
                 <v-col
                   v-for="w in formlist"
                   :key="w.name"
-                  class="ma-0 pb-12"
+                  class="ma-0 pa-4"
                   cols="12"
                   xs="3"
                   sm="3"
@@ -138,6 +138,7 @@ export default {
   },
   data(){
     return{
+      chinesename: '学生个人信息',
       valid: true,
       formlist: [
         {

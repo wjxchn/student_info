@@ -1,6 +1,6 @@
 <template>
-  <div id="studentPage">
-    <background></background>
+  <div id="askForLeave">
+    <background :titlevalue="chinesename"></background>
     <div style="position:absolute;top:230px;left:50%;transform:translate(-50%);width:90%;">
       <v-card>
         <div class="basic_info_form">
@@ -134,12 +134,13 @@
 <script>
 import Background from '@/components/Background.vue'
 export default {
-  name: 'StudentPage',
+  name: 'AskForLeave',
   components: { 
     Background
   },
   data(){
     return{
+      chinesename: '学生请假',
       valid: true,
       formlist: [
         {

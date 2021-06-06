@@ -1,6 +1,6 @@
 <template>
   <div id="partyAffair">
-    <background></background>
+    <background :titlevalue="chinesename"></background>
     <div class="party_affair_table">
       <v-dialog v-model="selectdialog" width="1000px" persistent>
         <template v-slot:activator="{ on, attrs }">
@@ -361,6 +361,7 @@ export default {
   },
   data () {
     return {
+      chinesename: '党务管理',
       valid: true,
       formlist: [
         {

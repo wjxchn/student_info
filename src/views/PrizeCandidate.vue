@@ -1,6 +1,6 @@
 <template>
   <div id="prizeCandidate">
-    <background></background>
+    <background :titlevalue="chinesename"></background>
     <div class="table">
       <div style="width:100%;height:38px;">
         <v-btn
@@ -99,6 +99,7 @@ export default {
   },
   data () {
     return {
+      chinesename: 'xxx奖候选人',
       valid: true,
       checkbox: false,
       selectdialog: false,

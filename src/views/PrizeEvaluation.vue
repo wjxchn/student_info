@@ -1,7 +1,6 @@
 <template>
   <div id="prizeEvaluation">
-    <background></background>
-
+    <background :titlevalue="chinesename"></background>
     <div class="table">
       <div style="width:100%;height:53px;">
       </div>    
@@ -79,6 +78,7 @@ export default {
   },
   data () {
     return {
+      chinesename: '评审奖项',
       valid: true,
       checkbox: false,
       selectdialog: false,

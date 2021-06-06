@@ -1,6 +1,6 @@
 <template>
   <div id="applyPrize">
-    <background></background>
+    <background :titlevalue="chinesename"></background>
     <div class="table">
       <div style="width:100%;height:38px;">
         <v-btn
@@ -87,6 +87,7 @@ export default {
   },
   data () {
     return {
+      chinesename: '申报奖项',
       valid: true,
       checkbox: false,
       selectdialog: false,

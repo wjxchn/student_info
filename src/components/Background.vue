@@ -12,8 +12,8 @@
       </div>
     </div>
     <div class="basic_info_title">
-      <div class="basic_info_title_text">
-        学生信息填写
+      <div class="basic_info_title_text" v-text="titlevalue">
+        {{titlevalue}}
       </div>
     </div>
   </div>
@@ -26,6 +26,12 @@ export default {
     return{
       titlePicSrc:require('../assets/login/u3.svg'),
       basicInfoBackgroundSrc: require('../assets/basicinfo/u15.jpg'),
+    }
+  },
+  props: {
+    titlevalue: {
+      type: String,
+      default: null
     }
   }
 }

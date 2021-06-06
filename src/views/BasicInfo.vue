@@ -1,6 +1,6 @@
 <template>
   <div id="basicInfo">
-    <background></background>
+    <background :titlevalue="chinesename"></background>
     <div class="basic_info_table">
       <v-dialog v-model="selectdialog" width="1000px" persistent>
         <template v-slot:activator="{ on, attrs }">
@@ -349,6 +349,7 @@ export default {
   },
   data () {
     return {
+      chinesename: '基本信息管理',
       valid: true,
       formlist: [
         {
