@@ -144,7 +144,7 @@
         </div>
       </v-card>
       <div style="margin-left:50%;transform: translateX(-50px)">
-        <v-btn color="rgba(71, 112, 166, 0.996078431372549)" dark depressed width="100px" style="margin-top:20px;margin-bottom:40px;" @click="submit">确定</v-btn>
+        <v-btn color="success" width="100px" style="margin-top:20px;margin-bottom:40px;" @click="submit" :disabled="!valid">确定</v-btn>
       </div>
     </div>
 
@@ -163,6 +163,7 @@ export default {
     return{
       chinesename: '学生个人信息',
       valid: true,
+      lazy: false,
       formlist: [
         {
           name: 'item0',
