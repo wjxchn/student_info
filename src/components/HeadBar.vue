@@ -69,7 +69,7 @@ export default {
   name: 'HeadBar',
   data(){
     return{
-      headBarPicSrc: require('../assets/login/u3.svg'),
+      headBarPicSrc: require('../assets/login/bhcslogo.png'),
       schoolPicSrc1: require('../assets/basicinfo/u26.svg'),
       schoolPicSrc2: require('../assets/basicinfo/u27.svg'),
       packagePicSrc1: require('../assets/basicinfo/公文包_u21.svg'),
@@ -103,7 +103,7 @@ export default {
   display: inline-block;
   height: 80px;
   position: absolute;
-  right:350px;  
+  right:350px;
 }
 #u21_img {
   border-width:0px;

@@ -29,7 +29,7 @@
                     <v-text-field
                             v-model="name"
                             :rules="nameRules"
-                            label="Name"
+                            label="请输入学号（不区分大小写）"
                             width="100%"
                             height="20px"
                             single-line
@@ -44,7 +44,7 @@
                             :rules="passwordRules"
                             :append-icon="isPasswordShow ? 'mdi-eye' : 'mdi-eye-off'"
                             :type="isPasswordShow ? 'text' : 'password'"
-                            label="Password"
+                            label="请输入密码"
                             width="100%"
                             height="20px"
                             single-line
@@ -78,7 +78,7 @@
         data() {
             return {
                 imgSrc: require('../assets/login/u0.jpg'),
-                titlePicSrc: require('../assets/login/u3.svg'),
+                titlePicSrc: require('../assets/login/bhcslogo.png'),
                 isPasswordShow: false,
                 valid: true,
                 name: '',

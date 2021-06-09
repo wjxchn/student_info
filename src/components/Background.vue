@@ -24,7 +24,7 @@ export default {
   name: 'BackgroundComponent',
   data(){
     return{
-      titlePicSrc:require('../assets/login/u3.svg'),
+      titlePicSrc:require('../assets/login/bhcslogo.png'),
       basicInfoBackgroundSrc: require('../assets/basicinfo/u15.jpg'),
     }
   },
