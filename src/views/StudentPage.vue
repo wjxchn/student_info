@@ -53,6 +53,26 @@
                             </v-row>
                           </v-container>
                         </div>
+                        <div v-if="n.type=='el-cascader'">
+                          <el-cascader
+                          v-model="n.value"
+                          :options="n.options"
+                          @change="n.handleChange"
+                          style="font-size:15px;width:100%;transform:scale(0.75,0.75);"></el-cascader>
+                        </div>
+                        <div v-if="n.type=='select'">
+                          <v-select
+                            :items="n.items"
+                            v-model="n.value"
+                            :rules="n.rules"
+                            label="请选择"
+                            solo
+                            flat
+                            dense
+                            outlined
+                            style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
+                          ></v-select>
+                        </div>
                         <v-textarea
                           v-model="n.value"
                           required
@@ -72,10 +92,12 @@
                           required
                           outlined
                           dense
+                          :rules="n.rules"
+                          :disabled = "n.disabled"
                           style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
                           v-if="n.type=='singleline'"
                         ></v-text-field>
-                        <v-radio-group v-model="n.value" v-if="n.type=='radio'" row style="width:100%;transform:scale(0.75,0.75);" class="ma-2 pa-0">
+                        <v-radio-group :rules="n.rules" v-model="n.value" v-if="n.type=='radio'" row style="width:100%;transform:scale(0.75,0.75);" class="ma-2 pa-0" :disabled="n.disabled">
                           <v-radio
                             v-for="i in n.radiochoice"
                             :key="i"
@@ -106,7 +128,7 @@
                               style="font-size:20px;width:100%;transform:scale(0.75,0.75);"
                             ></v-text-field>
                           </template>
-                          <v-date-picker v-model="n.value" no-title scrollable>
+                          <v-date-picker v-model="n.value" no-title scrollable :max="n.maxdate">
                             <v-spacer></v-spacer>
                             <v-btn text color="primary" @click="n.menu = false">Cancel</v-btn>
                             <v-btn text color="primary" @click="n.menu = false">OK</v-btn>
@@ -167,12 +189,14 @@ export default {
               chinesename: '姓名',
               value: '',
               type: 'singleline',
+              disabled: true
             },
             {
               name: 'schoolid',
               chinesename: '学号',
               value: '',
               type: 'singleline',
+              disabled: true
             },
             {
               name: 'sex',
@@ -180,17 +204,37 @@ export default {
               value: '',
               type: 'radio',
               radiochoice: ['男','女'],
+              disabled: true
             },
             {
               name: 'race',
               chinesename: '民族',
               value: '',
-              type: 'singleline',
+              items: ['汉族','蒙古族','回族','藏族','维吾尔族',
+              '苗族','彝族','壮族','布依族','朝鲜族',
+              '满族', '侗族', '瑶族', '白族', '土家族', 
+              '哈尼族', '哈萨克族', '傣族', '黎族', '僳僳族',
+              '佤族','畲族','高山族','拉祜族','水族',
+              '东乡族','纳西族','景颇族','柯尔克孜族','土族',
+              '达斡尔族','仫佬族','羌族','布朗族','撒拉族',
+              '毛南族','仡佬族','锡伯族','阿昌族','普米族',
+              '塔吉克族','怒族','乌孜别克族','俄罗斯族','鄂温克族',
+              '德昂族','保安族','裕固族','京族','塔塔尔族',
+              '独龙族','鄂伦春族','赫哲族','门巴族','珞巴族',
+              '基诺族'],
+              rules: [
+                v => !!v || '请输入民族',
+              ],
+              type: 'select',
             },
             {
               name: 'age',
               chinesename: '年龄',
               value: '',
+              rules: [
+                v => !!v || '需要填写年龄',
+                v => (v && parseInt(v)>=0 && parseInt(v)<=120) || '请填写0-120之间的数字',
+              ],
               type: 'singleline',
             },
           ]
@@ -200,33 +244,50 @@ export default {
           data: [
             {
               name: 'nativeplace',
-              chinesename: '籍贯',
+              chinesename: '籍贯（精确到县）',
               value: '',
-              type: 'el-cascader',
+              type: 'singleline',
+              rules: [
+                v => !!v || '请输入籍贯',
+              ]  
             },
             {
               name: 'nowplace',
               chinesename: '现家庭住址',
               value: '',
               type: 'singleline',
+              rules: [
+                v => !!v || '请输入家庭住址',
+              ] 
             },
             {
               name: 'householdplace',
               chinesename: '户口所在地',
               value: '',
               type: 'singleline',
+              rules: [
+                v => !!v || '请输入户口所在地',
+              ] 
             },
             {
               name: 'urgentcontactname',
               chinesename: '紧急联系人姓名',
               value: '',
+              rules: [
+                v => !!v || '请输入紧急联系人姓名',
+                v => (v&&v.length>=2&&v.length<=8) || '请输入2-8个字符'
+              ],
               type: 'singleline',
             },
             {
               name: 'urgentcontactrelation',
               chinesename: '紧急联系人关系',
               value: '',
-              type: 'singleline',
+              items: ['父子','母子','父女','母女','其他'],
+              type: 'select',
+              rules: [
+                v => !!v || '请输入紧急联系人关系',
+              ] 
             },
           ]
         },
@@ -237,30 +298,59 @@ export default {
               name: 'urgentcontactphone',
               chinesename: '紧急联系人电话',
               value: '',
+              rules: [
+                v => !!v || '请输入紧急联系人电话',
+                v => (v&&/^1[345789]\d{9}$/.test(v)) || '请输入正确的电话'
+              ],
               type: 'singleline',
             },
             {
               name: 'registerdtime',
               chinesename: '登记时间',
               value: '',
+              maxdate: (function(){
+                var date = new Date();
+                var monthstr = '';
+                var daystr = '';
+                if(date.getMonth()>=0&&date.getMonth()<=8){
+                  monthstr = monthstr + '0' + (date.getMonth()+1);
+                }
+                else{
+                  monthstr = monthstr + (date.getMonth()+1);
+                }
+                if(date.getDate()>=1&&date.getDate()<=9){
+                  daystr = daystr + '0' + date.getDate();
+                }
+                else{
+                  daystr = daystr + date.getDate();
+                }
+                return ''+ date.getFullYear() + '-' + monthstr + '-' + daystr; 
+              })(),
               type: 'timeselect',
               menu: false,
             },
             {
-              name: 'mainreason',
-              chinesename: '主要原因',
-              value: '',
-              type: 'textarea',
-            },
-          ]
-        },
-        {
-          name: 'item5',
-          data: [
-            {
               name: 'birthdate',
               chinesename: '出生年月',
               value: '',
+              maxdate: (function(){
+                var date = new Date();
+                var monthstr = '';
+                var daystr = '';
+                if(date.getMonth()>=0&&date.getMonth()<=8){
+                  monthstr = monthstr + '0' + (date.getMonth()+1);
+                }
+                else{
+                  monthstr = monthstr + (date.getMonth()+1);
+                }
+                if(date.getDate()>=1&&date.getDate()<=9){
+                  daystr = daystr + '0' + date.getDate();
+                }
+                else{
+                  daystr = daystr + date.getDate();
+                }
+                return ''+ date.getFullYear() + '-' + monthstr + '-' + daystr; 
+              })(),
               type: 'timeselect',
               menu: false,
             },
@@ -268,25 +358,75 @@ export default {
               name: 'idnum',
               chinesename: '身份证号',
               value: '',
+              rules: [
+                v => !!v || '请输入身份证号',
+                v => (v&&v.length==18) || '请输入正确的身份证号'
+              ],
               type: 'singleline',
             },
             {
               name: 'schoolstartyear',
               chinesename: '入学年份',
               value: '',
-              type: 'singleline',
+              items: ['201309','201409','201509','201609','201709','201809','201909','202009'],
+              type: 'select',
+              rules: [
+                v => !!v || '请输入入学年份',
+              ]
             },
+          ]
+        },
+        {
+          name: 'item5',
+          data: [
             {
               name: 'politics',
               chinesename: '政治面貌',
               value: '',
-              type: 'singleline',
+              items: ['正式党员','预备党员','共青团员','群众'],
+              type: 'select',
+              rules: [
+                v => !!v || '请输入政治面貌',
+              ] 
             },
             {
               name: 'phonenumber',
               chinesename: '手机号',
               value: '',
+              rules: [
+                v => !!v || '请输入电话',
+                v => (v&&/^1[345789]\d{9}$/.test(v)) || '请输入正确的电话'
+              ],
               type: 'singleline',
+            },
+            {
+              name: 'schoolzone',
+              chinesename: '所属校区',
+              value: '',
+              items: ['学院路校区','沙河校区','杭州研究院','青岛研究院','苏州研究院','深圳实验室','昆明研究院'],
+              type: 'select',
+              rules: [
+                v => !!v || '请输入所属校区',
+              ] 
+            },
+            {
+              name: 'studenttype',
+              chinesename: '学生类型',
+              value: '',
+              items: ['本科','硕士','博士'],
+              type: 'select',
+              rules: [
+                v => !!v || '请输入学生类型',
+              ] 
+            },
+            {
+              name: 'classnum',
+              chinesename: '班号',
+              value: '',
+              type: 'singleline',
+              rules: [
+                v => !!v || '请输入班号',
+              ] 
             },
           ]
         },
@@ -294,35 +434,50 @@ export default {
           name: 'item6',
           data: [
             {
-              name: 'schoolzone',
-              chinesename: '所属校区',
-              value: '',
-              type: 'singleline',
-            },
-            {
-              name: 'studenttype',
-              chinesename: '学生类型',
-              value: '',
-              type: 'singleline',
-            },
-            {
-              name: 'classnum',
-              chinesename: '班号',
-              value: '',
-              type: 'singleline',
-            },
-            {
               name: 'guider',
               chinesename: '辅导员',
               value: '',
               type: 'singleline',
+              rules: [
+                v => !!v || '请输入班号',
+              ] 
             },
             {
-              name: 'isschoolended',
-              chinesename: '是否毕业',
+              name: 'fosterway',
+              chinesename: '培养方式',
               value: '',
-              type: 'radio',
-              radiochoice: ['是','否'],
+              items: ['全日制定向','全日制非定向','非全日制'],
+              type: 'select',
+              rules: [
+                v => !!v || '请输入培养方式',
+              ] 
+            },
+            {
+              name: 'recentplace',
+              chinesename: '近期所在地',
+              value: '',
+              type: 'singleline',
+              rules: [
+                v => !!v || '请输入近期所在地',
+              ] 
+            },
+            {
+              name: 'labdoornum',
+              chinesename: '实验室门牌号',
+              value: '',
+              type: 'singleline',
+              rules: [
+                v => !!v || '请输入实验室门牌号',
+              ] 
+            },
+            {
+              name: 'outsideschoolplace',
+              chinesename: '校外住址',
+              value: '',
+              type: 'singleline',
+              rules: [
+                v => !!v || '请输入校外住址',
+              ] 
             },
           ]
         },
@@ -330,33 +485,47 @@ export default {
           name: 'item7',
           data: [
             {
-              name: 'fosterway',
-              chinesename: '培养方式',
-              value: '',
-              type: 'singleline',
-            },
-            {
-              name: 'recentplace',
-              chinesename: '近期所在地',
-              value: '',
-              type: 'singleline',
-            },
-            {
-              name: 'labdoornum',
-              chinesename: '实验室门牌号',
-              value: '',
-              type: 'singleline',
-            },
-            {
-              name: 'outsideschoolplace',
-              chinesename: '校外住址',
-              value: '',
-              type: 'singleline',
-            },
-            {
               name: 'specialproblem',
               chinesename: '特殊问题',
               value: '',
+              type: 'singleline',
+            },
+            {
+              name: 'professorname',
+              chinesename: '主导师姓名',
+              value: '',
+              rules: [
+                v => !!v || '请输入主导师姓名',
+                v => (v&&v.length>=2&&v.length<=8) || '请输入2-8个字符'
+              ],
+              type: 'singleline',
+            },
+            {
+              name: 'professorphonenumber',
+              chinesename: '主导师手机号',
+              value: '',
+              rules: [
+                v => !!v || '请输入主导师电话',
+                v => (v&&/^1[345789]\d{9}$/.test(v)) || '请输入正确的电话'
+              ],
+              type: 'singleline',
+            },
+            {
+              name: 'directprofessorname',
+              chinesename: '直带导师姓名',
+              value: '',
+              rules: [
+                v => (!v)||(v&&v.length>=2&&v.length<=8) || '请输入2-8个字符'
+              ],
+              type: 'singleline',
+            },
+            {
+              name: 'directprofessorphonenumber',
+              chinesename: '直带导师手机号',
+              value: '',
+              rules: [
+                v => (!v)||(v&&/^1[345789]\d{9}$/.test(v)) || '请输入正确的电话'
+              ],
               type: 'singleline',
             },
           ]
@@ -365,28 +534,40 @@ export default {
           name: 'item8',
           data: [
             {
-              name: 'professorname',
-              chinesename: '主导师姓名',
+              name: 'undergraduateschool',
+              chinesename: '本科学校',
               value: '',
               type: 'singleline',
+              rules: [
+                v => !!v || '请输入本科学校',
+              ] 
             },
             {
-              name: 'professorphonenumber',
-              chinesename: '主导师手机号',
+              name: 'undergraduatemajor',
+              chinesename: '本科专业',
               value: '',
               type: 'singleline',
+              rules: [
+                v => !!v || '请输入本科专业',
+              ] 
             },
             {
-              name: 'directprofessorname',
-              chinesename: '直带导师姓名',
+              name: 'masterschool',
+              chinesename: '硕士学校',
               value: '',
               type: 'singleline',
+              rules: [
+                v => !!v || '请输入硕士学校',
+              ] 
             },
             {
-              name: 'directprofessorphonenumber',
-              chinesename: '直带导师手机号',
+              name: 'mastermajor',
+              chinesename: '硕士专业',
               value: '',
               type: 'singleline',
+              rules: [
+                v => !!v || '请输入硕士专业',
+              ] 
             },
           ]
         },
@@ -394,62 +575,45 @@ export default {
           name: 'item9',
           data: [
             {
-              name: 'undergraduateschool',
-              chinesename: '本科学校',
-              value: '',
-              type: 'singleline',
-            },
-            {
-              name: 'undergraduatemajor',
-              chinesename: '本科专业',
-              value: '',
-              type: 'singleline',
-            },
-            {
-              name: 'masterschool',
-              chinesename: '硕士学校',
-              value: '',
-              type: 'singleline',
-            },
-            {
-              name: 'mastermajor',
-              chinesename: '硕士专业',
-              value: '',
-              type: 'singleline',
-            },
-          ]
-        },
-        {
-          name: 'item10',
-          data: [
-            {
               name: 'dormitoryarea',
               chinesename: '宿舍区域',
               value: '',
               type: 'singleline',
+              rules: [
+                v => !!v || '请输入宿舍区域',
+              ] 
             },
             {
               name: 'dormitorybuilding',
               chinesename: '宿舍楼号',
               value: '',
               type: 'singleline',
+              rules: [
+                v => !!v || '请输入宿舍楼号',
+              ] 
             },
             {
               name: 'dormitoryroom',
               chinesename: '房间号',
               value: '',
               type: 'singleline',
+              rules: [
+                v => !!v || '请输入房间号',
+              ] 
             },
             {
               name: 'dormitorybed',
               chinesename: '床号',
               value: '',
               type: 'singleline',
+              rules: [
+                v => !!v || '请输入床号',
+              ] 
             },
           ]
         },
         {
-          name: 'item11',
+          name: 'item10',
           data: [
             {
               name: 'activetime',
@@ -481,7 +645,7 @@ export default {
           ]
         },
         {
-          name: 'item12',
+          name: 'item11',
           data: [
             {
               name: 'preparedbranch',
@@ -503,45 +667,15 @@ export default {
               type: 'singleline',
             },
             {
-              name: 'buildtime',
-              chinesename: '成立时间',
-              value: '',
-              type: 'timeselect',
-              menu: false,
-            },
-          ]
-        },
-        {
-          name: 'item13',
-          data: [
-            {
               name: 'secretaryname',
               chinesename: '书记姓名',
               value: '',
               type: 'singleline',
             },
-            {
-              name: 'formalmembernum',
-              chinesename: '正式党员人数',
-              value: '',
-              type: 'singleline',
-            },
-            {
-              name: 'preparedmembernum',
-              chinesename: '预备党员人数',
-              value: '',
-              type: 'singleline',
-            },
-            {
-              name: 'activemembernum',
-              chinesename: '积极分子人数',
-              value: '',
-              type: 'singleline',
-            },
           ]
         },
         {
-          name: 'item14',
+          name: 'item12',
           data: [
             {
               name: 'isatcollege',
