@@ -122,18 +122,19 @@
         </div>
       </v-card>
       <div style="margin-left:50%;transform: translateX(-50px)">
-        <v-btn color="rgba(71, 112, 166, 0.996078431372549)" dark depressed width="100px" style="margin-top:20px;margin-bottom:40px;">确定</v-btn>
+        <v-btn color="rgba(71, 112, 166, 0.996078431372549)" dark depressed width="100px" style="margin-top:20px;margin-bottom:40px;" @click="submit">确定</v-btn>
       </div>
     </div>
 
-  </div>  
+  </div>
 </template>
 
 <script>
 import Background from '@/components/Background.vue'
+const axios = require('axios');
 export default {
   name: 'StudentPage',
-  components: { 
+  components: {
     Background
   },
   data(){
@@ -357,7 +358,7 @@ export default {
               chinesename: '特殊问题',
               value: '',
               type: 'singleline',
-            },            
+            },
           ]
         },
         {
@@ -386,7 +387,7 @@ export default {
               chinesename: '直带导师手机号',
               value: '',
               type: 'singleline',
-            },            
+            },
           ]
         },
         {
@@ -415,7 +416,7 @@ export default {
               chinesename: '硕士专业',
               value: '',
               type: 'singleline',
-            },            
+            },
           ]
         },
         {
@@ -444,7 +445,7 @@ export default {
               chinesename: '床号',
               value: '',
               type: 'singleline',
-            },            
+            },
           ]
         },
         {
@@ -589,13 +590,43 @@ export default {
           ]
         },
       ],
-    }  
+    }
   },
   methods: {
     changeimg(item){
        this.formlist[0].data[0].files = item.target.files;
        this.formlist[0].data[1].src = window.webkitURL.createObjectURL(this.formlist[0].data[0].files[0]);
     },
+    submit(){
+
+      let JsonObj = new Object();
+
+      for (let formlistElement of this.formlist) {
+        var data = formlistElement.data;
+        for(var i=0; i<data.length;i++){
+          JsonObj[data[i].name]=data[i].value;
+        }
+      }
+      console.log(JsonObj);
+
+      axios({
+        url: '/api/submit',
+        method: 'post',
+        // params: {
+        //   stuNum: this.name,
+        // }
+        data: JsonObj
+      }).then(res => {
+        // var flag = res.data.flag;
+        console.log(res);
+        if(res.data.flag){
+          alert("保存成功！");
+        }else{
+          alert("保存失败！");
+        }
+      })
+
+    }
   }
 }
 </script>
