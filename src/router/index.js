@@ -85,12 +85,13 @@ router.beforeEach((to, from, next) => {
     if (to.path === '/login') {
         next();
     } else {
-        let token = localStorage.getItem('Authorization');
-        if (token === null || token === '') {
-            next('/login');
-        } else {
-            next();
-        }
+        // let token = localStorage.getItem('Authorization');
+        // if (token === null || token === '') {
+        //     next('/login');
+        // } else {
+        //     next();
+        // }
+        next();
     }
 });
 

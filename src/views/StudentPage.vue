@@ -75,7 +75,7 @@
                           style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
                           v-if="n.type=='singleline'"
                         ></v-text-field>
-                        <v-radio-group v-model="n.value" v-if="n.type=='radio'" row style="width=:100%;transform:scale(0.75,0.75);" class="ma-2 pa-0">
+                        <v-radio-group v-model="n.value" v-if="n.type=='radio'" row style="width:100%;transform:scale(0.75,0.75);" class="ma-2 pa-0">
                           <v-radio
                             v-for="i in n.radiochoice"
                             :key="i"
@@ -202,7 +202,7 @@ export default {
               name: 'nativeplace',
               chinesename: '籍贯',
               value: '',
-              type: 'singleline',
+              type: 'el-cascader',
             },
             {
               name: 'nowplace',
@@ -598,7 +598,6 @@ export default {
        this.formlist[0].data[1].src = window.webkitURL.createObjectURL(this.formlist[0].data[0].files[0]);
     },
     submit(){
-
       let JsonObj = new Object();
 
       for (let formlistElement of this.formlist) {
@@ -625,7 +624,6 @@ export default {
           alert("保存失败！");
         }
       })
-
     }
   }
 }
