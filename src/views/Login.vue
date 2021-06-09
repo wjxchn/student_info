@@ -101,25 +101,24 @@ export default {
 
     login() {
       this.validate();
-      window.location.href = '/#/studentpage';
-      // axios({
-      //     // url: '/api/login',
-      //     // method: 'post',
-      //     // params: {
-      //     //     stuNum: this.name,
-      //     //     password: this.password
-      //     // }
-      // }).then(res => {
-      //     var flag = res.data.flag;
-      //     console.log("登录成功？",res.data );
-      //     if(flag){
-      //         localStorage.setItem("Authorization", res.data.auth);
-      //         window.location.href = '/#/studentpage';
-      //     }else{
-      //         // window.location.href = '/#/login';
-      //       window.location.href = '/#/studentpage';
-      //     }
-      // })
+      // window.location.href = '/#/studentpage';
+      axios({
+          url: '/api/login',
+          method: 'post',
+          params: {
+              stuNum: this.name,
+              password: this.password
+          }
+      }).then(res => {
+          var flag = res.data.flag;
+          console.log("登录成功？",res.data );
+          if(flag){
+              localStorage.setItem("Authorization", res.data.auth);
+              window.location.href = '/#/studentpage';
+          }else{
+              window.location.href = '/#/login';
+          }
+      })
     }
   },
 }
