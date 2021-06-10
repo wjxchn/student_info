@@ -79,16 +79,37 @@ const router = new VueRouter({
     routes
 })
 
+// const axios = require('axios');
+
 // 导航守卫
 // 使用 router.beforeEach 注册一个全局前置守卫，判断用户是否登陆
 router.beforeEach((to, from, next) => {
     if (to.path === '/login') {
         next();
     } else {
-        let token = localStorage.getItem('Authorization');
+        var token = localStorage.getItem('Authorization');
         if (token === null || token === '') {
             next('/login');
         } else {
+            // axios({
+            //     url: '/api/auth',
+            //     method: 'post',
+            //     params: {
+            //         token: token, //这是请求头
+            //     }
+            //     // data: {'token': token}  //这是请求体
+            // }).then(res => {
+            //     var flag = res.data.flag;
+            //     console.log("校验成功？", res.data);
+            //     if (flag) {
+            //         next();
+            //     } else {
+            //         next('/login');
+            //     }
+            // }).catch(
+            //     next('/login')
+            // )
+
             next();
         }
         // next();

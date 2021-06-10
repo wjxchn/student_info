@@ -27,7 +27,7 @@
         >
           <div class="login_label">用户名</div>
           <v-text-field
-              v-model="name"
+              v-model="stuNum"
               :rules="nameRules"
               label="请输入学号（不区分大小写）"
               width="100%"
@@ -72,7 +72,7 @@
 </template>
 
 <script>
-//const axios = require('axios');
+const axios = require('axios');
 export default {
   name: 'Login',
   data() {
@@ -81,7 +81,7 @@ export default {
       titlePicSrc: require('../assets/login/bhcslogo.png'),
       isPasswordShow: false,
       valid: true,
-      name: '',
+      stuNum: '',
       nameRules: [
         v => !!v || '必须输入用户名',
         v => (v && v.length >= 3 && v.length <= 10) || '用户名的长度必须大于等于3且小于等于10',
@@ -89,7 +89,7 @@ export default {
       password: '',
       passwordRules: [
         v => !!v || '必须输入密码',
-        v => (v && v.length >= 8 && v.length <= 18) || '密码的长度必须大于等于8且小于等于18',
+        v => (v && v.length >= 6 && v.length <= 18) || '密码的长度必须大于等于6且小于等于18',
       ],
       lazy: false,
     }
@@ -101,23 +101,24 @@ export default {
 
     login() {
       this.validate();
-      // window.location.href = '/#/studentpage';
+
       axios({
-          url: '/api/login',
-          method: 'post',
-          params: {
-              stuNum: this.name,
-              password: this.password
-          }
+        url: '/api/login',
+        method: 'post',
+        params: {
+          stuNum: this.stuNum,
+          password: this.password
+        }
       }).then(res => {
-          var flag = res.data.flag;
-          console.log("登录成功？",res.data );
-          if(flag){
-              localStorage.setItem("Authorization", res.data.auth);
-              window.location.href = '/#/studentpage';
-          }else{
-              window.location.href = '/#/login';
-          }
+        var flag = res.data.flag;
+        // console.log("登录成功？", res.data);
+        if (flag) {
+          // localStorage.setItem("Authorization", res.data.auth+"-"+res.data.stuNum+"-"+res.data.stuName+"-"+res.data.stuSex);
+          localStorage.setItem("Authorization", res.data.auth);
+          window.location.href = '/#/studentpage';
+        } else {
+          window.location.href = '/#/login';
+        }
       })
     }
   },
