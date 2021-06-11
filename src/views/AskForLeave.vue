@@ -9,7 +9,7 @@
               v-model="valid"
               :lazy-validation="lazy"
           >
-            <v-container class="ma-0 pt-12 mb-12" fluid>
+            <v-container class="ma-0 pt-12 mb-12 bgi" fluid>
               <v-row dense no-gutters class="ma-0 pa-0" justify="center">
                 <v-col
                     v-for="w in formlist"
@@ -25,7 +25,7 @@
                   <v-container fluid v-for="n in w.data" :key="n.name" class="ma-0 pa-0">
                     <v-row dense no-gutters class="ma-0 pa-0">
                       <v-col cols="4" class="ma-0 pa-0">
-                        <v-subheader class="ma-0 pa-0" style="font-size:10px;">{{ n.chinesename }}</v-subheader>
+                        <v-subheader class="ma-0 pa-0" style="font-size:16px;">{{ n.chinesename }}</v-subheader>
                       </v-col>
                       <v-col cols="8" class="ma-0 pa-0">
                         <div v-if="n.type=='addtextfield'">
@@ -60,7 +60,7 @@
                             flat
                             dense
                             background-color="white"
-                            style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
+                            style="font-size:15px;width:100%;transform:scale(0.75,0.75);height:125px;"
                             auto-grow
                             v-if="n.type=='textarea'"
                         ></v-textarea>
@@ -74,7 +74,7 @@
                             required
                             outlined
                             dense
-                            style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
+                            style="font-size:15px;width:100%;transform:scale(0.75,0.75);height:55px;"
                             v-if="n.type=='singleline'"
                         ></v-text-field>
                         <v-radio-group v-model="n.value" v-if="n.type=='radio'" row
@@ -95,6 +95,7 @@
                             offset-y
                             min-width="290px"
                             v-if="n.type=='timeselect'"
+                            class="afl_date"
                         >
                           <template v-slot:activator="{ on, attrs }">
                             <v-text-field
@@ -106,6 +107,7 @@
                                 dense
                                 v-bind="attrs"
                                 v-on="on"
+                                @click="dateChoose"
                                 style="font-size:20px;width:100%;transform:scale(0.75,0.75);"
                             ></v-text-field>
                           </template>
@@ -211,6 +213,12 @@ export default {
       ],
     }
   },
+  watch: {
+    'formlist[0].data[5].value': function(val, oldvalue) {
+      console.log(val);
+      console.log(oldvalue);
+    }
+  },
   methods: {
     changeimg(item) {
       this.formlist[0].data[0].files = item.target.files;
@@ -226,11 +234,14 @@ export default {
         phone: this.formlist[0].data[2].value,
         teachername: this.formlist[0].data[3].value,
         starttime: this.formlist[0].data[4].value,
-        edntime: this.formlist[0].data[5].value,
+        endtime: this.formlist[0].data[5].value,
         reason: this.formlist[0].data[6].value,
         destination: this.formlist[0].data[7].value
       }
-      if (tableValue.id == '') {
+      var begin = +new Date(tableValue.starttime);
+      var end = +new Date(tableValue.endtime);
+      var timeFlag = (end - begin) / 1000 / 60 / 60 / 24;
+      if (tableValue.schoolid == '') {
         alert('请输入学号');
       } else if (tableValue.name == '') {
         alert('请输入姓名');
@@ -238,14 +249,16 @@ export default {
         alert('请输入手机号');
       } else if (tableValue.teacher == '') {
         alert('请输入导师姓名');
-      } else if (tableValue.leaveBegin == '') {
+      } else if (tableValue.starttime == '') {
         alert('请选择请假开始时间');
-      } else if (tableValue.leaveEnd == '') {
+      } else if (tableValue.endtime == '') {
         alert('请选择假期结束时间');
-      } else if (tableValue.leaveReason == '') {
+      } else if (tableValue.reason == '') {
         alert('请输入请假理由');
-      } else if (tableValue.leaveDirection == '') {
+      } else if (tableValue.destination == '') {
         alert('请输入请假去向');
+      } else if(timeFlag > 2) {
+        alert('请假时间不能大于两天');
       } else {
         axios({
           url: '/api/leaveinfo',
@@ -269,4 +282,9 @@ export default {
 </script>
 
 <style scoped>
+  .bgi {
+    background-image: url('../assets/img/askforleave/u1826.svg') !important;
+    background-repeat: repeat-x;
+    background-position: 0 -7.5rem;
+  }
 </style>
