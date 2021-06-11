@@ -524,7 +524,7 @@
             </template>
             <v-card>
               <v-card-title>
-                <span class="headline">添加学生信息</span>
+                <span class="headline">修改学生信息</span>
               </v-card-title>
               <div class="basic_info_form">
                 <v-form
@@ -551,7 +551,7 @@
                             <v-col cols="8">
                               <v-text-field
                                 class="ma-0 pa-0"
-                                v-model="addform.name"
+                                v-model="changeform.name"
                                 required
                                 outlined
                                 dense
@@ -564,7 +564,7 @@
                             <v-col cols="8">
                               <v-text-field
                                 class="ma-0 pa-0"
-                                v-model="addform.schoolid"
+                                v-model="changeform.schoolid"
                                 required
                                 outlined
                                 dense
@@ -576,8 +576,8 @@
                             </v-col>
                             <v-col cols="8">
                               <v-menu
-                                ref="activetimemenu"
-                                v-model="activetimemenu"
+                                ref="changeactivetimemenu"
+                                v-model="changeactivetimemenu"
                                 :close-on-content-click="false"
                                 transition="scale-transition"
                                 offset-y
@@ -585,7 +585,7 @@
                               >
                                 <template v-slot:activator="{ on, attrs }">
                                   <v-text-field
-                                    v-model="addform.activetime"
+                                    v-model="changeform.activetime"
                                     prepend-icon="event"
                                     readonly
                                     required
@@ -596,10 +596,10 @@
                                     style="font-size:20px;width:100%;transform:scale(0.75,0.75);"
                                   ></v-text-field>
                                 </template>
-                                <v-date-picker v-model="addform.activetime" no-title scrollable>
+                                <v-date-picker v-model="changeform.activetime" no-title scrollable>
                                   <v-spacer></v-spacer>
-                                  <v-btn text color="primary" @click="activetimemenu = false">Cancel</v-btn>
-                                  <v-btn text color="primary" @click="activetimemenu = false">OK</v-btn>
+                                  <v-btn text color="primary" @click="changeactivetimemenu = false">Cancel</v-btn>
+                                  <v-btn text color="primary" @click="changeactivetimemenu = false">OK</v-btn>
                                 </v-date-picker>
                               </v-menu>
                             </v-col>
@@ -607,7 +607,7 @@
                               <v-subheader style="font-size:10px;">党课成绩</v-subheader>
                             </v-col>
                             <v-col cols="8">
-                              <v-radio-group v-model="addform.score" row style="width=:100%;transform:scale(0.75,0.75);" class="ma-2 pa-0">
+                              <v-radio-group v-model="changeform.score" row style="width=:100%;transform:scale(0.75,0.75);" class="ma-2 pa-0">
                                 <v-radio
                                   v-for="i in scoreradiochoice"
                                   :key="i"
@@ -623,7 +623,7 @@
                             <v-col cols="8">
                               <v-text-field
                                 class="ma-0 pa-0"
-                                v-model="addform.activebranch"
+                                v-model="changeform.activebranch"
                                 required
                                 outlined
                                 dense
@@ -635,8 +635,8 @@
                             </v-col>
                             <v-col cols="8">
                               <v-menu
-                                ref="preparedtimemenu"
-                                v-model="preparedtimemenu"
+                                ref="changepreparedtimemenu"
+                                v-model="changepreparedtimemenu"
                                 :close-on-content-click="false"
                                 transition="scale-transition"
                                 offset-y
@@ -644,7 +644,7 @@
                               >
                                 <template v-slot:activator="{ on, attrs }">
                                   <v-text-field
-                                    v-model="addform.preparedtime"
+                                    v-model="changeform.preparedtime"
                                     prepend-icon="event"
                                     readonly
                                     required
@@ -655,10 +655,10 @@
                                     style="font-size:20px;width:100%;transform:scale(0.75,0.75);"
                                   ></v-text-field>
                                 </template>
-                                <v-date-picker v-model="addform.preparedtime" no-title scrollable>
+                                <v-date-picker v-model="changeform.preparedtime" no-title scrollable>
                                   <v-spacer></v-spacer>
-                                  <v-btn text color="primary" @click="preparedtimemenu = false">Cancel</v-btn>
-                                  <v-btn text color="primary" @click="preparedtimemenu = false">OK</v-btn>
+                                  <v-btn text color="primary" @click="changepreparedtimemenu = false">Cancel</v-btn>
+                                  <v-btn text color="primary" @click="changepreparedtimemenu = false">OK</v-btn>
                                 </v-date-picker>
                               </v-menu>
                             </v-col>
@@ -668,7 +668,7 @@
                             <v-col cols="8">
                               <v-text-field
                                 class="ma-0 pa-0"
-                                v-model="addform.preparedbranch"
+                                v-model="changeform.preparedbranch"
                                 required
                                 outlined
                                 dense
@@ -680,8 +680,8 @@
                             </v-col>
                             <v-col cols="8">
                               <v-menu
-                                ref="formaltimemenu"
-                                v-model="formaltimemenu"
+                                ref="changeformaltimemenu"
+                                v-model="changeformaltimemenu"
                                 :close-on-content-click="false"
                                 transition="scale-transition"
                                 offset-y
@@ -689,7 +689,7 @@
                               >
                                 <template v-slot:activator="{ on, attrs }">
                                   <v-text-field
-                                    v-model="addform.formaltime"
+                                    v-model="changeform.formaltime"
                                     prepend-icon="event"
                                     readonly
                                     required
@@ -700,10 +700,10 @@
                                     style="font-size:20px;width:100%;transform:scale(0.75,0.75);"
                                   ></v-text-field>
                                 </template>
-                                <v-date-picker v-model="addform.formaltime" no-title scrollable>
+                                <v-date-picker v-model="changeform.formaltime" no-title scrollable>
                                   <v-spacer></v-spacer>
-                                  <v-btn text color="primary" @click="formaltimemenu = false">Cancel</v-btn>
-                                  <v-btn text color="primary" @click="formaltimemenu = false">OK</v-btn>
+                                  <v-btn text color="primary" @click="changeformaltimemenu = false">Cancel</v-btn>
+                                  <v-btn text color="primary" @click="changeformaltimemenu = false">OK</v-btn>
                                 </v-date-picker>
                               </v-menu>
                             </v-col>
@@ -727,7 +727,7 @@
                             <v-col cols="8">
                               <v-text-field
                                 class="ma-0 pa-0"
-                                v-model="addform.branch"
+                                v-model="changeform.branch"
                                 required
                                 outlined
                                 dense
@@ -739,8 +739,8 @@
                             </v-col>
                             <v-col cols="8">
                               <v-menu
-                                ref="buildtimemenu"
-                                v-model="buildtimemenu"
+                                ref="changebuildtimemenu"
+                                v-model="changebuildtimemenu"
                                 :close-on-content-click="false"
                                 transition="scale-transition"
                                 offset-y
@@ -748,7 +748,7 @@
                               >
                                 <template v-slot:activator="{ on, attrs }">
                                   <v-text-field
-                                    v-model="addform.buildtime"
+                                    v-model="changeform.buildtime"
                                     prepend-icon="event"
                                     readonly
                                     required
@@ -759,10 +759,10 @@
                                     style="font-size:20px;width:100%;transform:scale(0.75,0.75);"
                                   ></v-text-field>
                                 </template>
-                                <v-date-picker v-model="addform.buildtime" no-title scrollable>
+                                <v-date-picker v-model="changeform.buildtime" no-title scrollable>
                                   <v-spacer></v-spacer>
-                                  <v-btn text color="primary" @click="buildtimemenu = false">Cancel</v-btn>
-                                  <v-btn text color="primary" @click="buildtimemenu = false">OK</v-btn>
+                                  <v-btn text color="primary" @click="changebuildtimemenu = false">Cancel</v-btn>
+                                  <v-btn text color="primary" @click="changebuildtimemenu = false">OK</v-btn>
                                 </v-date-picker>
                               </v-menu>
                             </v-col>
@@ -772,7 +772,7 @@
                             <v-col cols="8">
                               <v-text-field
                                 class="ma-0 pa-0"
-                                v-model="addform.secretaryname"
+                                v-model="changeform.secretaryname"
                                 required
                                 outlined
                                 dense
@@ -785,7 +785,7 @@
                             <v-col cols="8">
                               <v-text-field
                                 class="ma-0 pa-0"
-                                v-model="addform.formalmembernum"
+                                v-model="changeform.formalmembernum"
                                 required
                                 outlined
                                 dense
@@ -798,7 +798,7 @@
                             <v-col cols="8">
                               <v-text-field
                                 class="ma-0 pa-0"
-                                v-model="addform.preparedmembernum"
+                                v-model="changeform.preparedmembernum"
                                 required
                                 outlined
                                 dense
@@ -811,7 +811,7 @@
                             <v-col cols="8">
                               <v-text-field
                                 class="ma-0 pa-0"
-                                v-model="addform.activemembernum"
+                                v-model="changeform.activemembernum"
                                 required
                                 outlined
                                 dense
@@ -822,7 +822,7 @@
                               <v-subheader style="font-size:10px;">组织关系是否在院</v-subheader>
                             </v-col>
                             <v-col cols="8">
-                              <v-radio-group v-model="addform.isatcollege" row style="width=:100%;transform:scale(0.75,0.75);" class="ma-2 pa-0">
+                              <v-radio-group v-model="changeform.isatcollege" row style="width=:100%;transform:scale(0.75,0.75);" class="ma-2 pa-0">
                                 <v-radio
                                   v-for="i in isatcollegeradiochoice"
                                   :key="i"
@@ -836,7 +836,7 @@
                               <v-subheader style="font-size:10px;">是否转过党支部</v-subheader>
                             </v-col>
                             <v-col cols="8">
-                              <v-radio-group v-model="addform.ischangedbranch" row style="width=:100%;transform:scale(0.75,0.75);" class="ma-2 pa-0">
+                              <v-radio-group v-model="changeform.ischangedbranch" row style="width=:100%;transform:scale(0.75,0.75);" class="ma-2 pa-0">
                                 <v-radio
                                   v-for="i in ischangedbranchradiochoice"
                                   :key="i"
@@ -852,7 +852,7 @@
                             <v-col cols="8">
                               <v-text-field
                                 class="ma-0 pa-0"
-                                v-model="addform.changeinfo"
+                                v-model="changeform.changeinfo"
                                 required
                                 outlined
                                 dense
@@ -966,6 +966,10 @@ export default {
       preparedtimemenu: false,
       formaltimemenu: false,
       buildtimemenu: false,
+      changeactivetimemenu: false,
+      changepreparedtimemenu: false,
+      changeformaltimemenu: false,
+      changebuildtimemenu: false,
       scoreradiochoice: ['通过','未通过'],
       isatcollegeradiochoice: ['是', '否'],
       ischangedbranchradiochoice: ['是', '否'],
