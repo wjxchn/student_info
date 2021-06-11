@@ -4,43 +4,20 @@
     <div style="position:absolute;top:230px;left:50%;transform:translate(-50%);width:90%;">
       <v-card style="margin-top: 20px;">
         <div class="basic_info_form">
-          <v-card
-              class="mx-auto"
-              max-width="434"
-              tile
-          >
-            <v-img
-                height="100%"
-                :src="avatarBg"
-            >
-              <v-row
-                  align="end"
-                  class="fill-height"
-              >
-                <v-col
-                    align-self="start"
-                    class="pa-0"
-                    cols="12"
-                >
-                  <v-avatar
-                      class="profile"
-                      color="grey"
-                      size="164"
-                      tile
-                  >
-                    <v-img :src="'/avatar/'+form.imgsrc"></v-img>
+          <v-card class="mx-auto" max-width="434" tile>
+            <v-img height="100%" :src="avatarBg">
+              <v-row align="end" class="fill-height">
+                <v-col align-self="start" class="pa-0" cols="12">
+                  <v-avatar class="profile" size="164" tile>
+                    <v-img contain max-height="135" :src="'/avatar/'+form.imgsrc"></v-img>
                   </v-avatar>
                 </v-col>
                 <v-col class="py-0">
-                  <v-list-item
-                      color="rgba(0, 0, 0, .4)"
-                      dark
-                  >
+                  <v-list-item color="rgba(0, 0, 0, .4)" dark>
                     <v-list-item-content>
-                      <v-list-item-title class="text-h6">
-                        Marcus Obrien
+                      <v-list-item-title class="text-h6" v-text="form.name">你的姓名
                       </v-list-item-title>
-                      <v-list-item-subtitle>Network Engineer</v-list-item-subtitle>
+                      <v-list-item-subtitle v-text="form.schoolid">你的学号</v-list-item-subtitle>
                     </v-list-item-content>
                   </v-list-item>
                 </v-col>
@@ -72,7 +49,7 @@
                 <v-col cols="6" xs="3" sm="3" md="3" lg="3" xl="3">
                   <v-text-field v-model="form.idnum"
                                 :rules="[v => !!v || '请输入身份证号',v => (v && v.length == 18) || '请输入18位身份证号']" label="身份证号"
-                                required></v-text-field>
+                                required @change="genfromidnum" @input="genfromidnum"></v-text-field>
                 </v-col>
               </v-row>
 
@@ -149,7 +126,8 @@
                 <!--                    prepend-icon="mdi-camera"-->
                 <!--                    dense-->
                 <!--                ></v-file-input>-->
-                <input type="file" id="fileExport" @change="handleFileChange" ref="inputer">
+                <span>上传头像文件：</span>
+                <input type="file" accept=".jpg;.png;.jpeg;" id="fileExport" @change="handleFileChange" ref="inputer">
 
               </v-col>
             </v-container>
@@ -214,7 +192,7 @@
                 </v-col>
                 <v-col cols="6" xs="3" sm="3" md="3" lg="3" xl="3">
                   <v-select
-                      :items="['王楠', '他旭翔', '张保宇', '王康明', '张重庆', '李婧怡', '张华梁', '李小冉', '王嘉凯', '张艺璇', '赵世纪', '李何贝子', '张凯宁', '廖天禧']"
+                      :items="['王楠', '他旭翔', '梁保宇', '张重庆', '李婧怡', '张华梁', '李小冉', '王嘉凯', '张艺璇', '赵世纪', '李何贝子', '张凯宁', '王康明','廖天禧']"
                       label="所属兼职辅导员"
                       v-model="form.partimeguider"
                   ></v-select>
@@ -242,22 +220,24 @@
                   <v-text-field v-model="form.undergraduatemajor" :rules="[v => !!v || '请输入本科专业',]" label="本科专业"
                                 required></v-text-field>
                 </v-col>
-                <v-col cols="6" xs="3" sm="3" md="3" lg="3" xl="3">
+                <v-col cols="6" xs="3" sm="3" md="3" lg="3" xl="3" v-show="form.studenttype !== '本科'">
                   <v-text-field v-model="form.masterschool" :rules="[v => !!v || '请输入硕士学校',]" label="硕士学校"
                                 required></v-text-field>
                 </v-col>
               </v-row>
 
               <v-row dense class="ma-0 pa-0">
-                <v-col cols="6" xs="3" sm="3" md="3" lg="3" xl="3">
+                <v-col cols="6" xs="3" sm="3" md="3" lg="3" xl="3" v-show="form.studenttype !== '本科'">
                   <v-text-field v-model="form.mastermajor" :rules="[v => !!v || '请输入硕士专业',]" label="硕士专业"
                                 required></v-text-field>
                 </v-col>
-                <v-col cols="6" xs="3" sm="3" md="3" lg="3" xl="3">
+                <v-col cols="6" xs="3" sm="3" md="3" lg="3" xl="3"
+                       v-show="form.studenttype !== '本科' && form.studenttype !== '硕士'">
                   <v-text-field v-model="form.phdschool" :rules="[v => !!v || '请输入博士学校',]" label="博士学校"
                                 required></v-text-field>
                 </v-col>
-                <v-col cols="6" xs="3" sm="3" md="3" lg="3" xl="3">
+                <v-col cols="6" xs="3" sm="3" md="3" lg="3" xl="3"
+                       v-show="form.studenttype !== '本科' && form.studenttype !== '硕士'">
                   <v-text-field v-model="form.phdmajor" :rules="[v => !!v || '请输入博士专业',]" label="博士专业"
                                 required></v-text-field>
                 </v-col>
@@ -308,21 +288,22 @@
                   ></v-select>
                 </v-col>
 
-                <v-col cols="6" xs="3" sm="3" md="3" lg="3" xl="3">
+                <v-col cols="6" xs="3" sm="3" md="3" lg="3" xl="3" v-show="form.isformalmember=='否'">
                   <v-select
                       :items="['是', '否']"
                       label="是否预备党员"
                       v-model="form.isprobationarymember"
                   ></v-select>
                 </v-col>
-                <v-col cols="6" xs="3" sm="3" md="3" lg="3" xl="3">
+                <v-col cols="6" xs="3" sm="3" md="3" lg="3" xl="3"
+                       v-show="form.isformalmember=='否' && form.isprobationarymember=='否'">
                   <v-select
                       :items="['是', '否']"
                       label="是否积极分子"
                       v-model="form.isactivist"
                   ></v-select>
                 </v-col>
-                <v-col cols="6" xs="3" sm="3" md="3" lg="3" xl="3">
+                <v-col cols="6" xs="3" sm="3" md="3" lg="3" xl="3" v-show="form.isactivist=='是'">
                   <v-select
                       :items="['是', '否']"
                       label="是否通过党课考试"
@@ -330,9 +311,9 @@
                   ></v-select>
                 </v-col>
               </v-row>
-
               <v-row dense class="ma-0 pa-0">
-                <v-col cols="6" xs="2" sm="2" md="2" lg="2" xl="2">
+
+                <v-col cols="6" xs="2" sm="2" md="2" lg="2" xl="2" v-show="form.isformalmember=='是'">
                   <v-menu ref="formaltime.menu" v-model="formaltime.menu" :close-on-content-click="false"
                           transition="scale-transition"
                           offset-y
@@ -346,13 +327,14 @@
                     <v-date-picker v-model="formaltime.value" no-title scrollable :max="maxdate">
                       <v-spacer></v-spacer>
                       <v-btn text color="primary" @click="formaltime.menu = false">取消</v-btn>
-                      <v-btn text color="primary" @click="formaltime.menu = false;form.formaltime = formaltime.value;">
+                      <v-btn text color="primary"
+                             @click="formaltime.menu = false;form.formaltime = formaltime.value;">
                         确定
                       </v-btn>
                     </v-date-picker>
                   </v-menu>
                 </v-col>
-                <v-col cols="6" xs="2" sm="2" md="2" lg="2" xl="2">
+                <v-col cols="6" xs="2" sm="2" md="2" lg="2" xl="2" v-show="form.isformalmember=='是'">
                   <div style="margin-top: 5px;">
                     <v-btn depressed>
                       转正式党员时间
@@ -360,7 +342,9 @@
                   </div>
                 </v-col>
 
-                <v-col cols="6" xs="2" sm="2" md="2" lg="2" xl="2">
+
+                <v-col cols="6" xs="2" sm="2" md="2" lg="2" xl="2"
+                       v-show="form.isformalmember=='是' || form.isprobationarymember=='是'">
                   <v-menu ref="preparedtime.menu" v-model="preparedtime.menu" :close-on-content-click="false"
                           transition="scale-transition"
                           offset-y
@@ -380,7 +364,8 @@
                     </v-date-picker>
                   </v-menu>
                 </v-col>
-                <v-col cols="6" xs="2" sm="2" md="2" lg="2" xl="2">
+                <v-col cols="6" xs="2" sm="2" md="2" lg="2" xl="2"
+                       v-show="form.isformalmember=='是' || form.isprobationarymember=='是'">
                   <div style="margin-top: 5px;">
                     <v-btn depressed>
                       转预备党员时间
@@ -388,7 +373,8 @@
                   </div>
                 </v-col>
 
-                <v-col cols="6" xs="2" sm="2" md="2" lg="2" xl="2">
+                <v-col cols="6" xs="2" sm="2" md="2" lg="2" xl="2"
+                       v-show="form.isformalmember=='是' || form.isprobationarymember=='是' || form.isactivist=='是'">
                   <v-menu ref="formaltime.menu" v-model="activetime.menu" :close-on-content-click="false"
                           transition="scale-transition"
                           offset-y
@@ -408,7 +394,8 @@
                     </v-date-picker>
                   </v-menu>
                 </v-col>
-                <v-col cols="6" xs="2" sm="2" md="2" lg="2" xl="2">
+                <v-col cols="6" xs="2" sm="2" md="2" lg="2" xl="2"
+                       v-show="form.isformalmember=='是' || form.isprobationarymember=='是' || form.isactivist=='是'">
                   <div style="margin-top: 5px;">
                     <v-btn depressed>
                       成为积极分子时间
@@ -419,14 +406,11 @@
               </v-row>
 
 
-              <v-row dense class="ma-0 pa-0">
+              <v-row dense class="ma-0 pa-0"
+                     v-show="form.isformalmember=='是' || form.isprobationarymember=='是' || form.isactivist=='是'">
                 <v-col cols="6" xs="3" sm="3" md="3" lg="3" xl="3">
                   <v-select
-                      :items="['1706-1党支部', '1706-2党支部', '1806党支部', '1906党支部', '硕18061党支部', '硕18062党支部',
-          '硕18063党支部', '硕19061党支部', '硕19062党支部', '硕19063党支部', '硕19064党支部', '硕19065党支部',
-          '硕19066党支部', '硕19067党支部', '硕20061党支部', '硕20062党支部', '硕20063党支部', '硕20064党支部',
-          '硕20065党支部', '硕20066党支部', 'BYACT1党支部', 'BYACT2党支部', 'BY软国重党支部', 'BY软件所党支部',
-          'BY系统结构党支部', 'BY虚拟现实党支部', 'BY应用1党支部', 'BY应用2党支部', 'BY应用3党支部']"
+                      :items="branchnamearr"
                       label="党支部名称"
                       v-model="form.branch"
                   ></v-select>
@@ -434,10 +418,7 @@
 
                 <v-col cols="6" xs="3" sm="3" md="3" lg="3" xl="3">
                   <v-select
-                      :items="['程添红', '罗钧宇', '李何贝子', '张凯宁', '王欣',
-          '张松', '张瑞', '汪凌风', '孙培林', '张梦泽', '张一帆', '王亚', '王雅卉'
-          , '王柳迪', '郑健', '魏淑越', '刘晟', '吕澳辉', '郭桐', '高小博', '乔同',
-          '马广辉', '刘琳', '冯惠妍', '张琪', '牛钰浩', '王思哲', '侯璞玥', '牛广林']"
+                      :items="branchsecretarynamearr"
                       label="党支部书记"
                       v-model="form.secretaryname"
                   ></v-select>
@@ -459,7 +440,7 @@
               </v-row>
 
               <v-row dense class="ma-0 pa-0">
-                <v-col cols="6" xs="2" sm="2" md="2" lg="2" xl="2">
+                <v-col cols="6" xs="2" sm="2" md="2" lg="2" xl="2" v-show="form.ischangedbranch=='是'">
                   <v-menu ref="changebranchtime.menu" v-model="changebranchtime.menu" :close-on-content-click="false"
                           transition="scale-transition"
                           offset-y
@@ -481,7 +462,7 @@
                   </v-menu>
                 </v-col>
 
-                <v-col cols="6" xs="2" sm="2" md="2" lg="2" xl="2">
+                <v-col cols="6" xs="2" sm="2" md="2" lg="2" xl="2" v-show="form.ischangedbranch=='是'">
                   <div style="margin-top: 5px;">
                     <v-btn depressed>
                       转党支部日期
@@ -496,10 +477,10 @@
         </div>
       </v-card>
       <div style="margin-left:50%;transform: translateX(-50px)">
-        <v-btn color="success" width="100px" style="margin-top:20px;margin-bottom:40px;" @click="submit"
-               :disabled="!valid">确定
-        </v-btn>
-        <v-btn color="success" width="100px" style="margin-top:20px;margin-bottom:40px;" @click="submit">确定（测试用）</v-btn>
+        <!--        <v-btn color="success" width="100px" style="margin-top:20px;margin-bottom:40px;" @click="submit"-->
+        <!--               :disabled="!valid">确定-->
+        <!--        </v-btn>-->
+        <v-btn color="success" width="100px" style="margin-top:20px;margin-bottom:40px;" @click="submit">确定</v-btn>
         <!--        <v-btn color="success" width="100px" style="margin-top:20px;margin-bottom:40px;" @click="submitImg">-->
         <!--          确定（测试上传图片用）-->
         <!--        </v-btn>-->
@@ -525,6 +506,15 @@ export default {
       chinesename: '学生信息统计',
       valid: true,
       lazy: false,
+      branchnamearr: ['1706-1党支部', '1706-2党支部', '1806党支部', '1906党支部', '硕18061党支部', '硕18062党支部',
+        '硕18063党支部', '硕19061党支部', '硕19062党支部', '硕19063党支部', '硕19064党支部', '硕19065党支部',
+        '硕19066党支部', '硕19067党支部', '硕20061党支部', '硕20062党支部', '硕20063党支部', '硕20064党支部',
+        '硕20065党支部', '硕20066党支部', 'BYACT1党支部', 'BYACT2党支部', 'BY软国重党支部', 'BY软件所党支部',
+        'BY系统结构党支部', 'BY虚拟现实党支部', 'BY应用1党支部', 'BY应用2党支部', 'BY应用3党支部'],
+      branchsecretarynamearr: ['程添红', '罗钧宇', '李何贝子', '张凯宁', '王欣',
+        '张松', '张瑞', '汪凌风', '孙培林', '张梦泽', '张一帆', '王亚', '王雅卉'
+        , '王柳迪', '郑健', '魏淑越', '刘晟', '吕澳辉', '郭桐', '高小博', '乔同',
+        '马广辉', '刘琳', '冯惠妍', '张琪', '牛钰浩', '王思哲', '侯璞玥', '牛广林'],
       form: {
         name: "",
         schoolid: "",
@@ -580,9 +570,10 @@ export default {
         registerdtime: "",
         imgsrc: ""
       },
+
       formaltime: {
         menu: false,
-        value: ""
+        value: "",
       },
       preparedtime: {
         menu: false,
@@ -614,7 +605,7 @@ export default {
       })(),
       nameRules: [
         v => !!v || '必须输入姓名',
-        v => (v && v.length >= 3 && v.length <= 10) || '姓名的长度须大于等于2且小于等于10',
+        v => (v && v.length >= 2 && v.length <= 10) || '姓名的长度须大于等于2且小于等于10',
       ],
       ageRules: [
         v => !!v || '必须输入年龄',
@@ -627,7 +618,91 @@ export default {
       formData: ""
     }
   },
+  watch: {
+    'form.studenttype'(val) {
+      if (val === '本科') {
+        this.form.undergraduateschool = '北京航空航天大学';
+        this.form.masterschool = '';
+        this.form.mastermajor = '';
+        this.form.phdschool = '';
+        this.form.phdmajor = '';
+        //除了学校，辅导员也选了
+        this.form.fulltimeguider = '王婧仪';
+      } else if (val === '硕士') {
+        this.form.masterschool = '北京航空航天大学';
+        this.form.phdschool = '';
+        this.form.phdmajor = '';
+        //除了学校，辅导员也选了
+        this.form.fulltimeguider = '于秋漫';
+      } else if (val === '博士') {
+        this.form.phdschool = '北京航空航天大学';
+        //除了学校，辅导员也选了
+        this.form.fulltimeguider = '何巍';
+      }
+    },
+    'form.isformalmember'(val) {
+      if (val === '是') {
+        this.form.isprobationarymember = '否';
+        this.form.isactivist = '否';
+        this.form.score = '是';
+      } else {
+        this.form.formaltime = '';
+      }
+    },
+    'form.isprobationarymember'(val) {
+      if (val === '是') {
+        this.form.isactivist = '否';
+        this.form.score = '是';
+      } else {
+        this.form.preparedtime = '';
+      }
+    },
+    'form.isactivist'(val) {
+      if (val === '是') {
+        // this.form.isprobationarymember = '否';
+      } else {
+        this.form.activetime = '';
+        //不是积极分子，就意味着没有党务信息，党务信息要设置为''
+        this.form.score = '';
+        this.form.branch = '';
+        this.form.secretaryname = '';
+        this.form.isatcollege = '';
+        this.form.ischangedbranch = '';
+        this.form.changebranchtime = '';
+      }
+    },
+    'form.branch'(val) {
+      var brancharr = this.branchnamearr;
+      for (let i = 0; i < brancharr.length; i++) {
+        if (brancharr[i] === val) {
+          this.form.secretaryname = this.branchsecretarynamearr[i];
+          break;
+        }
+      }
+    },
+    'form.secretaryname'(val) {
+      var branchsecretarynamearr = this.branchsecretarynamearr;
+      for (let i = 0; i < branchsecretarynamearr.length; i++) {
+        if (branchsecretarynamearr[i] === val) {
+          this.form.branch = this.branchnamearr[i];
+          break;
+        }
+      }
+    },
+  },
   methods: {
+    genfromidnum() {
+      if (this.form.idnum.length == 18) {
+        var idnum = this.form.idnum;
+        //440883199707272614
+        var year = idnum.substring(6, 10);
+        var month = idnum.substring(10, 12);
+        var day = idnum.substring(12, 14);
+        this.form.birthdate = year + "-" + month + "-" + day;
+        this.form.age = new Date().getYear() + 1900 - year;
+      }
+    }
+    ,
     handleFileChange() {
       // console.log(e.size);
       let inputDOM = this.$refs.inputer;
@@ -708,7 +783,8 @@ export default {
         //没有图片就不用先上传图片了
         this.submitForm();
       }
-    },
+    }
+    ,
     submitForm() {
       axios({
         url: '/api/submit',
@@ -725,7 +801,8 @@ export default {
         }
       })
     }
-  },
+  }
+  ,
   mounted() {
     var token = localStorage.getItem('Authorization');
     axios({
@@ -766,7 +843,6 @@ export default {
     })
 
   }
-
 }
 </script>
 
