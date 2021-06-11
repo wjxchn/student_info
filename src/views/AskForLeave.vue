@@ -116,8 +116,8 @@
                     </v-row>
                   </v-container>
                   <div style="margin-left:50%;transform: translateX(-50px)">
-                    <v-btn color="#EBECF1" dark depressed width="50px" style="color:rgba(71, 112, 166, 0.996078431372549);margin-top:20px;margin-right:10px;">取消</v-btn>
-                    <v-btn color="rgba(71, 112, 166, 0.996078431372549)" dark depressed width="50px" style="margin-top:20px;margin-left:10px;">确定</v-btn>
+                    <v-btn color="#EBECF1" dark depressed width="50px" style="color:rgba(71, 112, 166, 0.996078431372549);margin-top:20px;margin-right:10px;" @click="cancelBtnClick">取消</v-btn>
+                    <v-btn color="rgba(71, 112, 166, 0.996078431372549)" dark depressed width="50px" style="margin-top:20px;margin-left:10px;" @click="confirmBtnClick">确定</v-btn>
                   </div>                  
                 </v-col>
               </v-row>
@@ -132,82 +132,125 @@
 </template>
 
 <script>
-import Background from '@/components/Background.vue'
-export default {
-  name: 'AskForLeave',
-  components: { 
-    Background
-  },
-  data(){
-    return{
-      chinesename: '学生请假',
-      valid: true,
-      formlist: [
-        {
-          name: 'item1',
-          data: [
-            {
-              name: 'studentid',
-              chinesename: '学号',
-              value: '',
-              type: 'singleline',
-            },            
-            {
-              name: 'studentname',
-              chinesename: '姓名',
-              value: '',
-              type: 'singleline',
-            },
-            {
-              name: 'phonenumber',
-              chinesename: '手机号',
-              value: '',
-              type: 'singleline',
-            },            
-            {
-              name: 'professorname',
-              chinesename: '导师姓名',
-              value: '',
-              type: 'singleline',
-            },
-            {
-              name: 'leavestarttime',
-              chinesename: '请假开始时间',
-              value: '',
-              type: 'timeselect',
-              menu: false,
-            },
-            {
-              name: 'leaveendtime',
-              chinesename: '请假结束时间',
-              value: '',
-              type: 'timeselect',
-              menu: false,
-            },
-            {
-              name: 'leavereason',
-              chinesename: '请假理由',
-              value: '',
-              type: 'textarea',
-            },
-            {
-              name: 'leaveto',
-              chinesename: '请假去向',
-              value: '',
-              type: 'textarea',
-            },
-          ]
-        },
-      ],
-    }  
-  },
-  methods: {
-    changeimg(item){
-       this.formlist[0].data[0].files = item.target.files;
-       this.formlist[0].data[1].src = window.webkitURL.createObjectURL(this.formlist[0].data[0].files[0]);
+  import Background from '@/components/Background.vue'
+import axios from 'axios';
+  export default {
+    name: 'AskForLeave',
+    components: {
+      Background
     },
+    data(){
+      return{
+        chinesename: '学生请假',
+        valid: true,
+        formlist: [
+          {
+            name: 'item1',
+            data: [
+              {
+                name: 'studentid',
+                chinesename: '学号',
+                value: '',
+                type: 'singleline',
+              },            
+              {
+                name: 'studentname',
+                chinesename: '姓名',
+                value: '',
+                type: 'singleline',
+              },
+              {
+                name: 'phonenumber',
+                chinesename: '手机号',
+                value: '',
+                type: 'singleline',
+              },            
+              {
+                name: 'professorname',
+                chinesename: '导师姓名',
+                value: '',
+                type: 'singleline',
+              },
+              {
+                name: 'leavestarttime',
+                chinesename: '请假开始时间',
+                value: '',
+                type: 'timeselect',
+                menu: false,
+              },
+              {
+                name: 'leaveendtime',
+                chinesename: '请假结束时间',
+                value: '',
+                type: 'timeselect',
+                menu: false,
+              },
+              {
+                name: 'leavereason',
+                chinesename: '请假理由',
+                value: '',
+                type: 'textarea',
+              },
+              {
+                name: 'leaveto',
+                chinesename: '请假去向',
+                value: '',
+                type: 'textarea',
+              },
+            ]
+          },
+        ],
+      }  
+    },
+    methods: {
+      changeimg(item){
+        this.formlist[0].data[0].files = item.target.files;
+        this.formlist[0].data[1].src = window.webkitURL.createObjectURL(this.formlist[0].data[0].files[0]);
+      },
+      cancelBtnClick() {
+        this.$router.push('BasicInfo');
+      },
+      confirmBtnClick() {
+        var tableValue = {
+          id: this.formlist[0].data[0].value,
+          name: this.formlist[0].data[1].value,
+          phone: this.formlist[0].data[2].value,
+          teacher: this.formlist[0].data[3].value,
+          leaveBegin: this.formlist[0].data[4].value,
+          leaveEnd: this.formlist[0].data[5].value,
+          leaveReason: this.formlist[0].data[6].value,
+          leaveDirection: this.formlist[0].data[7].value
+        }
+        if(tableValue.id == '') {
+          alert('请输入学号');
+        } else if(tableValue.name == '') {
+          alert('请输入姓名');
+        } else if(tableValue.phone == '') {
+          alert('请输入手机号');
+        } else if(tableValue.teacher == '') {
+          alert('请输入导师姓名');
+        } else if(tableValue.leaveBegin == '') {
+          alert('请选择请假开始时间');
+        } else if(tableValue.leaveEnd == '') {
+          alert('请选择假期结束时间');
+        } else if(tableValue.leaveReason == '') {
+          alert('请输入请假理由');
+        } else if(tableValue.leaveDirection == '') {
+          alert('请输入请假去向');
+        } else {
+          axios.post('9999',
+          {
+            id: this.formlist[0].data[0].value,
+          }).then((res) => {
+            console.log(res);
+            window.alert('提交成功');
+          }).catch(() => {
+            window.alert('提交失败');
+          })
+        }
+      }
+    }
   }
-}
 </script>
 
 <style scoped>
