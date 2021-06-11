@@ -55,10 +55,10 @@
 
               <v-row dense class="ma-0 pa-0">
                 <v-col cols="6" xs="3" sm="3" md="3" lg="3" xl="3">
-                  <v-text-field v-model="form.birthdate" label="出生年月日" required></v-text-field>
+                  <v-text-field v-model="form.birthdate" label="出生年月日"  readonly required></v-text-field>
                 </v-col>
                 <v-col cols="6" xs="3" sm="3" md="3" lg="3" xl="3">
-                  <v-text-field v-model="form.age" :rules="ageRules" label="年龄" required></v-text-field>
+                  <v-text-field v-model="form.age" :rules="ageRules" readonly label="年龄" required></v-text-field>
                 </v-col>
                 <v-col cols="6" xs="3" sm="3" md="3" lg="3" xl="3">
                   <v-select
@@ -646,7 +646,7 @@ export default {
         this.form.isactivist = '否';
         this.form.score = '是';
       } else {
-        this.form.formaltime = '';
+        // this.form.formaltime = '';
       }
     },
     'form.isprobationarymember'(val) {
@@ -654,21 +654,21 @@ export default {
         this.form.isactivist = '否';
         this.form.score = '是';
       } else {
-        this.form.preparedtime = '';
+        // this.form.preparedtime = '';
       }
     },
     'form.isactivist'(val) {
       if (val === '是') {
         // this.form.isprobationarymember = '否';
       } else {
-        this.form.activetime = '';
+        // this.form.activetime = '';
         //不是积极分子，就意味着没有党务信息，党务信息要设置为''
-        this.form.score = '';
-        this.form.branch = '';
-        this.form.secretaryname = '';
-        this.form.isatcollege = '';
-        this.form.ischangedbranch = '';
-        this.form.changebranchtime = '';
+        // this.form.score = '';
+        // this.form.branch = '';
+        // this.form.secretaryname = '';
+        // this.form.isatcollege = '';
+        // this.form.ischangedbranch = '';
+        // this.form.changebranchtime = '';
       }
     },
     'form.branch'(val) {
