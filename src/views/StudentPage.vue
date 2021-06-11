@@ -2,149 +2,507 @@
   <div id="studentPage">
     <background :titlevalue="chinesename"></background>
     <div style="position:absolute;top:230px;left:50%;transform:translate(-50%);width:90%;">
-      <v-card>
+      <v-card style="margin-top: 20px;">
         <div class="basic_info_form">
-          <v-form
-            ref="form"
-            v-model="valid"
-            :lazy-validation="lazy"
+          <v-card
+              class="mx-auto"
+              max-width="434"
+              tile
           >
-            <v-container class="ma-0 pa-0 pt-4 pl-2 pr-2" fluid>
-              <v-row dense class="ma-0 pa-0">
+            <v-img
+                height="100%"
+                :src="avatarBg"
+            >
+              <v-row
+                  align="end"
+                  class="fill-height"
+              >
                 <v-col
-                  v-for="w in formlist"
-                  :key="w.name"
-                  class="ma-0 pa-4"
-                  cols="12"
-                  xs="3"
-                  sm="3"
-                  md="3"
-                  lg="3"
-                  xl="3"
+                    align-self="start"
+                    class="pa-0"
+                    cols="12"
                 >
-                  <v-container fluid v-for="n in w.data" :key="n.name" class="ma-0 pa-0">
-                    <v-row dense no-gutters class="ma-0 pa-0">
-                      <v-col cols="4" class="ma-0 pa-0">
-                        <v-subheader class="ma-0 pa-0" style="font-size:10px;">{{n.chinesename}}</v-subheader>
-                      </v-col>
-                      <v-col cols="8" class="ma-0 pa-0">
-                        <div v-if="n.type=='addtextfield'">
-                          <v-container class="ma-0 pa-0" v-for="q in n.valuelist" :key="q.index">
-                            <v-row dense no-gutters class="ma-0 pa-0">
-                              <v-col
-                                cols="9"
-                              >
-                                <v-text-field
-                                  class="ma-0 pa-0"
-                                  v-model="q.value"
-                                  required
-                                  outlined
-                                  dense
-                                  style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
-                                ></v-text-field>
-                              </v-col>
-                              <v-col
-                                cols="3"
-                              >
-                                <v-btn @click="q.func(n,q.index)" v-model="q.buttontext">
-                                  {{q.buttontext}}
-                                </v-btn>
-                              </v-col>
-                            </v-row>
-                          </v-container>
-                        </div>
-                        <div v-if="n.type=='el-cascader'">
-                          <el-cascader
-                          v-model="n.value"
-                          :options="n.options"
-                          @change="n.handleChange"
-                          style="font-size:15px;width:100%;transform:scale(0.75,0.75);"></el-cascader>
-                        </div>
-                        <div v-if="n.type=='select'">
-                          <v-select
-                            :items="n.items"
-                            v-model="n.value"
-                            :rules="n.rules"
-                            label="请选择"
-                            solo
-                            flat
-                            dense
-                            outlined
-                            style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
-                          ></v-select>
-                        </div>
-                        <v-textarea
-                          v-model="n.value"
-                          required
-                          outlined
-                          flat
-                          dense
-                          background-color="white"
-                          style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
-                          auto-grow
-                          v-if="n.type=='textarea'"
-                        ></v-textarea>
-                        <input type="file" id="upload" ref="upload" @change="changeimg" accept=".jpg, .jpeg, .png" v-if="n.type=='pictureupload'" style="display:block;width:90%;font-size:10px;margin-top:10px;">
-                        <img :src="n.src" width="70%" alt="" v-if="n.type=='picture'"/>
-                        <v-text-field
-                          class="ma-0 pa-0"
-                          v-model="n.value"
-                          required
-                          outlined
-                          dense
-                          :rules="n.rules"
-                          :disabled = "n.disabled"
-                          style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
-                          v-if="n.type=='singleline'"
-                        ></v-text-field>
-                        <v-radio-group :rules="n.rules" v-model="n.value" v-if="n.type=='radio'" row style="width:100%;transform:scale(0.75,0.75);" class="ma-2 pa-0" :disabled="n.disabled">
-                          <v-radio
-                            v-for="i in n.radiochoice"
-                            :key="i"
-                            :label="i"
-                            :value="i"
-                            style="font-size:10px;"
-                          ></v-radio>
-                        </v-radio-group>
-                        <v-menu
-                          ref="n.menu"
-                          v-model="n.menu"
-                          :close-on-content-click="false"
-                          transition="scale-transition"
-                          offset-y
-                          min-width="290px"
-                          v-if="n.type=='timeselect'"
-                        >
-                          <template v-slot:activator="{ on, attrs }">
-                            <v-text-field
-                              v-model="n.value"
-                              prepend-icon="event"
-                              readonly
-                              required
-                              outlined
-                              dense
-                              v-bind="attrs"
-                              v-on="on"
-                              style="font-size:20px;width:100%;transform:scale(0.75,0.75);"
-                            ></v-text-field>
-                          </template>
-                          <v-date-picker v-model="n.value" no-title scrollable :max="n.maxdate">
-                            <v-spacer></v-spacer>
-                            <v-btn text color="primary" @click="n.menu = false">Cancel</v-btn>
-                            <v-btn text color="primary" @click="n.menu = false">OK</v-btn>
-                          </v-date-picker>
-                        </v-menu>
-                      </v-col>
-                    </v-row>
-                  </v-container>
+                  <v-avatar
+                      class="profile"
+                      color="grey"
+                      size="164"
+                      tile
+                  >
+                    <v-img :src="'/avatar/'+form.imgsrc"></v-img>
+                  </v-avatar>
+                </v-col>
+                <v-col class="py-0">
+                  <v-list-item
+                      color="rgba(0, 0, 0, .4)"
+                      dark
+                  >
+                    <v-list-item-content>
+                      <v-list-item-title class="text-h6">
+                        Marcus Obrien
+                      </v-list-item-title>
+                      <v-list-item-subtitle>Network Engineer</v-list-item-subtitle>
+                    </v-list-item-content>
+                  </v-list-item>
                 </v-col>
               </v-row>
+            </v-img>
+          </v-card>
+
+          <v-form ref="form" v-model="valid" :lazy-validation="lazy">
+
+            <v-container class="ma-0 pa-0 pt-4 pl-2 pr-2" fluid>
+              <div style="border-radius: 30px;">
+                <h1 style="margin-left: 10px;margin-bottom: 30px;">个人基本信息</h1>
+              </div>
+              <v-row dense class="ma-0 pa-0">
+                <v-col cols="6" xs="3" sm="3" md="3" lg="3" xl="3">
+                  <v-text-field v-model="form.name" :rules="nameRules" label="姓名" required readonly></v-text-field>
+                </v-col>
+                <v-col cols="6" xs="3" sm="3" md="3" lg="3" xl="3">
+                  <v-text-field v-model="form.schoolid" :rules="[v => !!v || '请输入学号',]" label="学号"
+                                required readonly></v-text-field>
+                </v-col>
+                <v-col cols="6" xs="3" sm="3" md="3" lg="3" xl="3">
+                  <v-select
+                      :items="['男','女']"
+                      label="性别"
+                      v-model="form.sex"
+                  ></v-select>
+                </v-col>
+                <v-col cols="6" xs="3" sm="3" md="3" lg="3" xl="3">
+                  <v-text-field v-model="form.idnum"
+                                :rules="[v => !!v || '请输入身份证号',v => (v && v.length == 18) || '请输入18位身份证号']" label="身份证号"
+                                required></v-text-field>
+                </v-col>
+              </v-row>
+
+              <v-row dense class="ma-0 pa-0">
+                <v-col cols="6" xs="3" sm="3" md="3" lg="3" xl="3">
+                  <v-text-field v-model="form.birthdate" label="出生年月日" required></v-text-field>
+                </v-col>
+                <v-col cols="6" xs="3" sm="3" md="3" lg="3" xl="3">
+                  <v-text-field v-model="form.age" :rules="ageRules" label="年龄" required></v-text-field>
+                </v-col>
+                <v-col cols="6" xs="3" sm="3" md="3" lg="3" xl="3">
+                  <v-select
+                      :items="['汉族', '蒙古族', '回族', '藏族', '维吾尔族','苗族', '彝族', '壮族', '布依族', '朝鲜族','满族', '侗族', '瑶族', '白族', '土家族','哈尼族', '哈萨克族', '傣族', '黎族', '僳僳族','佤族', '畲族', '高山族', '拉祜族', '水族','东乡族', '纳西族', '景颇族', '柯尔克孜族', '土族','达斡尔族', '仫佬族', '羌族', '布朗族', '撒拉族','毛南族','仡佬族', '锡伯族', '阿昌族', '普米族','塔吉克族', '怒族', '乌孜别克族', '俄罗斯族', '鄂温克族', '德昂族', '保安族', '裕固族', '京族', '塔塔尔族','独龙族', '鄂伦春族', '赫哲族', '门巴族', '珞巴族','基诺族']"
+                      label="民族"
+                      v-model="form.race"
+                  ></v-select>
+                </v-col>
+                <v-col cols="6" xs="3" sm="3" md="3" lg="3" xl="3">
+                  <v-select
+                      :items="['201309', '201409', '201509', '201609', '201709', '201809', '201909', '202009', '202109', '202209', '202309', '202409', '202509', '202609', '202709', '202809', '202909', '203009']"
+                      label="入学年份"
+                      v-model="form.schoolstartyear"
+                  ></v-select>
+                </v-col>
+              </v-row>
+
+              <v-row dense class="ma-0 pa-0">
+                <v-col cols="6" xs="3" sm="3" md="3" lg="3" xl="3">
+                  <v-text-field v-model="form.urgentcontactname" :rules="nameRules" label="紧急联系人姓名"
+                                required></v-text-field>
+                </v-col>
+                <v-col cols="6" xs="3" sm="3" md="3" lg="3" xl="3">
+                  <v-select
+                      :items="['父子', '母子', '父女', '母女', '其他']"
+                      label="紧急联系人关系"
+                      v-model="form.urgentcontactrelation"
+                  ></v-select>
+                </v-col>
+                <v-col cols="6" xs="3" sm="3" md="3" lg="3" xl="3">
+                  <v-text-field v-model="form.urgentcontactphone" :rules="phoneRules" label="紧急联系人手机号码"
+                                required></v-text-field>
+                </v-col>
+                <v-col cols="6" xs="3" sm="3" md="3" lg="3" xl="3">
+                  <v-select
+                      :items="['正式党员', '预备党员', '共青团员', '群众', '其它']"
+                      label="政治面貌"
+                      v-model="form.politics"
+                  ></v-select>
+                </v-col>
+              </v-row>
+
+              <v-row dense class="ma-0 pa-0">
+                <v-col cols="6" xs="3" sm="3" md="3" lg="3" xl="3">
+                  <v-text-field v-model="form.householdplace" :rules="[v => !!v || '请输入户口所在地',]" label="户口所在地"
+                                required></v-text-field>
+                </v-col>
+                <v-col cols="6" xs="3" sm="3" md="3" lg="3" xl="3">
+                  <v-text-field v-model="form.nativeplace" :rules="[v => !!v || '请输入籍贯',]" label="籍贯(精确到县)"
+                                required></v-text-field>
+                </v-col>
+                <v-col cols="6" xs="3" sm="3" md="3" lg="3" xl="3">
+                  <v-text-field v-model="form.nowplace" :rules="[v => !!v || '请输入家庭住址',]" label="现家庭住址(精确到门牌号)"
+                                required></v-text-field>
+                </v-col>
+                <v-col cols="6" xs="3" sm="3" md="3" lg="3" xl="3">
+                  <v-text-field v-model="form.phonenumber" :rules="phoneRules" label="本人手机号码" required></v-text-field>
+                </v-col>
+              </v-row>
+              <v-col cols="6" xs="3" sm="3" md="3" lg="3" xl="3">
+                <!--                <v-file-input-->
+                <!--                    label="非证件头像图片上传"-->
+                <!--                    accept="image/png, image/jpeg, image/bmp"-->
+                <!--                    outlined-->
+                <!--                    prepend-icon="mdi-camera"-->
+                <!--                    dense-->
+                <!--                ></v-file-input>-->
+                <input type="file" id="fileExport" @change="handleFileChange" ref="inputer">
+
+              </v-col>
+            </v-container>
+
+            <v-container class="ma-0 pa-0 pt-4 pl-2 pr-2" fluid>
+              <div style="border-radius: 30px;">
+                <h1 style="margin-left: 10px;margin-bottom: 30px;">学业信息</h1>
+              </div>
+              <v-row dense class="ma-0 pa-0">
+                <v-col cols="6" xs="3" sm="3" md="3" lg="3" xl="3">
+                  <v-select
+                      :items="['学院路校区', '沙河校区', '杭州研究院', '青岛研究院', '苏州研究院', '深圳研究院', '云南研究院', '其它']"
+                      label="所属校区"
+                      v-model="form.schoolzone"
+                  ></v-select>
+                </v-col>
+                <v-col cols="6" xs="3" sm="3" md="3" lg="3" xl="3">
+                  <v-select
+                      :items="['本科', '硕士', '博士']"
+                      label="学生类型"
+                      v-model="form.studenttype"
+                  ></v-select>
+                </v-col>
+                <v-col cols="6" xs="3" sm="3" md="3" lg="3" xl="3">
+                  <v-select
+                      :items="['全日制定向', '全日制非定向', '非全日制']"
+                      label="培养方式"
+                      v-model="form.fosterway"
+                  ></v-select>
+                </v-col>
+                <v-col cols="6" xs="3" sm="3" md="3" lg="3" xl="3">
+                  <v-text-field v-model="form.classnum" :rules="[v => !!v || '请输入班号',]" label="班号(如:硕19061)"
+                                required></v-text-field>
+                </v-col>
+              </v-row>
+
+              <v-row dense class="ma-0 pa-0">
+                <v-col cols="6" xs="3" sm="3" md="3" lg="3" xl="3">
+                  <v-text-field v-model="form.professorname" :rules="nameRules" label="主导师姓名" required></v-text-field>
+                </v-col>
+                <v-col cols="6" xs="3" sm="3" md="3" lg="3" xl="3">
+                  <v-text-field v-model="form.professorphonenumber" :rules="phoneRules" label="主导师手机号"
+                                required></v-text-field>
+                </v-col>
+                <v-col cols="6" xs="3" sm="3" md="3" lg="3" xl="3">
+                  <v-text-field v-model="form.directprofessorname" :rules="nameRules" label="直带导师姓名"
+                                required></v-text-field>
+                </v-col>
+                <v-col cols="6" xs="3" sm="3" md="3" lg="3" xl="3">
+                  <v-text-field v-model="form.directprofessorphonenumber" :rules="phoneRules" label="直带导师手机号"
+                                required></v-text-field>
+                </v-col>
+              </v-row>
+
+              <v-row dense class="ma-0 pa-0">
+                <v-col cols="6" xs="3" sm="3" md="3" lg="3" xl="3">
+                  <v-select
+                      :items="['王婧仪', '何巍', '于秋漫', '毛吾吉达']"
+                      label="所属专职辅导员"
+                      v-model="form.fulltimeguider"
+                  ></v-select>
+                </v-col>
+                <v-col cols="6" xs="3" sm="3" md="3" lg="3" xl="3">
+                  <v-select
+                      :items="['王楠', '他旭翔', '张保宇', '王康明', '张重庆', '李婧怡', '张华梁', '李小冉', '王嘉凯', '张艺璇', '赵世纪', '李何贝子', '张凯宁', '廖天禧']"
+                      label="所属兼职辅导员"
+                      v-model="form.partimeguider"
+                  ></v-select>
+                </v-col>
+                <v-col cols="6" xs="3" sm="3" md="3" lg="3" xl="3">
+                  <v-text-field v-model="form.recentplace" :rules="[v => !!v || '请输入近期所在地',]" label="近期所在地"
+                                required></v-text-field>
+                </v-col>
+                <v-col cols="6" xs="3" sm="3" md="3" lg="3" xl="3">
+                  <v-text-field v-model="form.outsideschoolplace" :rules="[v => !!v || '请输入校外住址',]" label="校外住址(精确到门牌号)"
+                                required></v-text-field>
+                </v-col>
+              </v-row>
+
+              <v-row dense class="ma-0 pa-0">
+                <v-col cols="6" xs="3" sm="3" md="3" lg="3" xl="3">
+                  <v-text-field v-model="form.labdoornum" :rules="[v => !!v || '请输入实验室门牌号',]" label="实验室门牌号"
+                                required></v-text-field>
+                </v-col>
+                <v-col cols="6" xs="3" sm="3" md="3" lg="3" xl="3">
+                  <v-text-field v-model="form.undergraduateschool" :rules="[v => !!v || '请输入本科学校',]" label="本科学校"
+                                required></v-text-field>
+                </v-col>
+                <v-col cols="6" xs="3" sm="3" md="3" lg="3" xl="3">
+                  <v-text-field v-model="form.undergraduatemajor" :rules="[v => !!v || '请输入本科专业',]" label="本科专业"
+                                required></v-text-field>
+                </v-col>
+                <v-col cols="6" xs="3" sm="3" md="3" lg="3" xl="3">
+                  <v-text-field v-model="form.masterschool" :rules="[v => !!v || '请输入硕士学校',]" label="硕士学校"
+                                required></v-text-field>
+                </v-col>
+              </v-row>
+
+              <v-row dense class="ma-0 pa-0">
+                <v-col cols="6" xs="3" sm="3" md="3" lg="3" xl="3">
+                  <v-text-field v-model="form.mastermajor" :rules="[v => !!v || '请输入硕士专业',]" label="硕士专业"
+                                required></v-text-field>
+                </v-col>
+                <v-col cols="6" xs="3" sm="3" md="3" lg="3" xl="3">
+                  <v-text-field v-model="form.phdschool" :rules="[v => !!v || '请输入博士学校',]" label="博士学校"
+                                required></v-text-field>
+                </v-col>
+                <v-col cols="6" xs="3" sm="3" md="3" lg="3" xl="3">
+                  <v-text-field v-model="form.phdmajor" :rules="[v => !!v || '请输入博士专业',]" label="博士专业"
+                                required></v-text-field>
+                </v-col>
+              </v-row>
+
+            </v-container>
+
+            <v-container class="ma-0 pa-0 pt-4 pl-2 pr-2" fluid>
+              <div style="border-radius: 30px;">
+                <h1 style="margin-left: 10px;margin-bottom: 30px;">宿舍信息</h1>
+              </div>
+              <v-row dense class="ma-0 pa-0">
+                <v-col cols="6" xs="3" sm="3" md="3" lg="3" xl="3">
+                  <v-select
+                      :items="['学院路校内', '学院路大运村','沙河']"
+                      label="宿舍区域"
+                      v-model="form.dormitoryarea"
+                  ></v-select>
+                </v-col>
+                <v-col cols="6" xs="3" sm="3" md="3" lg="3" xl="3">
+                  <v-select
+                      :items="['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11']"
+                      label="宿舍楼号"
+                      v-model="form.dormitorybuilding"
+                  ></v-select>
+                </v-col>
+                <v-col cols="6" xs="3" sm="3" md="3" lg="3" xl="3">
+                  <v-text-field v-model="form.dormitoryroom" :rules="[v => !!v || '请输入房间号',]" label="房间号"
+                                required></v-text-field>
+                </v-col>
+                <v-col cols="6" xs="3" sm="3" md="3" lg="3" xl="3">
+                  <v-text-field v-model="form.dormitorybed" :rules="[v => !!v || '请输入床号',]" label="床号"
+                                required></v-text-field>
+                </v-col>
+              </v-row>
+            </v-container>
+
+            <v-container class="ma-0 pa-0 pt-4 pl-2 pr-2" fluid>
+              <div style="border-radius: 30px;">
+                <h1 style="margin-left: 10px;margin-bottom: 30px;">入党信息</h1>
+              </div>
+              <v-row dense class="ma-0 pa-0">
+                <v-col cols="6" xs="3" sm="3" md="3" lg="3" xl="3">
+                  <v-select
+                      :items="['是', '否']"
+                      label="是否正式党员"
+                      v-model="form.isformalmember"
+                  ></v-select>
+                </v-col>
+
+                <v-col cols="6" xs="3" sm="3" md="3" lg="3" xl="3">
+                  <v-select
+                      :items="['是', '否']"
+                      label="是否预备党员"
+                      v-model="form.isprobationarymember"
+                  ></v-select>
+                </v-col>
+                <v-col cols="6" xs="3" sm="3" md="3" lg="3" xl="3">
+                  <v-select
+                      :items="['是', '否']"
+                      label="是否积极分子"
+                      v-model="form.isactivist"
+                  ></v-select>
+                </v-col>
+                <v-col cols="6" xs="3" sm="3" md="3" lg="3" xl="3">
+                  <v-select
+                      :items="['是', '否']"
+                      label="是否通过党课考试"
+                      v-model="form.score"
+                  ></v-select>
+                </v-col>
+              </v-row>
+
+              <v-row dense class="ma-0 pa-0">
+                <v-col cols="6" xs="2" sm="2" md="2" lg="2" xl="2">
+                  <v-menu ref="formaltime.menu" v-model="formaltime.menu" :close-on-content-click="false"
+                          transition="scale-transition"
+                          offset-y
+                          min-width="400px;">
+                    <template v-slot:activator="{ on, attrs }">
+                      <v-text-field v-model="form.formaltime" prepend-icon="event" readonly required outlined dense
+                                    v-bind="attrs"
+                                    v-on="on"
+                                    style="font-size:20px;width:100%;transform:scale(0.75,0.75);"></v-text-field>
+                    </template>
+                    <v-date-picker v-model="formaltime.value" no-title scrollable :max="maxdate">
+                      <v-spacer></v-spacer>
+                      <v-btn text color="primary" @click="formaltime.menu = false">取消</v-btn>
+                      <v-btn text color="primary" @click="formaltime.menu = false;form.formaltime = formaltime.value;">
+                        确定
+                      </v-btn>
+                    </v-date-picker>
+                  </v-menu>
+                </v-col>
+                <v-col cols="6" xs="2" sm="2" md="2" lg="2" xl="2">
+                  <div style="margin-top: 5px;">
+                    <v-btn depressed>
+                      转正式党员时间
+                    </v-btn>
+                  </div>
+                </v-col>
+
+                <v-col cols="6" xs="2" sm="2" md="2" lg="2" xl="2">
+                  <v-menu ref="preparedtime.menu" v-model="preparedtime.menu" :close-on-content-click="false"
+                          transition="scale-transition"
+                          offset-y
+                          min-width="400px;">
+                    <template v-slot:activator="{ on, attrs }">
+                      <v-text-field v-model="form.preparedtime" prepend-icon="event" readonly required outlined dense
+                                    v-bind="attrs"
+                                    v-on="on"
+                                    style="font-size:20px;width:100%;transform:scale(0.75,0.75);"></v-text-field>
+                    </template>
+                    <v-date-picker v-model="preparedtime.value" no-title scrollable :max="maxdate">
+                      <v-spacer></v-spacer>
+                      <v-btn text color="primary" @click="preparedtime.menu = false">取消</v-btn>
+                      <v-btn text color="primary"
+                             @click="preparedtime.menu = false;form.preparedtime = preparedtime.value;">确定
+                      </v-btn>
+                    </v-date-picker>
+                  </v-menu>
+                </v-col>
+                <v-col cols="6" xs="2" sm="2" md="2" lg="2" xl="2">
+                  <div style="margin-top: 5px;">
+                    <v-btn depressed>
+                      转预备党员时间
+                    </v-btn>
+                  </div>
+                </v-col>
+
+                <v-col cols="6" xs="2" sm="2" md="2" lg="2" xl="2">
+                  <v-menu ref="formaltime.menu" v-model="activetime.menu" :close-on-content-click="false"
+                          transition="scale-transition"
+                          offset-y
+                          min-width="400px;">
+                    <template v-slot:activator="{ on, attrs }">
+                      <v-text-field v-model="form.activetime" prepend-icon="event" readonly required outlined dense
+                                    v-bind="attrs"
+                                    v-on="on"
+                                    style="font-size:20px;width:100%;transform:scale(0.75,0.75);"></v-text-field>
+                    </template>
+                    <v-date-picker v-model="activetime.value" no-title scrollable :max="maxdate">
+                      <v-spacer></v-spacer>
+                      <v-btn text color="primary" @click="activetime.menu = false">取消</v-btn>
+                      <v-btn text color="primary" @click="activetime.menu = false;form.activetime = activetime.value;">
+                        确定
+                      </v-btn>
+                    </v-date-picker>
+                  </v-menu>
+                </v-col>
+                <v-col cols="6" xs="2" sm="2" md="2" lg="2" xl="2">
+                  <div style="margin-top: 5px;">
+                    <v-btn depressed>
+                      成为积极分子时间
+                    </v-btn>
+                  </div>
+                </v-col>
+
+              </v-row>
+
+
+              <v-row dense class="ma-0 pa-0">
+                <v-col cols="6" xs="3" sm="3" md="3" lg="3" xl="3">
+                  <v-select
+                      :items="['1706-1党支部', '1706-2党支部', '1806党支部', '1906党支部', '硕18061党支部', '硕18062党支部',
+          '硕18063党支部', '硕19061党支部', '硕19062党支部', '硕19063党支部', '硕19064党支部', '硕19065党支部',
+          '硕19066党支部', '硕19067党支部', '硕20061党支部', '硕20062党支部', '硕20063党支部', '硕20064党支部',
+          '硕20065党支部', '硕20066党支部', 'BYACT1党支部', 'BYACT2党支部', 'BY软国重党支部', 'BY软件所党支部',
+          'BY系统结构党支部', 'BY虚拟现实党支部', 'BY应用1党支部', 'BY应用2党支部', 'BY应用3党支部']"
+                      label="党支部名称"
+                      v-model="form.branch"
+                  ></v-select>
+                </v-col>
+
+                <v-col cols="6" xs="3" sm="3" md="3" lg="3" xl="3">
+                  <v-select
+                      :items="['程添红', '罗钧宇', '李何贝子', '张凯宁', '王欣',
+          '张松', '张瑞', '汪凌风', '孙培林', '张梦泽', '张一帆', '王亚', '王雅卉'
+          , '王柳迪', '郑健', '魏淑越', '刘晟', '吕澳辉', '郭桐', '高小博', '乔同',
+          '马广辉', '刘琳', '冯惠妍', '张琪', '牛钰浩', '王思哲', '侯璞玥', '牛广林']"
+                      label="党支部书记"
+                      v-model="form.secretaryname"
+                  ></v-select>
+                </v-col>
+                <v-col cols="6" xs="3" sm="3" md="3" lg="3" xl="3">
+                  <v-select
+                      :items="['是', '否']"
+                      label="组织关系是否在院"
+                      v-model="form.isatcollege"
+                  ></v-select>
+                </v-col>
+                <v-col cols="6" xs="3" sm="3" md="3" lg="3" xl="3">
+                  <v-select
+                      :items="['是', '否']"
+                      label="是否转过党"
+                      v-model="form.ischangedbranch"
+                  ></v-select>
+                </v-col>
+              </v-row>
+
+              <v-row dense class="ma-0 pa-0">
+                <v-col cols="6" xs="2" sm="2" md="2" lg="2" xl="2">
+                  <v-menu ref="changebranchtime.menu" v-model="changebranchtime.menu" :close-on-content-click="false"
+                          transition="scale-transition"
+                          offset-y
+                          min-width="400px;">
+                    <template v-slot:activator="{ on, attrs }">
+                      <v-text-field v-model="form.changebranchtime" prepend-icon="event" readonly required outlined
+                                    dense
+                                    v-bind="attrs"
+                                    v-on="on"
+                                    style="font-size:20px;width:100%;transform:scale(0.75,0.75);"></v-text-field>
+                    </template>
+                    <v-date-picker v-model="changebranchtime.value" no-title scrollable :max="maxdate">
+                      <v-spacer></v-spacer>
+                      <v-btn text color="primary" @click="changebranchtime.menu = false">取消</v-btn>
+                      <v-btn text color="primary"
+                             @click="changebranchtime.menu = false;form.changebranchtime = changebranchtime.value;">确定
+                      </v-btn>
+                    </v-date-picker>
+                  </v-menu>
+                </v-col>
+
+                <v-col cols="6" xs="2" sm="2" md="2" lg="2" xl="2">
+                  <div style="margin-top: 5px;">
+                    <v-btn depressed>
+                      转党支部日期
+                    </v-btn>
+                  </div>
+                </v-col>
+
+              </v-row>
+
             </v-container>
           </v-form>
         </div>
       </v-card>
       <div style="margin-left:50%;transform: translateX(-50px)">
-        <v-btn color="success" width="100px" style="margin-top:20px;margin-bottom:40px;" @click="submit" :disabled="!valid">确定</v-btn>
+        <v-btn color="success" width="100px" style="margin-top:20px;margin-bottom:40px;" @click="submit"
+               :disabled="!valid">确定
+        </v-btn>
+        <v-btn color="success" width="100px" style="margin-top:20px;margin-bottom:40px;" @click="submit">确定（测试用）</v-btn>
+        <!--        <v-btn color="success" width="100px" style="margin-top:20px;margin-bottom:40px;" @click="submitImg">-->
+        <!--          确定（测试上传图片用）-->
+        <!--        </v-btn>-->
       </div>
     </div>
 
@@ -153,616 +511,269 @@
 
 <script>
 import Background from '@/components/Background.vue'
+
 const axios = require('axios');
+// axios.defaults.withCredentials=true;//让ajax携带cookie
 export default {
   name: 'StudentPage',
   components: {
     Background
   },
-  data(){
-    return{
-      chinesename: '学生个人信息',
+  data() {
+    return {
+      avatarBg: require('../assets/img/oursky.jpg'),
+      chinesename: '学生信息统计',
       valid: true,
       lazy: false,
-      formlist: [
-        {
-          name: 'item0',
-          data: [
-            {
-              name: 'imgsrc',
-              chinesename: '非证件照片',
-              files: [],
-              type: 'pictureupload'
-            },
-            {
-              name: 'imgshow',
-              chinesename: '上传图片预览',
-              src: require('../assets/basicinfo/u264.svg'),
-              type: 'picture'
-            }
-          ]
-        },
-        {
-          name: 'item1',
-          data: [
-            {
-              name: 'name',
-              chinesename: '姓名',
-              value: '',
-              type: 'singleline',
-              disabled: true
-            },
-            {
-              name: 'schoolid',
-              chinesename: '学号',
-              value: '',
-              type: 'singleline',
-              disabled: true
-            },
-            {
-              name: 'sex',
-              chinesename: '性别',
-              value: '',
-              type: 'radio',
-              radiochoice: ['男','女'],
-              disabled: true
-            },
-            {
-              name: 'race',
-              chinesename: '民族',
-              value: '',
-              items: ['汉族','蒙古族','回族','藏族','维吾尔族',
-              '苗族','彝族','壮族','布依族','朝鲜族',
-              '满族', '侗族', '瑶族', '白族', '土家族', 
-              '哈尼族', '哈萨克族', '傣族', '黎族', '僳僳族',
-              '佤族','畲族','高山族','拉祜族','水族',
-              '东乡族','纳西族','景颇族','柯尔克孜族','土族',
-              '达斡尔族','仫佬族','羌族','布朗族','撒拉族',
-              '毛南族','仡佬族','锡伯族','阿昌族','普米族',
-              '塔吉克族','怒族','乌孜别克族','俄罗斯族','鄂温克族',
-              '德昂族','保安族','裕固族','京族','塔塔尔族',
-              '独龙族','鄂伦春族','赫哲族','门巴族','珞巴族',
-              '基诺族'],
-              rules: [
-                v => !!v || '请输入民族',
-              ],
-              type: 'select',
-            },
-            {
-              name: 'age',
-              chinesename: '年龄',
-              value: '',
-              rules: [
-                v => !!v || '需要填写年龄',
-                v => (v && parseInt(v)>=0 && parseInt(v)<=120) || '请填写0-120之间的数字',
-              ],
-              type: 'singleline',
-            },
-          ]
-        },
-        {
-          name: 'item2',
-          data: [
-            {
-              name: 'nativeplace',
-              chinesename: '籍贯（精确到县）',
-              value: '',
-              type: 'singleline',
-              rules: [
-                v => !!v || '请输入籍贯',
-              ]  
-            },
-            {
-              name: 'nowplace',
-              chinesename: '现家庭住址',
-              value: '',
-              type: 'singleline',
-              rules: [
-                v => !!v || '请输入家庭住址',
-              ] 
-            },
-            {
-              name: 'householdplace',
-              chinesename: '户口所在地',
-              value: '',
-              type: 'singleline',
-              rules: [
-                v => !!v || '请输入户口所在地',
-              ] 
-            },
-            {
-              name: 'urgentcontactname',
-              chinesename: '紧急联系人姓名',
-              value: '',
-              rules: [
-                v => !!v || '请输入紧急联系人姓名',
-                v => (v&&v.length>=2&&v.length<=8) || '请输入2-8个字符'
-              ],
-              type: 'singleline',
-            },
-            {
-              name: 'urgentcontactrelation',
-              chinesename: '紧急联系人关系',
-              value: '',
-              items: ['父子','母子','父女','母女','其他'],
-              type: 'select',
-              rules: [
-                v => !!v || '请输入紧急联系人关系',
-              ] 
-            },
-          ]
-        },
-        {
-          name: 'item3',
-          data: [
-            {
-              name: 'urgentcontactphone',
-              chinesename: '紧急联系人电话',
-              value: '',
-              rules: [
-                v => !!v || '请输入紧急联系人电话',
-                v => (v&&/^1[345789]\d{9}$/.test(v)) || '请输入正确的电话'
-              ],
-              type: 'singleline',
-            },
-            {
-              name: 'registerdtime',
-              chinesename: '登记时间',
-              value: '',
-              maxdate: (function(){
-                var date = new Date();
-                var monthstr = '';
-                var daystr = '';
-                if(date.getMonth()>=0&&date.getMonth()<=8){
-                  monthstr = monthstr + '0' + (date.getMonth()+1);
-                }
-                else{
-                  monthstr = monthstr + (date.getMonth()+1);
-                }
-                if(date.getDate()>=1&&date.getDate()<=9){
-                  daystr = daystr + '0' + date.getDate();
-                }
-                else{
-                  daystr = daystr + date.getDate();
-                }
-                return ''+ date.getFullYear() + '-' + monthstr + '-' + daystr; 
-              })(),
-              type: 'timeselect',
-              menu: false,
-            },
-            {
-              name: 'birthdate',
-              chinesename: '出生年月',
-              value: '',
-              maxdate: (function(){
-                var date = new Date();
-                var monthstr = '';
-                var daystr = '';
-                if(date.getMonth()>=0&&date.getMonth()<=8){
-                  monthstr = monthstr + '0' + (date.getMonth()+1);
-                }
-                else{
-                  monthstr = monthstr + (date.getMonth()+1);
-                }
-                if(date.getDate()>=1&&date.getDate()<=9){
-                  daystr = daystr + '0' + date.getDate();
-                }
-                else{
-                  daystr = daystr + date.getDate();
-                }
-                return ''+ date.getFullYear() + '-' + monthstr + '-' + daystr; 
-              })(),
-              type: 'timeselect',
-              menu: false,
-            },
-            {
-              name: 'idnum',
-              chinesename: '身份证号',
-              value: '',
-              rules: [
-                v => !!v || '请输入身份证号',
-                v => (v&&v.length==18) || '请输入正确的身份证号'
-              ],
-              type: 'singleline',
-            },
-            {
-              name: 'schoolstartyear',
-              chinesename: '入学年份',
-              value: '',
-              items: ['201309','201409','201509','201609','201709','201809','201909','202009'],
-              type: 'select',
-              rules: [
-                v => !!v || '请输入入学年份',
-              ]
-            },
-          ]
-        },
-        {
-          name: 'item5',
-          data: [
-            {
-              name: 'politics',
-              chinesename: '政治面貌',
-              value: '',
-              items: ['正式党员','预备党员','共青团员','群众'],
-              type: 'select',
-              rules: [
-                v => !!v || '请输入政治面貌',
-              ] 
-            },
-            {
-              name: 'phonenumber',
-              chinesename: '手机号',
-              value: '',
-              rules: [
-                v => !!v || '请输入电话',
-                v => (v&&/^1[345789]\d{9}$/.test(v)) || '请输入正确的电话'
-              ],
-              type: 'singleline',
-            },
-            {
-              name: 'schoolzone',
-              chinesename: '所属校区',
-              value: '',
-              items: ['学院路校区','沙河校区','杭州研究院','青岛研究院','苏州研究院','深圳实验室','昆明研究院'],
-              type: 'select',
-              rules: [
-                v => !!v || '请输入所属校区',
-              ] 
-            },
-            {
-              name: 'studenttype',
-              chinesename: '学生类型',
-              value: '',
-              items: ['本科','硕士','博士'],
-              type: 'select',
-              rules: [
-                v => !!v || '请输入学生类型',
-              ] 
-            },
-            {
-              name: 'classnum',
-              chinesename: '班号',
-              value: '',
-              type: 'singleline',
-              rules: [
-                v => !!v || '请输入班号',
-              ] 
-            },
-          ]
-        },
-        {
-          name: 'item6',
-          data: [
-            {
-              name: 'guider',
-              chinesename: '辅导员',
-              value: '',
-              type: 'singleline',
-              rules: [
-                v => !!v || '请输入班号',
-              ] 
-            },
-            {
-              name: 'fosterway',
-              chinesename: '培养方式',
-              value: '',
-              items: ['全日制定向','全日制非定向','非全日制'],
-              type: 'select',
-              rules: [
-                v => !!v || '请输入培养方式',
-              ] 
-            },
-            {
-              name: 'recentplace',
-              chinesename: '近期所在地',
-              value: '',
-              type: 'singleline',
-              rules: [
-                v => !!v || '请输入近期所在地',
-              ] 
-            },
-            {
-              name: 'labdoornum',
-              chinesename: '实验室门牌号',
-              value: '',
-              type: 'singleline',
-              rules: [
-                v => !!v || '请输入实验室门牌号',
-              ] 
-            },
-            {
-              name: 'outsideschoolplace',
-              chinesename: '校外住址',
-              value: '',
-              type: 'singleline',
-              rules: [
-                v => !!v || '请输入校外住址',
-              ] 
-            },
-          ]
-        },
-        {
-          name: 'item7',
-          data: [
-            {
-              name: 'specialproblem',
-              chinesename: '特殊问题',
-              value: '',
-              type: 'singleline',
-            },
-            {
-              name: 'professorname',
-              chinesename: '主导师姓名',
-              value: '',
-              rules: [
-                v => !!v || '请输入主导师姓名',
-                v => (v&&v.length>=2&&v.length<=8) || '请输入2-8个字符'
-              ],
-              type: 'singleline',
-            },
-            {
-              name: 'professorphonenumber',
-              chinesename: '主导师手机号',
-              value: '',
-              rules: [
-                v => !!v || '请输入主导师电话',
-                v => (v&&/^1[345789]\d{9}$/.test(v)) || '请输入正确的电话'
-              ],
-              type: 'singleline',
-            },
-            {
-              name: 'directprofessorname',
-              chinesename: '直带导师姓名',
-              value: '',
-              rules: [
-                v => (!v)||(v&&v.length>=2&&v.length<=8) || '请输入2-8个字符'
-              ],
-              type: 'singleline',
-            },
-            {
-              name: 'directprofessorphonenumber',
-              chinesename: '直带导师手机号',
-              value: '',
-              rules: [
-                v => (!v)||(v&&/^1[345789]\d{9}$/.test(v)) || '请输入正确的电话'
-              ],
-              type: 'singleline',
-            },
-          ]
-        },
-        {
-          name: 'item8',
-          data: [
-            {
-              name: 'undergraduateschool',
-              chinesename: '本科学校',
-              value: '',
-              type: 'singleline',
-              rules: [
-                v => !!v || '请输入本科学校',
-              ] 
-            },
-            {
-              name: 'undergraduatemajor',
-              chinesename: '本科专业',
-              value: '',
-              type: 'singleline',
-              rules: [
-                v => !!v || '请输入本科专业',
-              ] 
-            },
-            {
-              name: 'masterschool',
-              chinesename: '硕士学校',
-              value: '',
-              type: 'singleline',
-              rules: [
-                v => !!v || '请输入硕士学校',
-              ] 
-            },
-            {
-              name: 'mastermajor',
-              chinesename: '硕士专业',
-              value: '',
-              type: 'singleline',
-              rules: [
-                v => !!v || '请输入硕士专业',
-              ] 
-            },
-          ]
-        },
-        {
-          name: 'item9',
-          data: [
-            {
-              name: 'dormitoryarea',
-              chinesename: '宿舍区域',
-              value: '',
-              type: 'singleline',
-              rules: [
-                v => !!v || '请输入宿舍区域',
-              ] 
-            },
-            {
-              name: 'dormitorybuilding',
-              chinesename: '宿舍楼号',
-              value: '',
-              type: 'singleline',
-              rules: [
-                v => !!v || '请输入宿舍楼号',
-              ] 
-            },
-            {
-              name: 'dormitoryroom',
-              chinesename: '房间号',
-              value: '',
-              type: 'singleline',
-              rules: [
-                v => !!v || '请输入房间号',
-              ] 
-            },
-            {
-              name: 'dormitorybed',
-              chinesename: '床号',
-              value: '',
-              type: 'singleline',
-              rules: [
-                v => !!v || '请输入床号',
-              ] 
-            },
-          ]
-        },
-        {
-          name: 'item10',
-          data: [
-            {
-              name: 'activetime',
-              chinesename: '成为积极分子时间',
-              value: '',
-              type: 'timeselect',
-              menu: false,
-            },
-            {
-              name: 'score',
-              chinesename: '党课成绩',
-              value: '',
-              type: 'radio',
-              radiochoice: ['通过','未通过'],
-            },
-            {
-              name: 'activebranch',
-              chinesename: '积极分子支部名称',
-              value: '',
-              type: 'singleline',
-            },
-            {
-              name: 'preparedtime',
-              chinesename: '成为预备党员时间',
-              value: '',
-              type: 'timeselect',
-              menu: false,
-            },
-          ]
-        },
-        {
-          name: 'item11',
-          data: [
-            {
-              name: 'preparedbranch',
-              chinesename: '所在党支部名称',
-              value: '',
-              type: 'singleline',
-            },
-            {
-              name: 'formaltime',
-              chinesename: '转正时间',
-              value: '',
-              type: 'timeselect',
-              menu: false,
-            },
-            {
-              name: 'branch',
-              chinesename: '党支部名称',
-              value: '',
-              type: 'singleline',
-            },
-            {
-              name: 'secretaryname',
-              chinesename: '书记姓名',
-              value: '',
-              type: 'singleline',
-            },
-          ]
-        },
-        {
-          name: 'item12',
-          data: [
-            {
-              name: 'isatcollege',
-              chinesename: '组织关系是否在院',
-              value: '',
-              type: 'radio',
-              radiochoice: ['是', '否'],
-            },
-            {
-              name: 'ischangedbranch',
-              chinesename: '是否转过党支部',
-              value: '',
-              type: 'radio',
-              radiochoice: ['是', '否'],
-            },
-            {
-              name: 'changeinfo',
-              chinesename: '转党支部信息',
-              maxval:1,
-              valuelist: [
-                {
-                  index: 1,
-                  value: '',
-                  buttontext: '添加',
-                  func: function(obj,index){
-                    console.log(index);
-                    obj.maxval += 1;
-                    obj.valuelist.push({
-                      index: obj.maxval,
-                      value: '',
-                      buttontext: '删除',
-                      func: function(newobj,newindex){
-                        console.log(newobj);
-                        for(let i in obj.valuelist){
-                          if(obj.valuelist[i].index==newindex){
-                            obj.valuelist.splice(i,1);
-                          }
-                        }
-                      }
-                    });
-                  }
-                }
-              ],
-              type: 'addtextfield',
-            },
-          ]
-        },
+      form: {
+        name: "",
+        schoolid: "",
+        sex: "",
+        idnum: "",
+        birthdate: "",
+        age: "",
+        race: "",
+        schoolstartyear: "",
+        urgentcontactname: "",
+        urgentcontactrelation: "",
+        urgentcontactphone: "",
+        politics: "",
+        nativeplace: "",
+        nowplace: "",
+        householdplace: "",
+        phonenumber: "",
+        schoolzone: "",
+        studenttype: "",
+        fosterway: "",
+        classnum: "",
+        professorname: "",
+        professorphonenumber: "",
+        directprofessorname: "",
+        directprofessorphonenumber: "",
+        fulltimeguider: "",
+        partimeguider: "",
+        recentplace: "",
+        outsideschoolplace: "",
+        labdoornum: "",
+        undergraduateschool: "",
+        undergraduatemajor: "",
+        masterschool: "",
+        mastermajor: "",
+        phdschool: "",
+        phdmajor: "",
+        dormitoryarea: "",
+        dormitorybuilding: "",
+        dormitoryroom: "",
+        dormitorybed: "",
+        isformalmember: "",
+        isprobationarymember: "",
+        isactivist: "",
+        score: "",
+        formaltime: "",
+        preparedtime: "",
+        activetime: "",
+        branch: "",
+        secretaryname: "",
+        isatcollege: "",
+        ischangedbranch: "",
+        changebranchtime: "",
+        registerdtime: "",
+        imgsrc: ""
+      },
+      formaltime: {
+        menu: false,
+        value: ""
+      },
+      preparedtime: {
+        menu: false,
+        value: ""
+      },
+      activetime: {
+        menu: false,
+        value: ""
+      },
+      changebranchtime: {
+        menu: false,
+        value: ""
+      },
+      maxdate: (function () {
+        var date = new Date();
+        var monthstr = '';
+        var daystr = '';
+        if (date.getMonth() >= 0 && date.getMonth() <= 8) {
+          monthstr = monthstr + '0' + (date.getMonth() + 1);
+        } else {
+          monthstr = monthstr + (date.getMonth() + 1);
+        }
+        if (date.getDate() >= 1 && date.getDate() <= 9) {
+          daystr = daystr + '0' + date.getDate();
+        } else {
+          daystr = daystr + date.getDate();
+        }
+        return '' + date.getFullYear() + '-' + monthstr + '-' + daystr;
+      })(),
+      nameRules: [
+        v => !!v || '必须输入姓名',
+        v => (v && v.length >= 3 && v.length <= 10) || '姓名的长度须大于等于2且小于等于10',
       ],
+      ageRules: [
+        v => !!v || '必须输入年龄',
+        v => (v && parseInt(v) >= 15 && parseInt(v) <= 40) || '请填写15-40之间的数字',
+      ],
+      phoneRules: [
+        v => !!v || '请输入手机号码',
+        v => (v && /^1[345789]\d{9}$/.test(v)) || '请输入正确的手机号码'
+      ],
+      formData: ""
     }
   },
   methods: {
-    changeimg(item){
-       this.formlist[0].data[0].files = item.target.files;
-       this.formlist[0].data[1].src = window.webkitURL.createObjectURL(this.formlist[0].data[0].files[0]);
-    },
-    submit(){
-      let JsonObj = new Object();
-
-      for (let formlistElement of this.formlist) {
-        var data = formlistElement.data;
-        for(var i=0; i<data.length;i++){
-          JsonObj[data[i].name]=data[i].value;
-        }
+    handleFileChange() {
+      // console.log(e.size);
+      let inputDOM = this.$refs.inputer;
+      this.file = inputDOM.files[0];// 通过DOM取文件数据
+      let size = Math.floor(this.file.size);//计算文件的大小
+      console.log(size);
+      if (size > 512 * 2034) {
+        alert("请不要上传大于500KB的图片文件！");
+      } else {
+        this.formData = new FormData();//new一个formData事件
+        this.formData.append("file", this.file); //将file属性添加到formData里
+        //此时formData就是我们要向后台传的参数了
       }
-      console.log(JsonObj);
+    },
 
+    // changeimg(item) {
+    //   this.formlist[0].data[0].files = item.target.files;
+    //   this.formlist[0].data[1].src = window.webkitURL.createObjectURL(this.formlist[0].data[0].files[0]);
+    // },
+    // submitImg() {
+    //   axios({
+    //     url: '/api/submitimg',
+    //     method: 'post',
+    //     async: false,
+    //     // params: {
+    //     //   stuNum: this.name,
+    //     // }
+    //     data: this.formData,
+    //     headers: {
+    //       'Content-Type': 'multipart/form-data' //值得注意的是，这个地方一定要把请求头更改一下
+    //     }
+    //   }).then(res => {
+    //     if (res.data.flag) {
+    //       console.log("图片上传成功！");
+    //       console.log(res.data.filename);
+    //       this.form.imgsrc = res.data.filename;
+    //       console.log(this.form.imgsrc);
+    //       console.log("图片上传成功！");
+    //     } else {
+    //       console.log("图片上传失败！");
+    //     }
+    //   })
+    // },
+    submit() {
+      if (this.formData !== "") {
+        // console.log("有图片");
+        //有图片需要先上传图片
+        axios({
+          url: '/api/submitimg',
+          method: 'post',
+          async: false,
+          // params: {
+          //   stuNum: this.name,
+          // }
+          data: this.formData,
+          headers: {
+            'Content-Type': 'multipart/form-data' //值得注意的是，这个地方一定要把请求头更改一下
+          }
+        }).then(res => {
+          if (res.data.flag) {
+            console.log("图片上传成功！");
+            console.log(res.data.filename);
+            this.form.imgsrc = res.data.filename;
+            console.log(this.form.imgsrc);
+            console.log("图片上传成功！");
+            // // 注意上面的这个函数和下面是异步执行的；submitImg未执行完时，下面就开始执行了，
+            //分开写时，两个请求是同时发的
+            // console.log("图片路径");
+            // console.log(this.form.imgsrc);
+            this.submitForm();
+          } else {
+            console.log("图片上传失败！");
+          }
+        })
+
+      } else {
+        // console.log("没有图片");
+        //没有图片就不用先上传图片了
+        this.submitForm();
+      }
+    },
+    submitForm() {
       axios({
         url: '/api/submit',
         method: 'post',
         // params: {
         //   stuNum: this.name,
         // }
-        data: JsonObj
+        data: this.form
       }).then(res => {
-        // var flag = res.data.flag;
-        console.log(res);
-        if(res.data.flag){
+        if (res.data.flag) {
           alert("保存成功！");
-        }else{
+        } else {
           alert("保存失败！");
         }
       })
     }
+  },
+  mounted() {
+    var token = localStorage.getItem('Authorization');
+    axios({
+      url: '/api/auth',
+      method: 'post',
+      params: {
+        token: token, //这是请求头
+      }
+      // data: {'token': token}  //这是请求体
+    }).then(res => {
+      console.log(res);
+      var flag = res.data.flag;
+      // console.log("校验成功？", res.data);
+      this.form.name = res.data.stuName;
+      this.form.schoolid = res.data.stuNum;
+      if (flag) {
+        axios({
+          url: '/api/getinfo',
+          method: 'post',
+          params: {
+            token: token, //这是请求头
+          }
+          // data: {'token': token}  //这是请求体
+        }).then(res => {
+          // console.log(res);
+          var flag = res.data.flag;
+          // console.log("校验成功？", res.data);
+          if (flag) {
+            // next();
+            console.log(res.data);
+            this.form = res.data.Stuinfo;
+          }
+        })
+
+      } else {
+        window.location.href = '/#/login';
+      }
+    })
+
   }
+
 }
 </script>
 
 <style scoped>
+.inputClass {
+  font-size: 14px;
+  width: 100%;
+  transform: scale(0.75, 0.75);
+}
 </style>

@@ -4,7 +4,7 @@
     <div class="party_affair_table">
       <v-dialog v-model="selectdialog" width="1000px" persistent>
         <template v-slot:activator="{ on, attrs }">
-          <v-btn 
+          <v-btn
             depressed
             small
             style="border:1px solid rgba(71, 112, 166, 0.996); width:100px; height:38px; color:rgba(71, 112, 166, 0.996); font-size:13px;"
@@ -479,7 +479,7 @@ export default {
               name: 'changeinfo',
               chinesename: '转党支部信息',
               maxval:1,
-              valuelist: [
+              value: [
                 {
                   index: 1,
                   value: '',
@@ -487,15 +487,15 @@ export default {
                   func: function(obj,index){
                     console.log(index);
                     obj.maxval += 1;
-                    obj.valuelist.push({
+                    obj.value.push({
                       index: obj.maxval,
                       value: '',
                       buttontext: '删除',
                       func: function(newobj,newindex){
                         console.log(newobj);
-                        for(let i in obj.valuelist){
-                          if(obj.valuelist[i].index==newindex){
-                            obj.valuelist.splice(i,1);
+                        for(let i in obj.value){
+                          if(obj.value[i].index==newindex){
+                            obj.value.splice(i,1);
                           }
                         }
                       }
@@ -611,7 +611,7 @@ export default {
       }
       let obj = [
         { text: '', value: 'data-table-expand' },
-        { text: '操作', value: 'operation', align: 'center', sortable:false },        
+        { text: '操作', value: 'operation', align: 'center', sortable:false },
       ];
       for(let k of this.infolist){
         if(k[2]){
@@ -626,7 +626,7 @@ export default {
       handler(val){
         console.log(val);
       },
-      deep:true 
+      deep:true
     },
     checkbox(val){
       if(val){
@@ -637,7 +637,7 @@ export default {
       else{
         for(let i of this.checkinfolist){
           i[2] = false;
-        }  
+        }
       }
     },
     checkinfolist:{
