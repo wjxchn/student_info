@@ -437,7 +437,7 @@
               </v-row>
 
 
-              <v-row dense class="ma-0 pa-0" v-show="form.ischangedbranch=='是'">
+              <v-row dense class="ma-0 pa-0" v-show="(form.isformalmember=='是' || form.isprobationarymember=='是') && form.ischangedbranch=='是'">
                 <v-col cols="6" xs="2" sm="2" md="2" lg="2" xl="2">
                   <div style="margin-top: 5px;">
                     <v-btn depressed>
@@ -468,7 +468,7 @@
                   </v-menu>
                 </v-col>
               </v-row>
-              <v-row dense class="ma-0 pa-0" v-show="form.ischangedbranch=='是'">
+              <v-row dense class="ma-0 pa-0" v-show="(form.isformalmember=='是' || form.isprobationarymember=='是') && form.ischangedbranch=='是'">
                 <v-col cols="6" xs="3" sm="3" md="3" lg="3" xl="3">
                   <v-select
                       :items="branchnamearr"
