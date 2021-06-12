@@ -289,6 +289,7 @@
           alert('删除失败');
         })
       },
+      // 提交事迹接口
       confirmBtnClick() {
         var today = new Date();
         var year = today.getFullYear();
