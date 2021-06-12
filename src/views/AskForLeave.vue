@@ -126,7 +126,7 @@
                            @click="cancelBtnClick">取消
                     </v-btn>
                     <v-btn color="rgba(71, 112, 166, 0.996078431372549)" dark depressed width="50px"
-                           style="margin-top:20px;margin-left:10px;" @click="confirmBtnClick">确定
+                           style="margin-top:20px;margin-left:10px;" @click="confirmBtnClick">提交
                     </v-btn>
                   </div>
                 </v-col>
@@ -282,6 +282,43 @@ export default {
         })
       }
     }
+  },
+  mounted() {
+    var token = localStorage.getItem('Authorization');
+    axios({
+      url: '/api/auth',
+      method: 'post',
+      params: {
+        token: token, //这是请求头
+      }
+      // data: {'token': token}  //这是请求体
+    }).then(res => {
+      console.log(res);
+      var flag = res.data.flag;
+      if (flag) {
+        axios({
+          url: '/api/getinfo',
+          method: 'post',
+          params: {
+            token: token, //这是请求头
+          }
+          // data: {'token': token}  //这是请求体
+        }).then(res => {
+          var flag = res.data.flag;
+          if (flag) {
+            console.log(res.data);
+            this.formlist[0].data[0].value = res.data.Stuinfo.schoolid;
+            this.formlist[0].data[1].value = res.data.Stuinfo.name;
+            this.formlist[0].data[2].value = res.data.Stuinfo.phonenumber;
+            this.formlist[0].data[3].value = res.data.Stuinfo.professorname;
+          }
+        })
+
+      } else {
+        window.location.href = '/#/login';
+      }
+    })
+
   }
 }
 </script>

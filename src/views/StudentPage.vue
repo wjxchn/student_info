@@ -15,9 +15,9 @@
                 <v-col class="py-0">
                   <v-list-item color="rgba(0, 0, 0, .4)" dark>
                     <v-list-item-content>
-                      <v-list-item-title class="text-h6" v-text="form.name">你的姓名
-                      </v-list-item-title>
+                      <v-list-item-title class="text-h6" v-text="form.name">你的姓名</v-list-item-title>
                       <v-list-item-subtitle v-text="form.schoolid">你的学号</v-list-item-subtitle>
+                      <v-list-item-subtitle @click="transferClick()" id="imgmessage">点击上传头像</v-list-item-subtitle>
                     </v-list-item-content>
                   </v-list-item>
                 </v-col>
@@ -25,12 +25,21 @@
             </v-img>
           </v-card>
 
-          <v-form ref="form" v-model="valid" :lazy-validation="lazy">
 
+          <v-form ref="form" v-model="valid" :lazy-validation="lazy">
             <v-container class="ma-0 pa-0 pt-4 pl-2 pr-2" fluid>
               <div style="border-radius: 30px;">
                 <h1 style="margin-left: 10px;margin-bottom: 30px;">个人基本信息</h1>
               </div>
+              <v-row dense class="ma-0 pa-0" id="imgpreshow" style="display: none;">
+                <div style="margin:0 auto;width: 150px;">
+                  <h3 align="center" style="margin-bottom: 20px;">照片预览</h3>
+                  <input type="file" accept=".jpg;.png;.jpeg;" id="fileExport" @change="handleFileChange" ref="inputer"
+                         style="display: none;">
+                  <img id="yourimg" src="" style="width: 150px;">
+                </div>
+              </v-row>
+
               <v-row dense class="ma-0 pa-0">
                 <v-col cols="6" xs="3" sm="3" md="3" lg="3" xl="3">
                   <v-text-field v-model="form.name" :rules="nameRules" label="姓名" required readonly></v-text-field>
@@ -55,7 +64,7 @@
 
               <v-row dense class="ma-0 pa-0">
                 <v-col cols="6" xs="3" sm="3" md="3" lg="3" xl="3">
-                  <v-text-field v-model="form.birthdate" label="出生年月日"  readonly required></v-text-field>
+                  <v-text-field v-model="form.birthdate" label="出生年月日" readonly required></v-text-field>
                 </v-col>
                 <v-col cols="6" xs="3" sm="3" md="3" lg="3" xl="3">
                   <v-text-field v-model="form.age" :rules="ageRules" readonly label="年龄" required></v-text-field>
@@ -118,18 +127,6 @@
                   <v-text-field v-model="form.phonenumber" :rules="phoneRules" label="本人手机号码" required></v-text-field>
                 </v-col>
               </v-row>
-              <v-col cols="6" xs="3" sm="3" md="3" lg="3" xl="3">
-                <!--                <v-file-input-->
-                <!--                    label="非证件头像图片上传"-->
-                <!--                    accept="image/png, image/jpeg, image/bmp"-->
-                <!--                    outlined-->
-                <!--                    prepend-icon="mdi-camera"-->
-                <!--                    dense-->
-                <!--                ></v-file-input>-->
-                <span>上传头像文件：</span>
-                <input type="file" accept=".jpg;.png;.jpeg;" id="fileExport" @change="handleFileChange" ref="inputer">
-
-              </v-col>
             </v-container>
 
             <v-container class="ma-0 pa-0 pt-4 pl-2 pr-2" fluid>
@@ -314,6 +311,13 @@
               <v-row dense class="ma-0 pa-0">
 
                 <v-col cols="6" xs="2" sm="2" md="2" lg="2" xl="2" v-show="form.isformalmember=='是'">
+                  <div style="margin-top: 5px;">
+                    <v-btn depressed>
+                      从预备党员转为正式党员日期
+                    </v-btn>
+                  </div>
+                </v-col>
+                <v-col cols="6" xs="2" sm="2" md="2" lg="2" xl="2" v-show="form.isformalmember=='是'">
                   <v-menu ref="formaltime.menu" v-model="formaltime.menu" :close-on-content-click="false"
                           transition="scale-transition"
                           offset-y
@@ -334,15 +338,15 @@
                     </v-date-picker>
                   </v-menu>
                 </v-col>
-                <v-col cols="6" xs="2" sm="2" md="2" lg="2" xl="2" v-show="form.isformalmember=='是'">
+
+                <v-col cols="6" xs="2" sm="2" md="2" lg="2" xl="2"
+                       v-show="form.isformalmember=='是' || form.isprobationarymember=='是'">
                   <div style="margin-top: 5px;">
                     <v-btn depressed>
-                      转正式党员时间
+                      从积极分子转为预备党员日期
                     </v-btn>
                   </div>
                 </v-col>
-
-
                 <v-col cols="6" xs="2" sm="2" md="2" lg="2" xl="2"
                        v-show="form.isformalmember=='是' || form.isprobationarymember=='是'">
                   <v-menu ref="preparedtime.menu" v-model="preparedtime.menu" :close-on-content-click="false"
@@ -364,15 +368,15 @@
                     </v-date-picker>
                   </v-menu>
                 </v-col>
+
                 <v-col cols="6" xs="2" sm="2" md="2" lg="2" xl="2"
-                       v-show="form.isformalmember=='是' || form.isprobationarymember=='是'">
+                       v-show="form.isformalmember=='是' || form.isprobationarymember=='是' || form.isactivist=='是'">
                   <div style="margin-top: 5px;">
                     <v-btn depressed>
-                      转预备党员时间
+                      被党组织确定为积极分子日期
                     </v-btn>
                   </div>
                 </v-col>
-
                 <v-col cols="6" xs="2" sm="2" md="2" lg="2" xl="2"
                        v-show="form.isformalmember=='是' || form.isprobationarymember=='是' || form.isactivist=='是'">
                   <v-menu ref="formaltime.menu" v-model="activetime.menu" :close-on-content-click="false"
@@ -394,15 +398,6 @@
                     </v-date-picker>
                   </v-menu>
                 </v-col>
-                <v-col cols="6" xs="2" sm="2" md="2" lg="2" xl="2"
-                       v-show="form.isformalmember=='是' || form.isprobationarymember=='是' || form.isactivist=='是'">
-                  <div style="margin-top: 5px;">
-                    <v-btn depressed>
-                      成为积极分子时间
-                    </v-btn>
-                  </div>
-                </v-col>
-
               </v-row>
 
 
@@ -423,14 +418,16 @@
                       v-model="form.secretaryname"
                   ></v-select>
                 </v-col>
-                <v-col cols="6" xs="3" sm="3" md="3" lg="3" xl="3">
+                <v-col cols="6" xs="3" sm="3" md="3" lg="3" xl="3"
+                       v-show="form.isformalmember=='是' || form.isprobationarymember=='是' ">
                   <v-select
                       :items="['是', '否']"
                       label="组织关系是否在院"
                       v-model="form.isatcollege"
                   ></v-select>
                 </v-col>
-                <v-col cols="6" xs="3" sm="3" md="3" lg="3" xl="3">
+                <v-col cols="6" xs="3" sm="3" md="3" lg="3" xl="3"
+                       v-show="form.isformalmember=='是' || form.isprobationarymember=='是'">
                   <v-select
                       :items="['是', '否']"
                       label="是否转过党"
@@ -439,8 +436,17 @@
                 </v-col>
               </v-row>
 
-              <v-row dense class="ma-0 pa-0">
-                <v-col cols="6" xs="2" sm="2" md="2" lg="2" xl="2" v-show="form.ischangedbranch=='是'">
+
+              <v-row dense class="ma-0 pa-0" v-show="(form.isformalmember=='是' || form.isprobationarymember=='是') && form.ischangedbranch=='是'">
+                <v-col cols="6" xs="2" sm="2" md="2" lg="2" xl="2">
+                  <div style="margin-top: 5px;">
+                    <v-btn depressed>
+                      转党支部日期
+                    </v-btn>
+                  </div>
+                </v-col>
+
+                <v-col cols="6" xs="2" sm="2" md="2" lg="2" xl="2">
                   <v-menu ref="changebranchtime.menu" v-model="changebranchtime.menu" :close-on-content-click="false"
                           transition="scale-transition"
                           offset-y
@@ -461,13 +467,22 @@
                     </v-date-picker>
                   </v-menu>
                 </v-col>
+              </v-row>
+              <v-row dense class="ma-0 pa-0" v-show="(form.isformalmember=='是' || form.isprobationarymember=='是') && form.ischangedbranch=='是'">
+                <v-col cols="6" xs="3" sm="3" md="3" lg="3" xl="3">
+                  <v-select
+                      :items="branchnamearr"
+                      label="原党支部名称"
+                      v-model="form.changebranchold"
+                  ></v-select>
+                </v-col>
 
-                <v-col cols="6" xs="2" sm="2" md="2" lg="2" xl="2" v-show="form.ischangedbranch=='是'">
-                  <div style="margin-top: 5px;">
-                    <v-btn depressed>
-                      转党支部日期
-                    </v-btn>
-                  </div>
+                <v-col cols="6" xs="3" sm="3" md="3" lg="3" xl="3">
+                  <v-select
+                      :items="branchnamearr"
+                      label="后党支部名称"
+                      v-model="form.changebranchnew"
+                  ></v-select>
                 </v-col>
 
               </v-row>
@@ -480,10 +495,7 @@
         <!--        <v-btn color="success" width="100px" style="margin-top:20px;margin-bottom:40px;" @click="submit"-->
         <!--               :disabled="!valid">确定-->
         <!--        </v-btn>-->
-        <v-btn color="success" width="100px" style="margin-top:20px;margin-bottom:40px;" @click="submit">确定</v-btn>
-        <!--        <v-btn color="success" width="100px" style="margin-top:20px;margin-bottom:40px;" @click="submitImg">-->
-        <!--          确定（测试上传图片用）-->
-        <!--        </v-btn>-->
+        <v-btn color="success" width="100px" style="margin-top:20px;margin-bottom:40px;" @click="submit">提交信息</v-btn>
       </div>
     </div>
 
@@ -567,6 +579,8 @@ export default {
         isatcollege: "",
         ischangedbranch: "",
         changebranchtime: "",
+        changebranchold: "",
+        changebranchtnew: "",
         registerdtime: "",
         imgsrc: ""
       },
@@ -691,6 +705,10 @@ export default {
     },
   },
   methods: {
+    transferClick() {
+      document.getElementById("fileExport").click();
+      // document.getElementById("imgmessage").innerText="已选择，再次点击可重新选择图片";
+    },
     genfromidnum() {
       if (this.form.idnum.length == 18) {
         var idnum = this.form.idnum;
@@ -715,7 +733,18 @@ export default {
         this.formData = new FormData();//new一个formData事件
         this.formData.append("file", this.file); //将file属性添加到formData里
         //此时formData就是我们要向后台传的参数了
+
+        //下面是预览图片的内容
+        console.log("xxx");
+        var reader = new FileReader();  //调用FileReader
+        reader.readAsDataURL(this.file); //将文件读取为 DataURL(base64)
+        reader.onload = function (evt) {   //读取操作完成时触发。
+          document.getElementById("yourimg").setAttribute('src', evt.target.result);  //将img标签的src绑定为DataURL
+          document.getElementById("imgpreshow").style.display = "block";
+        };
       }
+
+
     },
 
     // changeimg(item) {

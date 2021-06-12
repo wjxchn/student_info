@@ -80,7 +80,7 @@
             <v-form
               ref="form"
               v-model="valid"
-              :lazy-validation="lazy"
+              :lazy-validation="false"
             >
               <v-container>
                 <v-row dense no-gutters>
@@ -105,6 +105,7 @@
                             required
                             outlined
                             dense
+                            :rules="nameRules"
                             style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
                           ></v-text-field>                        
                         </v-col>
@@ -118,6 +119,7 @@
                             required
                             outlined
                             dense
+                            :rules="[v => !!v || '请输入学号',]"
                             style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
                           ></v-text-field>
                         </v-col>
@@ -146,7 +148,7 @@
                                 style="font-size:20px;width:100%;transform:scale(0.75,0.75);"
                               ></v-text-field>
                             </template>
-                            <v-date-picker v-model="addform.activetime" no-title scrollable>
+                            <v-date-picker v-model="addform.activetime" no-title scrollable :max="maxdate">
                               <v-spacer></v-spacer>
                               <v-btn text color="primary" @click="activetimemenu = false">Cancel</v-btn>
                               <v-btn text color="primary" @click="activetimemenu = false">OK</v-btn>
@@ -205,7 +207,7 @@
                                 style="font-size:20px;width:100%;transform:scale(0.75,0.75);"
                               ></v-text-field>
                             </template>
-                            <v-date-picker v-model="addform.preparedtime" no-title scrollable>
+                            <v-date-picker v-model="addform.preparedtime" no-title scrollable :max="maxdate">
                               <v-spacer></v-spacer>
                               <v-btn text color="primary" @click="preparedtimemenu = false">Cancel</v-btn>
                               <v-btn text color="primary" @click="preparedtimemenu = false">OK</v-btn>
@@ -250,7 +252,7 @@
                                 style="font-size:20px;width:100%;transform:scale(0.75,0.75);"
                               ></v-text-field>
                             </template>
-                            <v-date-picker v-model="addform.formaltime" no-title scrollable>
+                            <v-date-picker v-model="addform.formaltime" no-title scrollable :max="maxdate">
                               <v-spacer></v-spacer>
                               <v-btn text color="primary" @click="formaltimemenu = false">Cancel</v-btn>
                               <v-btn text color="primary" @click="formaltimemenu = false">OK</v-btn>
@@ -309,7 +311,7 @@
                                 style="font-size:20px;width:100%;transform:scale(0.75,0.75);"
                               ></v-text-field>
                             </template>
-                            <v-date-picker v-model="addform.buildtime" no-title scrollable>
+                            <v-date-picker v-model="addform.buildtime" no-title scrollable :max="maxdate">
                               <v-spacer></v-spacer>
                               <v-btn text color="primary" @click="buildtimemenu = false">Cancel</v-btn>
                               <v-btn text color="primary" @click="buildtimemenu = false">OK</v-btn>
@@ -419,7 +421,7 @@
           <v-card-actions>
             <div style="margin:0 auto;">
             <v-btn color="#EBECF1" @click="adddialog = false" dark depressed style="color:rgba(71, 112, 166, 0.996078431372549);margin-top:10px;margin-right:10px;margin-bottom:10px;">取消</v-btn>
-            <v-btn color="rgba(71, 112, 166, 0.996078431372549)" @click="adddialog = false" dark depressed style="margin-top:10px;margin-left:10px;margin-bottom:10px;">添加</v-btn>
+            <v-btn color="rgba(71, 112, 166, 0.996078431372549)" @click="saveadd()" dark depressed style="margin-top:10px;margin-left:10px;margin-bottom:10px;">添加</v-btn>
             </div>
           </v-card-actions>
         </v-card>
@@ -509,7 +511,7 @@
             </v-container>
           </td>
         </template>
-        <template v-slot:item.operation>
+        <template v-slot:item.operation="{item}">
           <v-dialog v-model="changedialog" width="1200px" persistent>
             <template v-slot:activator="{ on, attrs }">
               <v-btn
@@ -518,6 +520,7 @@
                 style="background-color:white;border:1px solid grey;"
                 v-bind="attrs"
                 v-on="on"
+                @click="editfunc(item)"
               >
                 编辑
               </v-btn>
@@ -530,7 +533,7 @@
                 <v-form
                   ref="form"
                   v-model="valid"
-                  :lazy-validation="lazy"
+                  :lazy-validation="false"
                 >
                   <v-container>
                     <v-row dense no-gutters>
@@ -596,7 +599,7 @@
                                     style="font-size:20px;width:100%;transform:scale(0.75,0.75);"
                                   ></v-text-field>
                                 </template>
-                                <v-date-picker v-model="changeform.activetime" no-title scrollable>
+                                <v-date-picker v-model="changeform.activetime" no-title scrollable :max="maxdate">
                                   <v-spacer></v-spacer>
                                   <v-btn text color="primary" @click="changeactivetimemenu = false">Cancel</v-btn>
                                   <v-btn text color="primary" @click="changeactivetimemenu = false">OK</v-btn>
@@ -655,7 +658,7 @@
                                     style="font-size:20px;width:100%;transform:scale(0.75,0.75);"
                                   ></v-text-field>
                                 </template>
-                                <v-date-picker v-model="changeform.preparedtime" no-title scrollable>
+                                <v-date-picker v-model="changeform.preparedtime" no-title scrollable :max="maxdate">
                                   <v-spacer></v-spacer>
                                   <v-btn text color="primary" @click="changepreparedtimemenu = false">Cancel</v-btn>
                                   <v-btn text color="primary" @click="changepreparedtimemenu = false">OK</v-btn>
@@ -700,7 +703,7 @@
                                     style="font-size:20px;width:100%;transform:scale(0.75,0.75);"
                                   ></v-text-field>
                                 </template>
-                                <v-date-picker v-model="changeform.formaltime" no-title scrollable>
+                                <v-date-picker v-model="changeform.formaltime" no-title scrollable :max="maxdate">
                                   <v-spacer></v-spacer>
                                   <v-btn text color="primary" @click="changeformaltimemenu = false">Cancel</v-btn>
                                   <v-btn text color="primary" @click="changeformaltimemenu = false">OK</v-btn>
@@ -759,7 +762,7 @@
                                     style="font-size:20px;width:100%;transform:scale(0.75,0.75);"
                                   ></v-text-field>
                                 </template>
-                                <v-date-picker v-model="changeform.buildtime" no-title scrollable>
+                                <v-date-picker v-model="changeform.buildtime" no-title scrollable :max="maxdate">
                                   <v-spacer></v-spacer>
                                   <v-btn text color="primary" @click="changebuildtimemenu = false">Cancel</v-btn>
                                   <v-btn text color="primary" @click="changebuildtimemenu = false">OK</v-btn>
@@ -869,12 +872,12 @@
               <v-card-actions>
                 <div style="margin:0 auto;">
                 <v-btn color="#EBECF1" @click="changedialog = false" dark depressed style="color:rgba(71, 112, 166, 0.996078431372549);margin-top:10px;margin-right:10px;margin-bottom:10px;">取消</v-btn>
-                <v-btn color="rgba(71, 112, 166, 0.996078431372549)" @click="changedialog = false" dark depressed style="margin-top:10px;margin-left:10px;margin-bottom:10px;">添加</v-btn>
+                <v-btn color="rgba(71, 112, 166, 0.996078431372549)" @click="savechange(item)" dark depressed style="margin-top:10px;margin-left:10px;margin-bottom:10px;">保存</v-btn>
                 </div>
               </v-card-actions>
             </v-card>
           </v-dialog>
-          <v-btn depressed small style="margin-left:30px;background-color:rgba(71, 112, 166, 0.996078431372549);color:white;">删除</v-btn>
+          <v-btn depressed small style="margin-left:30px;background-color:rgba(71, 112, 166, 0.996078431372549);color:white;" @click="deletefunc(item)">删除</v-btn>
         </template>
       </v-data-table>
     </div>
@@ -886,21 +889,15 @@
           </div>
           <div style="display: inline-block;float:right;padding-right:20px;width:20%;">
             <v-btn
-              :loading="loading3"
-              :disabled="loading3"
               color="rgba(128, 152, 192, 0.8)"
               class="ma-2 white--text"
-              @click="loader = 'loading3'"
               small
             >
               导出
             </v-btn>
             <v-btn
-              :loading="loading3"
-              :disabled="loading3"
               color="rgba(128, 152, 192, 0.8)"
               class="ma-2 white--text"
-              @click="loader = 'loading3'"
               small
             >
               生成简历
@@ -1098,9 +1095,67 @@ export default {
           changeinfo: '1.xxxx',
         }
       ],
+      maxdate: (function () {
+        var date = new Date();
+        var monthstr = '';
+        var daystr = '';
+        if (date.getMonth() >= 0 && date.getMonth() <= 8) {
+          monthstr = monthstr + '0' + (date.getMonth() + 1);
+        } else {
+          monthstr = monthstr + (date.getMonth() + 1);
+        }
+        if (date.getDate() >= 1 && date.getDate() <= 9) {
+          daystr = daystr + '0' + date.getDate();
+        } else {
+          daystr = daystr + date.getDate();
+        }
+        return '' + date.getFullYear() + '-' + monthstr + '-' + daystr;
+      })(),
+      nameRules: [
+        v => !!v || '必须输入姓名',
+        v => (v && v.length >= 2 && v.length <= 10) || '姓名的长度须大于等于2且小于等于10',
+      ],
+      ageRules: [
+        v => !!v || '必须输入年龄',
+        v => (v && parseInt(v) >= 15 && parseInt(v) <= 40) || '请填写15-40之间的数字',
+      ],
+      phoneRules: [
+        v => !!v || '请输入手机号码',
+        v => (v && /^1[345789]\d{9}$/.test(v)) || '请输入正确的手机号码'
+      ],
     }
   },
   methods: {
+    saveadd(){
+      console.log(this.addform);
+      this.adddialog = false;
+    },
+    editfunc(item){
+        this.changeform.name = item.name;
+        this.changeform.schoolid = item.schoolid;
+        this.changeform.activetime = item.activetime;
+        this.changeform.score = item.score;
+        this.changeform.activebranch = item.activebranch;
+        this.changeform.preparedtime = item.preparedtime;
+        this.changeform.preparedbranch = item.preparedbranch;
+        this.changeform.formaltime = item.formaltime;
+        this.changeform.branch = item.branch;
+        this.changeform.buildtime = item.buildtime;
+        this.changeform.secretaryname = item.secretaryname;
+        this.changeform.formalmembernum = item.formalmembernum;
+        this.changeform.preparedmembernum = item.preparedmembernum;
+        this.changeform.activemembernum = item.activemembernum;
+        this.changeform.isatcollege = item.isatcollege;
+        this.changeform.ischangedbranch = item.ischangedbranch;
+        this.changeform.changeinfo = item.changeinfo;
+    },
+    deletefunc(item){
+      console.log(item);
+    },
+    savechange(item){
+      console.log(item);
+      this.changedialog = false;
+    },
     getstr(item,name){
       return item[name[1]];
     },
@@ -1126,12 +1181,6 @@ export default {
     }
   },
   watch:{
-    formlist:{
-      handler(val){
-        console.log(val);
-      },
-      deep:true
-    },
     checkbox(val){
       if(val){
         for(let i of this.checkinfolist){
