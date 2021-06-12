@@ -124,7 +124,7 @@
                            @click="cancelBtnClick">取消
                     </v-btn>
                     <v-btn color="rgba(71, 112, 166, 0.996078431372549)" dark depressed width="50px"
-                           style="margin-top:20px;margin-left:10px;" @click="confirmBtnClick">确定
+                           style="margin-top:20px;margin-left:10px;" @click="confirmBtnClick">提交
                     </v-btn>
                   </div>
                 </v-col>
