@@ -163,15 +163,9 @@
                           <v-subheader class="ma-0 pa-0" style="font-size:10px;">性别</v-subheader>
                         </v-col>
                         <v-col cols="8" class="ma-0 pa-0">
-                          <v-radio-group v-model="addform.sex" row style="width=:100%;transform:scale(0.75,0.75);" class="ma-2 pa-0">
-                            <v-radio
-                              v-for="i in sexchoice"
-                              :key="i"
-                              :label="i"
-                              :value="i"
-                              style="font-size:10px;"
-                            ></v-radio>
-                          </v-radio-group>
+                          <v-select :items="['男','女']" v-model="addform.sex" outlined dense
+                            style="width=:100%;transform:scale(0.75,0.75);font-size:15px;"
+                          ></v-select>
                         </v-col>
                       </v-row>
                     </v-container>
@@ -181,14 +175,14 @@
                           <v-subheader class="ma-0 pa-0" style="font-size:10px;">民族</v-subheader>
                         </v-col>
                         <v-col cols="8" class="ma-0 pa-0">
-                          <v-text-field
-                              class="ma-0 pa-0"
+                          <v-select
+                              :items="['汉族', '蒙古族', '回族', '藏族', '维吾尔族','苗族', '彝族', '壮族', '布依族', '朝鲜族','满族', '侗族', '瑶族', '白族', '土家族','哈尼族', '哈萨克族', '傣族', '黎族', '僳僳族','佤族', '畲族', '高山族', '拉祜族', '水族','东乡族', '纳西族', '景颇族', '柯尔克孜族', '土族','达斡尔族', '仫佬族', '羌族', '布朗族', '撒拉族','毛南族','仡佬族', '锡伯族', '阿昌族', '普米族','塔吉克族', '怒族', '乌孜别克族', '俄罗斯族', '鄂温克族', '德昂族', '保安族', '裕固族', '京族', '塔塔尔族','独龙族', '鄂伦春族', '赫哲族', '门巴族', '珞巴族','基诺族']"
                               v-model="addform.race"
                               required
                               outlined
                               dense
                               style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
-                            ></v-text-field>
+                          ></v-select>
                         </v-col>
                       </v-row>
                     </v-container>
@@ -298,15 +292,13 @@
                           <v-subheader class="ma-0 pa-0" style="font-size:10px;">紧急联系人关系</v-subheader>
                         </v-col>
                         <v-col cols="8" class="ma-0 pa-0">
-                          <v-text-field
-                            class="ma-0 pa-0"
+                          <v-select
+                            :items="['父子', '母子', '父女', '母女', '其他']"
                             v-model="addform.urgentcontactrelation"
-                            required
                             outlined
                             dense
-                            :rules="[v => !!v || '请输入紧急联系人关系',]"
                             style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
-                          ></v-text-field>
+                          ></v-select>
                         </v-col>
                       </v-row>
                     </v-container>
@@ -614,14 +606,13 @@
                           <v-subheader class="ma-0 pa-0" style="font-size:10px;">入学年份</v-subheader>
                         </v-col>
                         <v-col cols="8" class="ma-0 pa-0">
-                          <v-text-field
-                            class="ma-0 pa-0"
+                          <v-select
+                            :items="['201309', '201409', '201509', '201609', '201709', '201809', '201909', '202009', '202109', '202209', '202309', '202409', '202509', '202609', '202709', '202809', '202909', '203009']"
                             v-model="addform.schoolstartyear"
-                            required
                             outlined
                             dense
                             style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
-                          ></v-text-field>
+                          ></v-select>
                         </v-col>
                       </v-row>
                     </v-container>
@@ -631,14 +622,13 @@
                           <v-subheader class="ma-0 pa-0" style="font-size:10px;">政治面貌</v-subheader>
                         </v-col>
                         <v-col cols="8" class="ma-0 pa-0">
-                          <v-text-field
-                            class="ma-0 pa-0"
+                          <v-select
+                            :items="['正式党员', '预备党员', '共青团员', '群众', '其它']"
                             v-model="addform.politics"
-                            required
                             outlined
                             dense
                             style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
-                          ></v-text-field>
+                          ></v-select>
                         </v-col>
                       </v-row>
                     </v-container>
@@ -1304,14 +1294,14 @@
                               <v-subheader class="ma-0 pa-0" style="font-size:10px;">民族</v-subheader>
                             </v-col>
                             <v-col cols="8" class="ma-0 pa-0">
-                              <v-text-field
-                                  class="ma-0 pa-0"
+                              <v-select
+                                  :items="['汉族', '蒙古族', '回族', '藏族', '维吾尔族','苗族', '彝族', '壮族', '布依族', '朝鲜族','满族', '侗族', '瑶族', '白族', '土家族','哈尼族', '哈萨克族', '傣族', '黎族', '僳僳族','佤族', '畲族', '高山族', '拉祜族', '水族','东乡族', '纳西族', '景颇族', '柯尔克孜族', '土族','达斡尔族', '仫佬族', '羌族', '布朗族', '撒拉族','毛南族','仡佬族', '锡伯族', '阿昌族', '普米族','塔吉克族', '怒族', '乌孜别克族', '俄罗斯族', '鄂温克族', '德昂族', '保安族', '裕固族', '京族', '塔塔尔族','独龙族', '鄂伦春族', '赫哲族', '门巴族', '珞巴族','基诺族']"
                                   v-model="changeform.race"
                                   required
                                   outlined
                                   dense
                                   style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
-                                ></v-text-field>
+                              ></v-select>
                             </v-col>
                           </v-row>
                         </v-container>
@@ -1321,14 +1311,9 @@
                               <v-subheader class="ma-0 pa-0" style="font-size:10px;">年龄</v-subheader>
                             </v-col>
                             <v-col cols="8" class="ma-0 pa-0">
-                              <v-text-field
-                                class="ma-0 pa-0"
-                                v-model="changeform.age"
-                                required
-                                outlined
-                                dense
-                                style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
-                              ></v-text-field>
+                              <v-select :items="['男','女']" v-model="changeform.sex" outlined dense
+                                style="width=:100%;transform:scale(0.75,0.75);font-size:15px;"
+                              ></v-select>
                             </v-col>
                           </v-row>
                         </v-container>
@@ -1420,14 +1405,13 @@
                               <v-subheader class="ma-0 pa-0" style="font-size:10px;">紧急联系人关系</v-subheader>
                             </v-col>
                             <v-col cols="8" class="ma-0 pa-0">
-                              <v-text-field
-                                class="ma-0 pa-0"
+                              <v-select
+                                :items="['父子', '母子', '父女', '母女', '其他']"
                                 v-model="changeform.urgentcontactrelation"
-                                required
                                 outlined
                                 dense
                                 style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
-                              ></v-text-field>
+                              ></v-select>
                             </v-col>
                           </v-row>
                         </v-container>
@@ -1734,14 +1718,13 @@
                               <v-subheader class="ma-0 pa-0" style="font-size:10px;">入学年份</v-subheader>
                             </v-col>
                             <v-col cols="8" class="ma-0 pa-0">
-                              <v-text-field
-                                class="ma-0 pa-0"
+                              <v-select
+                                :items="['201309', '201409', '201509', '201609', '201709', '201809', '201909', '202009', '202109', '202209', '202309', '202409', '202509', '202609', '202709', '202809', '202909', '203009']"
                                 v-model="changeform.schoolstartyear"
-                                required
                                 outlined
                                 dense
                                 style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
-                              ></v-text-field>
+                              ></v-select>
                             </v-col>
                           </v-row>
                         </v-container>
@@ -1751,14 +1734,13 @@
                               <v-subheader class="ma-0 pa-0" style="font-size:10px;">政治面貌</v-subheader>
                             </v-col>
                             <v-col cols="8" class="ma-0 pa-0">
-                              <v-text-field
-                                class="ma-0 pa-0"
+                              <v-select
+                                :items="['正式党员', '预备党员', '共青团员', '群众', '其它']"
                                 v-model="changeform.politics"
-                                required
                                 outlined
                                 dense
                                 style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
-                              ></v-text-field>
+                              ></v-select>
                             </v-col>
                           </v-row>
                         </v-container>
@@ -2557,7 +2539,7 @@ export default {
           appliedaccount: '500.00',
           birthdate: '2002-01',
           idnum: 'xxxxx',
-          schoolstartyear: '2020',
+          schoolstartyear: '201309',
           politics: '共青团员',
           phonenumber: '19918917382',
           schoolzone: '学院路校区',
