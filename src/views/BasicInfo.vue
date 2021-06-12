@@ -1172,7 +1172,7 @@
             </v-container>
           </td>
         </template>
-        <template v-slot:item.operation>
+        <template v-slot:item.operation="{item}">
           <v-dialog v-model="changedialog" width="1200px" persistent>
             <template v-slot:activator="{ on, attrs }">
               <v-btn
@@ -1181,6 +1181,7 @@
                 style="background-color:white;border:1px solid grey;"
                 v-bind="attrs"
                 v-on="on"
+                @click="changefunc(item)"
               >
                 编辑
               </v-btn>
@@ -2576,9 +2577,55 @@ export default {
     }
   },
   methods: {
-    changeimg(item){
-       this.formlist[0].data[0].files = item.target.files;
-       this.formlist[0].data[1].src = window.webkitURL.createObjectURL(this.formlist[0].data[0].files[0]);
+    changefunc(item){
+        this.changeform.imgsrc = item.imgsrc;
+        this.changeform.name = item.name;
+        this.changeform.schoolid = item.schoolid;
+        this.changeform.sex = item.sex;
+        this.changeform.race = item.race;
+        this.changeform.age = item.age;
+        this.changeform.nativeplace = item.nativeplace;
+        this.changeform.nowplace = item.nowplace;
+        this.changeform.householdplace = item.householdplace;
+        this.changeform.urgentcontactname = item.urgentcontactname;
+        this.changeform.urgentcontactrelation = item.urgentcontactrelation;
+        this.changeform.urgentcontactphone = item.urgentcontactphone;
+        this.changeform.iscared = item.iscared;
+        this.changeform.caredlevel = item.caredlevel;
+        this.changeform.registeredtime = item.registeredtime;
+        this.changeform.mainreason = item.mainreason;
+        this.changeform.ispoverty = item.ispoverty;
+        this.changeform.povertylevel = item.povertylevel;
+        this.changeform.istemporaryhelpapplied = item.istemporaryhelpapplied;
+        this.changeform.appliedtime = item.appliedtime;
+        this.changeform.appliedaccount = item.appliedaccount;
+        this.changeform.birthdate = item.birthdate;
+        this.changeform.idnum = item.idnum;
+        this.changeform.schoolstartyear = item.schoolstartyear;
+        this.changeform.politics = item.politics;
+        this.changeform.phonenumber = item.phonenumber;
+        this.changeform.schoolzone = item.schoolzone;
+        this.changeform.studenttype = item.studenttype;
+        this.changeform.classnum = item.classnum;
+        this.changeform.guider = item.guider;
+        this.changeform.isschoolended = item.isschoolended;
+        this.changeform.fosterway = item.fosterway;
+        this.changeform.recentplace = item.recentplace;
+        this.changeform.labdoornum = item.labdoornum;
+        this.changeform.outsideschoolplace = item.outsideschoolplace;
+        this.changeform.specialproblem = item.specialproblem;
+        this.changeform.professorname = item.professorname;
+        this.changeform.professorphonenumber = item.professorphonenumber;
+        this.changeform.directprofessorname = item.directprofessorname;
+        this.changeform.directprofessorphonenumber = item.directprofessorphonenumber;
+        this.changeform.undergraduateschool = item.undergraduateschool;
+        this.changeform.undergraduatemajor = item.undergraduatemajor;
+        this.changeform.masterschool = item.masterschool;
+        this.changeform.mastermajor = item.mastermajor;
+        this.changeform.dormitoryarea = item.dormitoryarea;
+        this.changeform.dormitorybuilding = item.dormitorybuilding;
+        this.changeform.dormitoryroom = item.dormitoryroom;
+        this.changeform.dormitorybed = item.dormitorybed;
     },
     getstr(item,name){
       return item[name[1]];
@@ -2605,12 +2652,6 @@ export default {
     }
   },
   watch:{
-    formlist:{
-      handler(val){
-        console.log(val);
-      },
-      deep:true 
-    },
     checkbox(val){
       if(val){
         for(let i of this.checkinfolist){

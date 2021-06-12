@@ -509,7 +509,7 @@
             </v-container>
           </td>
         </template>
-        <template v-slot:item.operation>
+        <template v-slot:item.operation="{item}">
           <v-dialog v-model="changedialog" width="1200px" persistent>
             <template v-slot:activator="{ on, attrs }">
               <v-btn
@@ -518,6 +518,7 @@
                 style="background-color:white;border:1px solid grey;"
                 v-bind="attrs"
                 v-on="on"
+                @click="editfunc(item)"
               >
                 编辑
               </v-btn>
@@ -1101,6 +1102,25 @@ export default {
     }
   },
   methods: {
+    editfunc(item){
+        this.changeform.name = item.name;
+        this.changeform.schoolid = item.schoolid;
+        this.changeform.activetime = item.activetime;
+        this.changeform.score = item.score;
+        this.changeform.activebranch = item.activebranch;
+        this.changeform.preparedtime = item.preparedtime;
+        this.changeform.preparedbranch = item.preparedbranch;
+        this.changeform.formaltime = item.formaltime;
+        this.changeform.branch = item.branch;
+        this.changeform.buildtime = item.buildtime;
+        this.changeform.secretaryname = item.secretaryname;
+        this.changeform.formalmembernum = item.formalmembernum;
+        this.changeform.preparedmembernum = item.preparedmembernum;
+        this.changeform.activemembernum = item.activemembernum;
+        this.changeform.isatcollege = item.isatcollege;
+        this.changeform.ischangedbranch = item.ischangedbranch;
+        this.changeform.changeinfo = item.changeinfo;
+    },
     getstr(item,name){
       return item[name[1]];
     },
@@ -1126,12 +1146,6 @@ export default {
     }
   },
   watch:{
-    formlist:{
-      handler(val){
-        console.log(val);
-      },
-      deep:true
-    },
     checkbox(val){
       if(val){
         for(let i of this.checkinfolist){
