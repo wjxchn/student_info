@@ -2196,7 +2196,7 @@
               <v-card-actions>
                 <div style="margin:0 auto;">
                 <v-btn color="#EBECF1" @click="changedialog = false" dark depressed style="color:rgba(71, 112, 166, 0.996078431372549);margin-top:10px;margin-right:10px;margin-bottom:10px;">取消</v-btn>
-                <v-btn color="rgba(71, 112, 166, 0.996078431372549)" @click="changedialog = false" dark depressed style="margin-top:10px;margin-left:10px;margin-bottom:10px;">添加</v-btn>
+                <v-btn color="rgba(71, 112, 166, 0.996078431372549)" @click="saveadd()" dark depressed style="margin-top:10px;margin-left:10px;margin-bottom:10px;">添加</v-btn>
                 </div>
               </v-card-actions>
             </v-card>
@@ -2577,6 +2577,10 @@ export default {
     }
   },
   methods: {
+    saveadd(){
+      console.log(this.addform);
+      this.changedialog = false;
+    },
     changefunc(item){
         this.changeform.imgsrc = item.imgsrc;
         this.changeform.name = item.name;

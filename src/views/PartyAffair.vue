@@ -419,7 +419,7 @@
           <v-card-actions>
             <div style="margin:0 auto;">
             <v-btn color="#EBECF1" @click="adddialog = false" dark depressed style="color:rgba(71, 112, 166, 0.996078431372549);margin-top:10px;margin-right:10px;margin-bottom:10px;">取消</v-btn>
-            <v-btn color="rgba(71, 112, 166, 0.996078431372549)" @click="adddialog = false" dark depressed style="margin-top:10px;margin-left:10px;margin-bottom:10px;">添加</v-btn>
+            <v-btn color="rgba(71, 112, 166, 0.996078431372549)" @click="saveadd()" dark depressed style="margin-top:10px;margin-left:10px;margin-bottom:10px;">添加</v-btn>
             </div>
           </v-card-actions>
         </v-card>
@@ -870,12 +870,12 @@
               <v-card-actions>
                 <div style="margin:0 auto;">
                 <v-btn color="#EBECF1" @click="changedialog = false" dark depressed style="color:rgba(71, 112, 166, 0.996078431372549);margin-top:10px;margin-right:10px;margin-bottom:10px;">取消</v-btn>
-                <v-btn color="rgba(71, 112, 166, 0.996078431372549)" @click="changedialog = false" dark depressed style="margin-top:10px;margin-left:10px;margin-bottom:10px;">添加</v-btn>
+                <v-btn color="rgba(71, 112, 166, 0.996078431372549)" @click="savechange(item)" dark depressed style="margin-top:10px;margin-left:10px;margin-bottom:10px;">保存</v-btn>
                 </div>
               </v-card-actions>
             </v-card>
           </v-dialog>
-          <v-btn depressed small style="margin-left:30px;background-color:rgba(71, 112, 166, 0.996078431372549);color:white;">删除</v-btn>
+          <v-btn depressed small style="margin-left:30px;background-color:rgba(71, 112, 166, 0.996078431372549);color:white;" @click="deletefunc(item)">删除</v-btn>
         </template>
       </v-data-table>
     </div>
@@ -1102,6 +1102,10 @@ export default {
     }
   },
   methods: {
+    saveadd(){
+      console.log(this.addform);
+      this.adddialog = false;
+    },
     editfunc(item){
         this.changeform.name = item.name;
         this.changeform.schoolid = item.schoolid;
@@ -1120,6 +1124,13 @@ export default {
         this.changeform.isatcollege = item.isatcollege;
         this.changeform.ischangedbranch = item.ischangedbranch;
         this.changeform.changeinfo = item.changeinfo;
+    },
+    deletefunc(item){
+      console.log(item);
+    },
+    savechange(item){
+      console.log(item);
+      this.changedialog = false;
     },
     getstr(item,name){
       return item[name[1]];
