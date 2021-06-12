@@ -666,14 +666,13 @@
                           <v-subheader class="ma-0 pa-0" style="font-size:10px;">所属校区</v-subheader>
                         </v-col>
                         <v-col cols="8" class="ma-0 pa-0">
-                          <v-text-field
-                            class="ma-0 pa-0"
+                          <v-select
+                            :items="['学院路校区', '沙河校区', '杭州研究院', '青岛研究院', '苏州研究院', '深圳研究院', '云南研究院', '其它']"
                             v-model="addform.schoolzone"
-                            required
                             outlined
                             dense
                             style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
-                          ></v-text-field>
+                          ></v-select>
                         </v-col>
                       </v-row>
                     </v-container>
@@ -683,14 +682,13 @@
                           <v-subheader class="ma-0 pa-0" style="font-size:10px;">学生类型</v-subheader>
                         </v-col>
                         <v-col cols="8" class="ma-0 pa-0">
-                          <v-text-field
-                            class="ma-0 pa-0"
+                          <v-select
                             v-model="addform.studenttype"
-                            required
+                            :items="['本科', '硕士', '博士']"
                             outlined
                             dense
                             style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
-                          ></v-text-field>
+                          ></v-select>
                         </v-col>
                       </v-row>
                     </v-container>
@@ -762,14 +760,13 @@
                           <v-subheader class="ma-0 pa-0" style="font-size:10px;">培养方式</v-subheader>
                         </v-col>
                         <v-col cols="8" class="ma-0 pa-0">
-                          <v-text-field
-                            class="ma-0 pa-0"
+                          <v-select
+                            :items="['全日制定向', '全日制非定向', '非全日制']"
                             v-model="addform.fosterway"
-                            required
                             outlined
                             dense
                             style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
-                          ></v-text-field>
+                          ></v-select>
                         </v-col>
                       </v-row>
                     </v-container>
@@ -1013,14 +1010,13 @@
                           <v-subheader class="ma-0 pa-0" style="font-size:10px;">宿舍区域</v-subheader>
                         </v-col>
                         <v-col cols="8" class="ma-0 pa-0">
-                          <v-text-field
-                            class="ma-0 pa-0"
+                          <v-select
+                            :items="['学院路校内', '学院路大运村','沙河']"
                             v-model="addform.dormitoryarea"
-                            required
                             outlined
                             dense
                             style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
-                          ></v-text-field>
+                          ></v-select>
                         </v-col>
                       </v-row>
                     </v-container>
@@ -1777,14 +1773,13 @@
                               <v-subheader class="ma-0 pa-0" style="font-size:10px;">所属校区</v-subheader>
                             </v-col>
                             <v-col cols="8" class="ma-0 pa-0">
-                              <v-text-field
-                                class="ma-0 pa-0"
+                              <v-select
+                                :items="['学院路校区', '沙河校区', '杭州研究院', '青岛研究院', '苏州研究院', '深圳研究院', '云南研究院', '其它']"
                                 v-model="changeform.schoolzone"
-                                required
                                 outlined
                                 dense
                                 style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
-                              ></v-text-field>
+                              ></v-select>
                             </v-col>
                           </v-row>
                         </v-container>
@@ -1794,14 +1789,13 @@
                               <v-subheader class="ma-0 pa-0" style="font-size:10px;">学生类型</v-subheader>
                             </v-col>
                             <v-col cols="8" class="ma-0 pa-0">
-                              <v-text-field
-                                class="ma-0 pa-0"
+                              <v-select
                                 v-model="changeform.studenttype"
-                                required
+                                :items="['本科', '硕士', '博士']"
                                 outlined
                                 dense
                                 style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
-                              ></v-text-field>
+                              ></v-select>
                             </v-col>
                           </v-row>
                         </v-container>
@@ -2124,14 +2118,13 @@
                               <v-subheader class="ma-0 pa-0" style="font-size:10px;">宿舍区域</v-subheader>
                             </v-col>
                             <v-col cols="8" class="ma-0 pa-0">
-                              <v-text-field
-                                class="ma-0 pa-0"
+                              <v-select
+                                :items="['学院路校内', '学院路大运村','沙河']"
                                 v-model="changeform.dormitoryarea"
-                                required
                                 outlined
                                 dense
                                 style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
-                              ></v-text-field>
+                              ></v-select>
                             </v-col>
                           </v-row>
                         </v-container>
@@ -2543,11 +2536,11 @@ export default {
           politics: '共青团员',
           phonenumber: '19918917382',
           schoolzone: '学院路校区',
-          studenttype: '全日制硕士',
+          studenttype: '硕士',
           classnum: '200601',
           guider: '李四',
           isschoolended: '否',
-          fosterway: '非定向',
+          fosterway: '非全日制',
           recentplace: '上海',
           labdoornum: 'S601',
           outsideschoolplace: '上海黄浦区',
@@ -2560,7 +2553,7 @@ export default {
           undergraduatemajor: '有机化学',
           masterschool: '清华大学',
           mastermajor: '无机化学',
-          dormitoryarea: '大运村',
+          dormitoryarea: '学院路大运村',
           dormitorybuilding: '2',
           dormitoryroom: '205',
           dormitorybed: '2',
