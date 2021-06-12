@@ -277,6 +277,43 @@ export default {
         })
       }
     }
+  },
+  mounted() {
+    var token = localStorage.getItem('Authorization');
+    axios({
+      url: '/api/auth',
+      method: 'post',
+      params: {
+        token: token, //这是请求头
+      }
+      // data: {'token': token}  //这是请求体
+    }).then(res => {
+      console.log(res);
+      var flag = res.data.flag;
+      if (flag) {
+        axios({
+          url: '/api/getinfo',
+          method: 'post',
+          params: {
+            token: token, //这是请求头
+          }
+          // data: {'token': token}  //这是请求体
+        }).then(res => {
+          var flag = res.data.flag;
+          if (flag) {
+            console.log(res.data);
+            this.formlist[0].data[0].value = res.data.Stuinfo.schoolid;
+            this.formlist[0].data[1].value = res.data.Stuinfo.name;
+            this.formlist[0].data[2].value = res.data.Stuinfo.phonenumber;
+            this.formlist[0].data[3].value = res.data.Stuinfo.professorname;
+          }
+        })
+
+      } else {
+        window.location.href = '/#/login';
+      }
+    })
+
   }
 }
 </script>
