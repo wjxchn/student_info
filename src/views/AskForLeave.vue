@@ -240,6 +240,7 @@ export default {
       }
       var begin = +new Date(tableValue.starttime);
       var end = +new Date(tableValue.endtime);
+      var now = +new Date();
       var timeFlag = (end - begin) / 1000 / 60 / 60 / 24;
       if (tableValue.schoolid == '') {
         alert('请输入学号');
@@ -259,6 +260,10 @@ export default {
         alert('请输入请假去向');
       } else if(timeFlag > 2) {
         alert('请假时间不能大于两天');
+      } else if(timeFlag < 0) {
+        alert('结束时间大于开始时间');
+      } else if(end + 57600000 < now) {
+        alert('结束时间小于今天');
       } else {
         axios({
           url: '/api/leaveinfo',
