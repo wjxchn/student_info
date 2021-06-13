@@ -2211,7 +2211,7 @@
               </v-card-actions>
             </v-card>
           </v-dialog>
-          <v-btn depressed small style="margin-left:30px;background-color:rgba(71, 112, 166, 0.996078431372549);color:white;" @click="deleteInfo">删除</v-btn>
+          <v-btn depressed small style="margin-left:30px;background-color:rgba(71, 112, 166, 0.996078431372549);color:white;" @click="deleteInfo(item)">删除</v-btn>
         </template>
       </v-data-table>
       </div>
