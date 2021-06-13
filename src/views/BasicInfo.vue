@@ -19,28 +19,6 @@
             <span class="headline">选择字段</span>
           </v-card-title>
           <v-row no-gutters>
-            <v-col cols="12" sm="12">
-              <div style="margin-left:20px;display:inline-block;">
-                请输入姓名：
-                <v-text-field
-                  single-line
-                  outlined
-                  dense
-                  style="width:300px;font-size:15px;transform:scale(0,75,0,75);"
-                  v-model="namesearchstr"
-                ></v-text-field>
-              </div>
-              <div style="margin-left:20px;display:inline-block;">
-                请输入学号：
-                <v-text-field
-                  single-line
-                  outlined
-                  dense
-                  style="width:300px;font-size:15px;transform:scale(0,75,0,75);"
-                  v-model="studentidsearchstr"
-                ></v-text-field>
-              </div>
-            </v-col>
             <v-col
               cols="12"
               sm="12"
@@ -121,6 +99,7 @@
                           <v-subheader class="ma-0 pa-0" style="font-size:10px;">非证件照片</v-subheader>
                         </v-col>
                         <v-col cols="8" class="ma-0 pa-0">
+                          <input type="file" id="upload" ref="upload" @change="addimg" accept=".jpg, .jpeg, .png" style="display:block;width:90%;font-size:10px;margin-top:10px;">
                         </v-col>
                       </v-row>
                     </v-container>
@@ -130,6 +109,7 @@
                           <v-subheader class="ma-0 pa-0" style="font-size:10px;">上传图片预览</v-subheader>
                         </v-col>
                         <v-col cols="8" class="ma-0 pa-0">
+                          <img :src="addform.imgsrc" width="70%" alt=""/>
                         </v-col>
                       </v-row>
                     </v-container>
@@ -618,6 +598,7 @@
                             dense
                             :rules="[v => !!v || '请输入身份证号',v => (v && v.length == 18) || '请输入18位身份证号']"
                             style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
+                            @change="genfromidnum" @input="genfromidnum"
                           ></v-text-field>
                         </v-col>
                       </v-row>
@@ -1106,6 +1087,18 @@
           </v-card-actions>
         </v-card>
       </v-dialog>
+      <v-text-field
+        v-model="search"
+        append-icon="mdi-magnify"
+        label="搜索含有的关键字"
+        single-line
+        hide-details
+        required
+        outlined
+        dense
+        dark
+        style="width:300px;display:inline-block;"
+      ></v-text-field>
       <div style="height:15px;"></div>
       <div style="min-width:960px;">
       <v-data-table
@@ -1115,6 +1108,7 @@
         :single-select="singleSelect"
         :single-expand="singleExpand"
         :expanded.sync="expanded"
+        :search="search"
         item-key="name"
         show-expand
         class="elevation-1"
@@ -1232,6 +1226,7 @@
                               <v-subheader class="ma-0 pa-0" style="font-size:10px;">非证件照片</v-subheader>
                             </v-col>
                             <v-col cols="8" class="ma-0 pa-0">
+                              <input type="file" id="upload" ref="upload" @change="changeimg" accept=".jpg, .jpeg, .png" style="display:block;width:90%;font-size:10px;margin-top:10px;">
                             </v-col>
                           </v-row>
                         </v-container>
@@ -1241,6 +1236,7 @@
                               <v-subheader class="ma-0 pa-0" style="font-size:10px;">上传图片预览</v-subheader>
                             </v-col>
                             <v-col cols="8" class="ma-0 pa-0">
+                              <img :src="changeform.imgsrc" width="70%" alt=""/>
                             </v-col>
                           </v-row>
                         </v-container>
@@ -1726,6 +1722,7 @@
                                 dense
                                 :rules="[v => !!v || '请输入身份证号',v => (v && v.length == 18) || '请输入18位身份证号']"
                                 style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
+                                @change="changegenfromidnum" @input="changegenfromidnum"
                               ></v-text-field>
                             </v-col>
                           </v-row>
@@ -2299,8 +2296,7 @@ export default {
     return {
       chinesename: '基本信息管理',
       valid: true,
-      namesearchstr: '',
-      studentidsearchstr: '',
+      search: '',
       addform: {
         imgsrc: require('../assets/basicinfo/u264.svg'),
         name: '',
@@ -2622,6 +2618,28 @@ export default {
     }
   },
   methods: {
+    genfromidnum() {
+      if (this.addform.idnum.length == 18) {
+        var idnum = this.addform.idnum;
+        //440883199707272614
+        var year = idnum.substring(6, 10);
+        var month = idnum.substring(10, 12);
+        var day = idnum.substring(12, 14);
+        this.addform.birthdate = year + "-" + month + "-" + day;
+        this.addform.age = new Date().getYear() + 1900 - year;
+      }
+    },
+    changegenfromidnum() {
+      if (this.changeform.idnum.length == 18) {
+        var idnum = this.changeform.idnum;
+        //440883199707272614
+        var year = idnum.substring(6, 10);
+        var month = idnum.substring(10, 12);
+        var day = idnum.substring(12, 14);
+        this.changeform.birthdate = year + "-" + month + "-" + day;
+        this.changeform.age = new Date().getYear() + 1900 - year;
+      }
+    },
     addStuInfo(){
       this.adddialog = false;
       axios({
@@ -2750,13 +2768,20 @@ export default {
         }
       }
       this.headers = obj;
+
     },
     exportfunc(){
       console.log(this.selected);
     },
     generateresumefunc(){
       console.log(this.selected);
-    }
+    },
+    addimg(item){
+      this.addform.imgsrc = window.webkitURL.createObjectURL(item.target.files[0]);
+    },
+    changeimg(item){
+      this.changeform.imgsrc = window.webkitURL.createObjectURL(item.target.files[0]);
+    },
   },
   watch:{
     checkbox(val){

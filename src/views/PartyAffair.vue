@@ -19,28 +19,6 @@
             <span class="headline">选择字段</span>
           </v-card-title>
           <v-row no-gutters>
-            <v-col cols="12" sm="12">
-              <div style="margin-left:20px;display:inline-block;">
-                请输入姓名：
-                <v-text-field
-                  single-line
-                  outlined
-                  dense
-                  style="width:300px;font-size:15px;transform:scale(0,75,0,75);"
-                  v-model="namesearchstr"
-                ></v-text-field>
-              </div>
-              <div style="margin-left:20px;display:inline-block;">
-                请输入学号：
-                <v-text-field
-                  single-line
-                  outlined
-                  dense
-                  style="width:300px;font-size:15px;transform:scale(0,75,0,75);"
-                  v-model="studentidsearchstr"
-                ></v-text-field>
-              </div>
-            </v-col>
             <v-col
               cols="12"
               sm="12"
@@ -448,6 +426,18 @@
           </v-card-actions>
         </v-card>
       </v-dialog>
+      <v-text-field
+        v-model="search"
+        append-icon="mdi-magnify"
+        label="搜索含有的关键字"
+        single-line
+        hide-details
+        required
+        outlined
+        dense
+        dark
+        style="width:300px;display:inline-block;"
+      ></v-text-field>
       <div style="height:15px;"></div>
       <div style="min-width:960px;">
       <v-data-table
@@ -457,6 +447,7 @@
         :single-select="singleSelect"
         :single-expand="singleExpand"
         :expanded.sync="expanded"
+        :search="search"
         item-key="name"
         show-expand
         class="elevation-1"
@@ -983,8 +974,7 @@ export default {
     return {
       chinesename: '党务管理',
       valid: true,
-      namesearchstr: '',
-      studentidsearchstr: '',
+      search: '',
       activetimemenu: false,
       preparedtimemenu: false,
       formaltimemenu: false,
