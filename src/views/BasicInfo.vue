@@ -1188,7 +1188,7 @@
           </td>
         </template>
         <template v-slot:item.operation="{item}">
-          <v-dialog v-model="changedialog" width="1200px" persistent>
+          <v-dialog v-model="changedialog[desserts.indexOf(item)]" width="1200px">
             <template v-slot:activator="{ on, attrs }">
               <v-btn
                 depressed
@@ -2212,8 +2212,7 @@
               </div>
               <v-card-actions>
                 <div style="margin:0 auto;">
-                <v-btn color="#EBECF1" @click="changedialog = false" dark depressed style="color:rgba(71, 112, 166, 0.996078431372549);margin-top:10px;margin-right:10px;margin-bottom:10px;">取消</v-btn>
-                <v-btn color="rgba(71, 112, 166, 0.996078431372549)" @click="saveupdate()" dark depressed style="margin-top:10px;margin-left:10px;margin-bottom:10px;">保存更改</v-btn>
+                <v-btn color="rgba(71, 112, 166, 0.996078431372549)" @click="saveupdate(item)" dark depressed style="margin-top:10px;margin-left:10px;margin-bottom:10px;">保存更改</v-btn>
                 </div>
               </v-card-actions>
             </v-card>
@@ -2415,7 +2414,7 @@ export default {
       checkbox: false,
       selectdialog: false,
       adddialog: false,
-      changedialog: false,
+      changedialog: [],
       expanded: [],
       singleExpand: false,
       singleSelect: false,
@@ -2665,7 +2664,7 @@ export default {
       })
       this.$router.go(0);
     },
-    saveupdate(){
+    saveupdate(item){
       console.log(this.addform);
       axios({
         url: '/api/basic/update',
@@ -2682,7 +2681,7 @@ export default {
         }
       })
 
-      this.changedialog = false;
+      this.changedialog[this.desserts.indexOf(item)] = false;
       this.$router.go(0);
     },
     deleteInfo(item){
@@ -2842,6 +2841,9 @@ export default {
     }).then(res => {
       if (res.data.flag) {
         this.desserts = res.data.data;
+        for(let i=0;i<this.desserts.length;i++){
+          this.changedialog[i] = false;
+        }
         console.log(res.data.data);
         console.log("获取信息成功");
       } else {
