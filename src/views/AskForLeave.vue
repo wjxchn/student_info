@@ -261,9 +261,9 @@ export default {
       } else if(timeFlag > 2) {
         alert('请假时间不能大于两天');
       } else if(timeFlag < 0) {
-        alert('结束时间大于开始时间');
+        alert('结束时间不能小于开始时间');
       } else if(end + 57600000 < now) {
-        alert('结束时间小于今天');
+        alert('结束时间不能小于今天');
       } else {
         axios({
           url: '/api/leaveinfo',
