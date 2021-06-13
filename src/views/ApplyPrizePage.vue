@@ -344,7 +344,6 @@ export default {
       ],
     }
   },
-<<<<<<< HEAD
   methods: {
     // 申请按钮函数begin
     applyPrice(item) {
@@ -393,14 +392,10 @@ export default {
           alert('上传失败!');
         }) 
       }
-    }
-    // 提交申请奖项end
-=======
-  methods:{
+    },
     toapplyprize(){
       this.$router.push('/applyprize');
     }
->>>>>>> b8034f3ae0008d7cf9bb43bc24e5fede97b5ffa4
   }
 }
 </script>
