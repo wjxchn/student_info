@@ -60,18 +60,18 @@
           </v-card-actions>
         </v-card>
       </v-dialog>
-      <v-dialog v-model="adddialog" width="1200px">
-        <template v-slot:activator="{ on, attrs }">
-          <v-btn
-            depressed
-            small
-            style="border:1px solid rgba(71, 112, 166, 0.996); width:100px; height:38px; float:right; color:rgba(71, 112, 166, 0.996); font-size:13px;"
-            v-bind="attrs"
-            v-on="on"
-          >
-            添加学生信息
-          </v-btn>
-        </template>
+      <v-dialog v-model="adddialog" width="1200px" persistent>
+<!--        <template v-slot:activator="{ on, attrs }">-->
+<!--          <v-btn-->
+<!--            depressed-->
+<!--            small-->
+<!--            style="border:1px solid rgba(71, 112, 166, 0.996); width:100px; height:38px; float:right; color:rgba(71, 112, 166, 0.996); font-size:13px;"-->
+<!--            v-bind="attrs"-->
+<!--            v-on="on"-->
+<!--          >-->
+<!--            添加学生信息-->
+<!--          </v-btn>-->
+<!--        </template>-->
         <v-card>
           <v-card-title>
             <span class="headline">添加学生信息</span>
@@ -172,16 +172,16 @@
                         <v-col cols="4"  class="ma-0 pa-0">
                           <v-subheader style="font-size:10px;">积极分子支部名称</v-subheader>
                         </v-col>
-                        <v-col cols="8">
-                          <v-text-field
-                            class="ma-0 pa-0"
-                            v-model="addform.activebranch"
-                            required
-                            outlined
-                            dense
-                            style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
-                          ></v-text-field>
-                        </v-col>
+<!--                        <v-col cols="8">-->
+<!--                          <v-text-field-->
+<!--                            class="ma-0 pa-0"-->
+<!--                            v-model="addform.activebranch"-->
+<!--                            required-->
+<!--                            outlined-->
+<!--                            dense-->
+<!--                            style="font-size:15px;width:100%;transform:scale(0.75,0.75);"-->
+<!--                          ></v-text-field>-->
+<!--                        </v-col>-->
                         <v-col cols="4"  class="ma-0 pa-0">
                           <v-subheader style="font-size:10px;">成为预备党员时间</v-subheader>
                         </v-col>
@@ -217,16 +217,16 @@
                         <v-col cols="4"  class="ma-0 pa-0">
                           <v-subheader style="font-size:10px;">所在党支部名称</v-subheader>
                         </v-col>
-                        <v-col cols="8">
-                          <v-text-field
-                            class="ma-0 pa-0"
-                            v-model="addform.preparedbranch"
-                            required
-                            outlined
-                            dense
-                            style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
-                          ></v-text-field>
-                        </v-col>
+<!--                        <v-col cols="8">-->
+<!--                          <v-text-field-->
+<!--                            class="ma-0 pa-0"-->
+<!--                            v-model="addform.preparedbranch"-->
+<!--                            required-->
+<!--                            outlined-->
+<!--                            dense-->
+<!--                            style="font-size:15px;width:100%;transform:scale(0.75,0.75);"-->
+<!--                          ></v-text-field>-->
+<!--                        </v-col>-->
                         <v-col cols="4"  class="ma-0 pa-0">
                           <v-subheader style="font-size:10px;">转正时间</v-subheader>
                         </v-col>
@@ -477,7 +477,7 @@
                     tile
                     flat
                   >
-                    <img :src="item.imgsrc" width="70%" height="70%" alt="" />
+                    <img :src="'/avatar/'+item.imgsrc" width="70%" height="70%" alt="" />
                   </v-card>
                 </v-col>
                 <v-col
@@ -540,7 +540,7 @@
             </template>
             <v-card>
               <v-card-title>
-                <span class="headline">修改学生信息</span>
+                <span class="headline">修改学生党务信息</span>
               </v-card-title>
               <div class="basic_info_form">
                 <v-form
@@ -633,19 +633,19 @@
                                 ></v-radio>
                               </v-radio-group>
                             </v-col>
-                            <v-col cols="4"  class="ma-0 pa-0">
-                              <v-subheader style="font-size:10px;">积极分子支部名称</v-subheader>
-                            </v-col>
-                            <v-col cols="8">
-                              <v-text-field
-                                class="ma-0 pa-0"
-                                v-model="changeform.activebranch"
-                                required
-                                outlined
-                                dense
-                                style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
-                              ></v-text-field>
-                            </v-col>
+<!--                            <v-col cols="4"  class="ma-0 pa-0">-->
+<!--                              <v-subheader style="font-size:10px;">积极分子支部名称</v-subheader>-->
+<!--                            </v-col>-->
+<!--                            <v-col cols="8">-->
+<!--                              <v-text-field-->
+<!--                                class="ma-0 pa-0"-->
+<!--                                v-model="changeform.activebranch"-->
+<!--                                required-->
+<!--                                outlined-->
+<!--                                dense-->
+<!--                                style="font-size:15px;width:100%;transform:scale(0.75,0.75);"-->
+<!--                              ></v-text-field>-->
+<!--                            </v-col>-->
                             <v-col cols="4"  class="ma-0 pa-0">
                               <v-subheader style="font-size:10px;">成为预备党员时间</v-subheader>
                             </v-col>
@@ -678,19 +678,19 @@
                                 </v-date-picker>
                               </v-menu>
                             </v-col>
-                            <v-col cols="4"  class="ma-0 pa-0">
-                              <v-subheader style="font-size:10px;">所在党支部名称</v-subheader>
-                            </v-col>
-                            <v-col cols="8">
-                              <v-text-field
-                                class="ma-0 pa-0"
-                                v-model="changeform.preparedbranch"
-                                required
-                                outlined
-                                dense
-                                style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
-                              ></v-text-field>
-                            </v-col>
+<!--                            <v-col cols="4"  class="ma-0 pa-0">-->
+<!--                              <v-subheader style="font-size:10px;">所在党支部名称</v-subheader>-->
+<!--                            </v-col>-->
+<!--                            <v-col cols="8">-->
+<!--                              <v-text-field-->
+<!--                                class="ma-0 pa-0"-->
+<!--                                v-model="changeform.preparedbranch"-->
+<!--                                required-->
+<!--                                outlined-->
+<!--                                dense-->
+<!--                                style="font-size:15px;width:100%;transform:scale(0.75,0.75);"-->
+<!--                              ></v-text-field>-->
+<!--                            </v-col>-->
                             <v-col cols="4"  class="ma-0 pa-0">
                               <v-subheader style="font-size:10px;">转正时间</v-subheader>
                             </v-col>
@@ -723,6 +723,51 @@
                                 </v-date-picker>
                               </v-menu>
                             </v-col>
+                            <v-col cols="4"  class="ma-0 pa-0">
+                              <v-subheader style="font-size:10px;">党支部名称</v-subheader>
+                            </v-col>
+                            <v-col cols="8">
+                              <v-text-field
+                                  class="ma-0 pa-0"
+                                  v-model="changeform.branch"
+                                  required
+                                  outlined
+                                  dense
+                                  style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
+                              ></v-text-field>
+                            </v-col>
+                            <v-col cols="4"  class="ma-0 pa-0">
+                              <v-subheader style="font-size:10px;">成立时间</v-subheader>
+                            </v-col>
+                            <v-col cols="8">
+                              <v-menu
+                                  ref="changebuildtimemenu"
+                                  v-model="changebuildtimemenu"
+                                  :close-on-content-click="false"
+                                  transition="scale-transition"
+                                  offset-y
+                                  min-width="290px"
+                              >
+                                <template v-slot:activator="{ on, attrs }">
+                                  <v-text-field
+                                      v-model="changeform.buildtime"
+                                      prepend-icon="event"
+                                      readonly
+                                      required
+                                      outlined
+                                      dense
+                                      v-bind="attrs"
+                                      v-on="on"
+                                      style="font-size:20px;width:100%;transform:scale(0.75,0.75);"
+                                  ></v-text-field>
+                                </template>
+                                <v-date-picker v-model="changeform.buildtime" no-title scrollable :max="maxdate">
+                                  <v-spacer></v-spacer>
+                                  <v-btn text color="primary" @click="changebuildtimemenu = false">Cancel</v-btn>
+                                  <v-btn text color="primary" @click="changebuildtimemenu = false">OK</v-btn>
+                                </v-date-picker>
+                              </v-menu>
+                            </v-col>
                           </v-row>
                         </v-container>
                       </v-col>
@@ -737,64 +782,21 @@
                       >
                         <v-container class="ma-0 pa-0">
                           <v-row dense no-gutters class="ma-0 pa-0">
-                            <v-col cols="4"  class="ma-0 pa-0">
-                              <v-subheader style="font-size:10px;">党支部名称</v-subheader>
-                            </v-col>
-                            <v-col cols="8">
-                              <v-text-field
-                                class="ma-0 pa-0"
-                                v-model="changeform.branch"
-                                required
-                                outlined
-                                dense
-                                style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
-                              ></v-text-field>
-                            </v-col>
-                            <v-col cols="4"  class="ma-0 pa-0">
-                              <v-subheader style="font-size:10px;">成立时间</v-subheader>
-                            </v-col>
-                            <v-col cols="8">
-                              <v-menu
-                                ref="changebuildtimemenu"
-                                v-model="changebuildtimemenu"
-                                :close-on-content-click="false"
-                                transition="scale-transition"
-                                offset-y
-                                min-width="290px"
-                              >
-                                <template v-slot:activator="{ on, attrs }">
-                                  <v-text-field
-                                    v-model="changeform.buildtime"
-                                    prepend-icon="event"
-                                    readonly
-                                    required
-                                    outlined
-                                    dense
-                                    v-bind="attrs"
-                                    v-on="on"
-                                    style="font-size:20px;width:100%;transform:scale(0.75,0.75);"
-                                  ></v-text-field>
-                                </template>
-                                <v-date-picker v-model="changeform.buildtime" no-title scrollable :max="maxdate">
-                                  <v-spacer></v-spacer>
-                                  <v-btn text color="primary" @click="changebuildtimemenu = false">Cancel</v-btn>
-                                  <v-btn text color="primary" @click="changebuildtimemenu = false">OK</v-btn>
-                                </v-date-picker>
-                              </v-menu>
-                            </v-col>
+
                             <v-col cols="4"  class="ma-0 pa-0">
                               <v-subheader style="font-size:10px;">党支部书记姓名</v-subheader>
                             </v-col>
                             <v-col cols="8">
                               <v-text-field
-                                class="ma-0 pa-0"
-                                v-model="changeform.secretaryname"
-                                required
-                                outlined
-                                dense
-                                style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
+                                  class="ma-0 pa-0"
+                                  v-model="changeform.secretaryname"
+                                  required
+                                  outlined
+                                  dense
+                                  style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
                               ></v-text-field>
                             </v-col>
+
                             <v-col cols="4"  class="ma-0 pa-0">
                               <v-subheader style="font-size:10px;">正式党员人数</v-subheader>
                             </v-col>
@@ -889,14 +891,15 @@
               </v-card-actions>
             </v-card>
           </v-dialog>
-          <v-btn depressed small style="margin-left:30px;background-color:rgba(71, 112, 166, 0.996078431372549);color:white;" @click="deletefunc(item)">删除</v-btn>
+<!--          <v-btn depressed small style="margin-left:30px;background-color:rgba(71, 112, 166, 0.996078431372549);color:white;" @click="deletefunc(item)">删除</v-btn>-->
         </template>
       </v-data-table>
     </div>
       <v-card style="overflow:hidden;" mobile-breakpoint=0>
           <div style="display: inline-block;float:left;padding-left:20px;width:80%;">
             <div style="position: absolute; top:50%;transform: translateY(-50%);font-size:10px;">
-              合计：男10人，女10人；贫困生5人，非贫困生15人；关心关爱8人，非关心关爱12人；已毕业2人，未毕业18人
+              合计：男10人，女10人。
+<!--              贫困生5人，非贫困生15人；关心关爱8人，非关心关爱12人；已毕业2人，未毕业18人-->
             </div>
           </div>
           <div style="display: inline-block;float:right;padding-right:20px;width:20%;">
@@ -991,9 +994,9 @@ export default {
         schoolid: '',
         activetime: '',
         score: '',
-        activebranch: '',
+        // activebranch: '',
         preparedtime: '',
-        preparedbranch: '',
+        // preparedbranch: '',
         formaltime: '',
         branch: '',
         buildtime: '',
@@ -1010,9 +1013,9 @@ export default {
         schoolid: '',
         activetime: '',
         score: '',
-        activebranch: '',
+        // activebranch: '',
         preparedtime: '',
-        preparedbranch: '',
+        // preparedbranch: '',
         formaltime: '',
         branch: '',
         buildtime: '',
@@ -1035,9 +1038,9 @@ export default {
       checkinfolist: [
         ['成为积极分子时间','activetime',false],
         ['是否通过党校考试','score',false],
-        ['积极分子支部名称','activebranch',false],
+        // ['积极分子支部名称','activebranch',false],
         ['成为预备党员时间','preparedtime',false],
-        ['所在党支部名称','preparedbranch',false],
+        // ['所在党支部名称','preparedbranch',false],
         ['转正时间','formaltime',false],
         ['党支部名称','branch',false],
         ['成立时间','buildtime',false],
@@ -1054,9 +1057,9 @@ export default {
         ['学号','schoolid',true],
         ['成为积极分子时间','activetime',true],
         ['是否通过党校考试','score',true],
-        ['积极分子支部名称','activebranch',true],
+        // ['积极分子支部名称','activebranch',true],
         ['成为预备党员时间','preparedtime',true],
-        ['所在党支部名称','preparedbranch',true],
+        // ['所在党支部名称','preparedbranch',true],
         ['转正时间','formaltime',true],
         ['党支部名称','branch',true],
         ['成立时间','buildtime',true],
@@ -1074,7 +1077,7 @@ export default {
         { text: '姓名', value: 'name', align: 'center',width: '105px' },
         { text: '成为积极分子时间', value: 'activetime', align: 'center',width: '150px' },
         { text: '是否通过党校考试', value: 'score', align: 'center',width: '150px' },
-        { text: '积极分子支部名称', value: 'activebranch', align: 'center',width: '150px' },
+        // { text: '积极分子支部名称', value: 'activebranch', align: 'center',width: '150px' },
         { text: '成为预备党员时间', value: 'preparedtime', align: 'center',width: '150px' },
         { text: '党支部名称', value: 'branch', align: 'center',width: '150px' },
         { text: '转正时间', value: 'formaltime', align: 'center',width: '150px' },
@@ -1089,27 +1092,27 @@ export default {
         { state: '30条/页', abbr: 30},
       ],
       desserts: [
-        {
-          id: 1,
-          imgsrc: require('../assets/basicinfo/u264.svg'),
-          name: '张三',
-          schoolid: '18737465',
-          activetime: '2020.05.06',
-          score: '通过',
-          activebranch: 'xx支部',
-          preparedtime: '2021.05.06',
-          preparedbranch: 'yy支部',
-          formaltime: '2021.05.06',
-          branch: 'yy支部',
-          buildtime: '2009.01.01',
-          secretaryname: '李四',
-          formalmembernum: '30人',
-          preparedmembernum: '20人',
-          activemembernum: '10人',
-          isatcollege: '是',
-          ischangedbranch: '是',
-          changeinfo: '1.xxxx',
-        }
+        // {
+        //   id: 1,
+        //   imgsrc: require('../assets/basicinfo/u264.svg'),
+        //   name: '张三',
+        //   schoolid: '18737465',
+        //   activetime: '2020.05.06',
+        //   score: '通过',
+        //   // activebranch: 'xx支部',
+        //   preparedtime: '2021.05.06',
+        //   preparedbranch: 'yy支部',
+        //   formaltime: '2021.05.06',
+        //   branch: 'yy支部',
+        //   buildtime: '2009.01.01',
+        //   secretaryname: '李四',
+        //   formalmembernum: '30人',
+        //   preparedmembernum: '20人',
+        //   activemembernum: '10人',
+        //   isatcollege: '是',
+        //   ischangedbranch: '是',
+        //   changeinfo: '1.xxxx',
+        // }
       ],
       maxdate: (function () {
         var date = new Date();
@@ -1152,30 +1155,49 @@ export default {
       this.adddialog = false;
     },
     editfunc(item){
-      this.changeform.name = item.name;
-      this.changeform.schoolid = item.schoolid;
-      this.changeform.activetime = item.activetime;
-      this.changeform.score = item.score;
-      this.changeform.activebranch = item.activebranch;
-      this.changeform.preparedtime = item.preparedtime;
-      this.changeform.preparedbranch = item.preparedbranch;
-      this.changeform.formaltime = item.formaltime;
-      this.changeform.branch = item.branch;
-      this.changeform.buildtime = item.buildtime;
-      this.changeform.secretaryname = item.secretaryname;
-      this.changeform.formalmembernum = item.formalmembernum;
-      this.changeform.preparedmembernum = item.preparedmembernum;
-      this.changeform.activemembernum = item.activemembernum;
-      this.changeform.isatcollege = item.isatcollege;
-      this.changeform.ischangedbranch = item.ischangedbranch;
-      this.changeform.changeinfo = item.changeinfo;
+        this.changeform.name = item.name;
+        this.changeform.schoolid = item.schoolid;
+        this.changeform.activetime = item.activetime;
+        this.changeform.score = item.score;
+        // this.changeform.activebranch = item.activebranch;
+        this.changeform.preparedtime = item.preparedtime;
+        // this.changeform.preparedbranch = item.preparedbranch;
+        this.changeform.formaltime = item.formaltime;
+        this.changeform.branch = item.branch;
+        this.changeform.buildtime = item.buildtime;
+        this.changeform.secretaryname = item.secretaryname;
+        this.changeform.formalmembernum = item.formalmembernum;
+        this.changeform.preparedmembernum = item.preparedmembernum;
+        this.changeform.activemembernum = item.activemembernum;
+        this.changeform.isatcollege = item.isatcollege;
+        this.changeform.ischangedbranch = item.ischangedbranch;
+        this.changeform.changeinfo = item.changeinfo;
     },
     deletefunc(item){
       console.log(item);
     },
     savechange(item){
       console.log(item);
-      this.changedialog[desserts.indexOf(item)] = false;
+      axios({
+        url: '/api/basic/update',
+        method: 'post',
+        // params: {
+        //   stuNum: this.name,
+        // }
+        data: this.changeform
+      }).then(res => {
+        if (res.data.flag) {
+          this.$message.success("保存成功，请手动刷新");
+          this.changedialog[this.desserts.indexOf(item)] = false;     
+        } else {
+          this.$message.error("保存失败");
+          this.changedialog[this.desserts.indexOf(item)] = false;
+        }
+      }).catch(err => {
+          console.log(err);
+          this.$message.error("保存失败");
+          this.changedialog[this.desserts.indexOf(item)] = false;      
+      })
     },
     getstr(item,name){
       return item[name[1]];
