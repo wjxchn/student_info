@@ -477,7 +477,7 @@
                     tile
                     flat
                   >
-                    <img :src="item.imgsrc" width="70%" height="70%" alt="" />
+                    <img :src="'/avatar/'+item.imgsrc" width="70%" height="70%" alt="" />
                   </v-card>
                 </v-col>
                 <v-col
