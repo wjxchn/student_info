@@ -19,28 +19,6 @@
             <span class="headline">选择字段</span>
           </v-card-title>
           <v-row no-gutters>
-            <v-col cols="12" sm="12">
-              <div style="margin-left:20px;display:inline-block;">
-                请输入姓名：
-                <v-text-field
-                  single-line
-                  outlined
-                  dense
-                  style="width:300px;font-size:15px;transform:scale(0,75,0,75);"
-                  v-model="namesearchstr"
-                ></v-text-field>
-              </div>
-              <div style="margin-left:20px;display:inline-block;">
-                请输入学号：
-                <v-text-field
-                  single-line
-                  outlined
-                  dense
-                  style="width:300px;font-size:15px;transform:scale(0,75,0,75);"
-                  v-model="schoolidsearchstr"
-                ></v-text-field>
-              </div>
-            </v-col>
             <v-col
               cols="12"
               sm="12"
@@ -448,15 +426,28 @@
           </v-card-actions>
         </v-card>
       </v-dialog>
+      <v-text-field
+        v-model="search"
+        append-icon="mdi-magnify"
+        label="搜索含有的关键字"
+        single-line
+        hide-details
+        required
+        outlined
+        dense
+        dark
+        style="width:300px;display:inline-block;"
+      ></v-text-field>
       <div style="height:15px;"></div>
       <div style="min-width:960px;">
       <v-data-table
         v-model="selected"
         :headers="headers"
-        :items="selecteddesserts"
+        :items="desserts"
         :single-select="singleSelect"
         :single-expand="singleExpand"
         :expanded.sync="expanded"
+        :search="search"
         item-key="name"
         show-expand
         class="elevation-1"
@@ -983,8 +974,7 @@ export default {
     return {
       chinesename: '党务管理',
       valid: true,
-      namesearchstr: '',
-      schoolidsearchstr: '',
+      search: '',
       activetimemenu: false,
       preparedtimemenu: false,
       formaltimemenu: false,
@@ -1121,7 +1111,6 @@ export default {
           changeinfo: '1.xxxx',
         }
       ],
-      selecteddesserts: [],
       maxdate: (function () {
         var date = new Date();
         var monthstr = '';
@@ -1210,28 +1199,6 @@ export default {
         }
       }
       this.headers = obj;
-
-      let vuethis = this;
-
-      function namefilter(val){
-        return val.name.indexOf(vuethis.namesearchstr)!=-1;
-      }
-
-      function schoolidfilter(val){
-        return val.schoolid.indexOf(vuethis.schoolidsearchstr)!=-1;
-      }
-      if((this.namesearchstr==''||this.namesearchstr==undefined)&&(this.schoolidsearchstr==''||this.schoolidsearchstr==undefined)){
-        this.selecteddesserts = this.desserts;
-      }
-      else if((!(this.namesearchstr==''||this.namesearchstr==undefined))&&(!(this.schoolidsearchstr==''||this.schoolidsearchstr==undefined))){
-        this.selecteddesserts = this.desserts.filter(namefilter).filter(schoolidfilter);
-      }
-      else if(!(this.namesearchstr==''||this.namesearchstr==undefined)){
-        this.selecteddesserts = this.desserts.filter(namefilter);
-      }
-      else{
-        this.selecteddesserts = this.desserts.filter(schoolidfilter);
-      }
     },
     exportfunc(){
       console.log(this.selected);
