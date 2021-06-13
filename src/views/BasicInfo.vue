@@ -863,6 +863,7 @@
                             required
                             outlined
                             dense
+                            :rules="nameRules"
                             style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
                           ></v-text-field>
                         </v-col>
@@ -880,6 +881,7 @@
                             required
                             outlined
                             dense
+                            :rules="phoneRules"
                             style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
                           ></v-text-field>
                         </v-col>
@@ -1441,6 +1443,7 @@
                                 required
                                 outlined
                                 dense
+                                :rules="phoneRules"
                                 style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
                               ></v-text-field>
                             </v-col>
@@ -1518,7 +1521,7 @@
                                     style="font-size:20px;width:100%;transform:scale(0.75,0.75);"
                                   ></v-text-field>
                                 </template>
-                                <v-date-picker v-model="changeform.registeredtime" no-title scrollable>
+                                <v-date-picker v-model="changeform.registeredtime" no-title scrollable :max="maxdate">
                                   <v-spacer></v-spacer>
                                   <v-btn text color="primary" @click="changeregisteredmenu = false">Cancel</v-btn>
                                   <v-btn text color="primary" @click="changeregisteredmenu = false">OK</v-btn>
@@ -1636,7 +1639,7 @@
                                     style="font-size:20px;width:100%;transform:scale(0.75,0.75);"
                                   ></v-text-field>
                                 </template>
-                                <v-date-picker v-model="changeform.appliedtime" no-title scrollable>
+                                <v-date-picker v-model="changeform.appliedtime" no-title scrollable :max="maxdate">
                                   <v-spacer></v-spacer>
                                   <v-btn text color="primary" @click="changeappliedmenu = false">Cancel</v-btn>
                                   <v-btn text color="primary" @click="changeappliedmenu = false">OK</v-btn>
@@ -1699,7 +1702,7 @@
                                     style="font-size:20px;width:100%;transform:scale(0.75,0.75);"
                                   ></v-text-field>
                                 </template>
-                                <v-date-picker v-model="changeform.birthdate" no-title scrollable>
+                                <v-date-picker v-model="changeform.birthdate" no-title scrollable :max="maxdate">
                                   <v-spacer></v-spacer>
                                   <v-btn text color="primary" @click="changebirthdatemenu = false">Cancel</v-btn>
                                   <v-btn text color="primary" @click="changebirthdatemenu = false">OK</v-btn>
@@ -1771,6 +1774,7 @@
                                 required
                                 outlined
                                 dense
+                                :rules="phoneRules"
                                 style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
                               ></v-text-field>
                             </v-col>
@@ -1987,6 +1991,7 @@
                                 required
                                 outlined
                                 dense
+                                :rules="nameRules"
                                 style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
                               ></v-text-field>
                             </v-col>
@@ -2004,6 +2009,7 @@
                                 required
                                 outlined
                                 dense
+                                :rules="phoneRules"
                                 style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
                               ></v-text-field>
                             </v-col>
@@ -2021,6 +2027,7 @@
                                 required
                                 outlined
                                 dense
+                                :rules="[v => (!v)||(v && v.length >= 2 && v.length <= 10) || '姓名的长度须大于等于2且小于等于10',],"
                                 style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
                               ></v-text-field>
                             </v-col>
