@@ -19,6 +19,28 @@
             <span class="headline">选择字段</span>
           </v-card-title>
           <v-row no-gutters>
+            <v-col cols="12" sm="12">
+              <div style="margin-left:20px;display:inline-block;">
+                请输入姓名：
+                <v-text-field
+                  single-line
+                  outlined
+                  dense
+                  style="width:300px;font-size:15px;transform:scale(0,75,0,75);"
+                  v-model="namesearchstr"
+                ></v-text-field>
+              </div>
+              <div style="margin-left:20px;display:inline-block;">
+                请输入学号：
+                <v-text-field
+                  single-line
+                  outlined
+                  dense
+                  style="width:300px;font-size:15px;transform:scale(0,75,0,75);"
+                  v-model="studentidsearchstr"
+                ></v-text-field>
+              </div>
+            </v-col>          
             <v-col
               cols="12"
               sm="12"
@@ -30,7 +52,7 @@
               >
                 <v-checkbox
                   v-model="checkbox"
-                  :label="`全选: ${checkbox.toString()}`"
+                  :label="`全选`"
                 ></v-checkbox>
               </v-card>
             </v-col>
@@ -2274,6 +2296,8 @@ export default {
     return {
       chinesename: '基本信息管理',
       valid: true,
+      namesearchstr: '',
+      studentidsearchstr: '',
       addform: {
         imgsrc: require('../assets/basicinfo/u264.svg'),
         name: '',
@@ -2658,7 +2682,7 @@ export default {
       }
       let obj = [
         { text: '', value: 'data-table-expand' },
-        { text: '操作', value: 'operation', align: 'center', sortable:false },        
+        { text: '操作', value: 'operation', align: 'center', sortable:false, width:'300px' },        
       ];
       for(let k of this.infolist){
         if(k[2]){
