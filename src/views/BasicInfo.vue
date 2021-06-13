@@ -2,7 +2,7 @@
   <div id="basicInfo">
     <background :titlevalue="chinesename" iconvalue="mdi-school"></background>
     <div class="basic_info_table">
-      <v-dialog v-model="selectdialog" width="1000px" persistent>
+      <v-dialog v-model="selectdialog" width="1000px">
         <template v-slot:activator="{ on, attrs }">
           <v-btn
             depressed
@@ -60,7 +60,7 @@
           </v-card-actions>
         </v-card>
       </v-dialog>
-      <v-dialog v-model="adddialog" width="1200px" persistent>
+      <v-dialog v-model="adddialog" width="1200px">
         <template v-slot:activator="{ on, attrs }">
           <v-btn
             depressed

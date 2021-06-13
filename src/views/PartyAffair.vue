@@ -2,7 +2,7 @@
   <div id="partyAffair">
     <background :titlevalue="chinesename" iconvalue="work"></background>
     <div class="party_affair_table">
-      <v-dialog v-model="selectdialog" width="1000px" persistent>
+      <v-dialog v-model="selectdialog" width="1000px">
         <template v-slot:activator="{ on, attrs }">
           <v-btn
             depressed
@@ -525,7 +525,7 @@
           </td>
         </template>
         <template v-slot:item.operation="{item}">
-          <v-dialog v-model="changedialog" width="1200px" persistent>
+          <v-dialog v-model="changedialog" width="1200px">
             <template v-slot:activator="{ on, attrs }">
               <v-btn
                 depressed
@@ -886,8 +886,7 @@
               </div>
               <v-card-actions>
                 <div style="margin:0 auto;">
-                <v-btn color="#EBECF1" @click="changedialog = false" dark depressed style="color:rgba(71, 112, 166, 0.996078431372549);margin-top:10px;margin-right:10px;margin-bottom:10px;">取消</v-btn>
-                <v-btn color="rgba(71, 112, 166, 0.996078431372549)" @click="savechange(item)" dark depressed style="margin-top:10px;margin-left:10px;margin-bottom:10px;">保存</v-btn>
+                <v-btn color="rgba(71, 112, 166, 0.996078431372549)" @click="savechange(item)" dark depressed style="margin-top:10px;margin-left:10px;margin-bottom:10px;">保存更改</v-btn>
                 </div>
               </v-card-actions>
             </v-card>
