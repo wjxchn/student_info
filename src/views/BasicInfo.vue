@@ -4,7 +4,7 @@
     <div class="basic_info_table">
       <v-dialog v-model="selectdialog" width="1000px" persistent>
         <template v-slot:activator="{ on, attrs }">
-          <v-btn 
+          <v-btn
             depressed
             small
             style="border:1px solid rgba(71, 112, 166, 0.996); width:100px; height:38px; color:rgba(71, 112, 166, 0.996); font-size:13px;"
@@ -40,7 +40,7 @@
                   v-model="studentidsearchstr"
                 ></v-text-field>
               </div>
-            </v-col>          
+            </v-col>
             <v-col
               cols="12"
               sm="12"
@@ -1101,7 +1101,7 @@
           <v-card-actions>
             <div style="margin:0 auto;">
             <v-btn color="#EBECF1" @click="adddialog = false" dark depressed style="color:rgba(71, 112, 166, 0.996078431372549);margin-top:10px;margin-right:10px;margin-bottom:10px;">取消</v-btn>
-            <v-btn color="rgba(71, 112, 166, 0.996078431372549)" @click="adddialog = false" dark depressed style="margin-top:10px;margin-left:10px;margin-bottom:10px;">添加</v-btn>
+            <v-btn color="rgba(71, 112, 166, 0.996078431372549)" @click="addStuInfo()" dark depressed style="margin-top:10px;margin-left:10px;margin-bottom:10px;">添加</v-btn>
             </div>
           </v-card-actions>
         </v-card>
@@ -1123,7 +1123,7 @@
         :items-per-page="itemsPerPage"
         hide-default-footer
         @page-count="pageCount = $event"
-        mobile-breakpoint=0   
+        mobile-breakpoint=0
       >
         <template v-slot:expanded-item="{ headers, item }">
           <td :colspan="headers.length" class="basic_info_expand_td">
@@ -2209,7 +2209,7 @@
               <v-card-actions>
                 <div style="margin:0 auto;">
                 <v-btn color="#EBECF1" @click="changedialog = false" dark depressed style="color:rgba(71, 112, 166, 0.996078431372549);margin-top:10px;margin-right:10px;margin-bottom:10px;">取消</v-btn>
-                <v-btn color="rgba(71, 112, 166, 0.996078431372549)" @click="saveadd()" dark depressed style="margin-top:10px;margin-left:10px;margin-bottom:10px;">添加</v-btn>
+                <v-btn color="rgba(71, 112, 166, 0.996078431372549)" @click="saveupdate()" dark depressed style="margin-top:10px;margin-left:10px;margin-bottom:10px;">保存更改</v-btn>
                 </div>
               </v-card-actions>
             </v-card>
@@ -2289,6 +2289,7 @@
 
 <script>
 import Background from '@/components/Background.vue'
+const axios = require('axios');
 export default {
   name: 'BasicInfo',
   components: {
@@ -2406,7 +2407,7 @@ export default {
       changeregisteredmenu: false,
       changeappliedmenu: false,
       changebirthdatemenu: false,
-      yesornolist: ['是','否'], 
+      yesornolist: ['是','否'],
       sexchoice: ['男','女'],
       checkbox: false,
       selectdialog: false,
@@ -2621,8 +2622,41 @@ export default {
     }
   },
   methods: {
-    saveadd(){
+    addStuInfo(){
+      this.adddialog = false;
+      axios({
+        url: '/api/basic/add',
+        method: 'post',
+        // params: {
+        //   stuNum: this.name,
+        // }
+        data: this.addform
+      }).then(res => {
+        if (res.data.flag) {
+          alert("保存成功！");
+        } else {
+          alert("保存失败！");
+        }
+      })
+
+    },
+    saveupdate(){
       console.log(this.addform);
+      axios({
+        url: '/api/basic/update',
+        method: 'post',
+        // params: {
+        //   stuNum: this.name,
+        // }
+        data: this.changeform
+      }).then(res => {
+        if (res.data.flag) {
+          alert("保存成功！");
+        } else {
+          alert("保存失败！");
+        }
+      })
+
       this.changedialog = false;
     },
     changefunc(item){
@@ -2689,7 +2723,7 @@ export default {
       }
       let obj = [
         { text: '', value: 'data-table-expand' },
-        { text: '操作', value: 'operation', align: 'center', sortable:false, width:'300px' },        
+        { text: '操作', value: 'operation', align: 'center', sortable:false, width:'300px' },
       ];
       for(let k of this.infolist){
         if(k[2]){
@@ -2715,7 +2749,7 @@ export default {
       else{
         for(let i of this.checkinfolist){
           i[2] = false;
-        }  
+        }
       }
     },
     checkinfolist:{
