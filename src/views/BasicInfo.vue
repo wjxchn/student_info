@@ -2663,7 +2663,7 @@ export default {
           alert("保存失败！");
         }
       })
-
+      this.$router.go(0);
     },
     saveupdate(){
       console.log(this.addform);
