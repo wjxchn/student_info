@@ -37,7 +37,7 @@
                   outlined
                   dense
                   style="width:300px;font-size:15px;transform:scale(0,75,0,75);"
-                  v-model="studentidsearchstr"
+                  v-model="schoolidsearchstr"
                 ></v-text-field>
               </div>
             </v-col>          
@@ -1111,7 +1111,7 @@
       <v-data-table
         v-model="selected"
         :headers="headers"
-        :items="desserts"
+        :items="selecteddesserts"
         :single-select="singleSelect"
         :single-expand="singleExpand"
         :expanded.sync="expanded"
@@ -2299,7 +2299,7 @@ export default {
       chinesename: '基本信息管理',
       valid: true,
       namesearchstr: '',
-      studentidsearchstr: '',
+      schoolidsearchstr: '',
       addform: {
         imgsrc: require('../assets/basicinfo/u264.svg'),
         name: '',
@@ -2585,6 +2585,7 @@ export default {
           dormitorybed: '2',
         }
       ],
+      selecteddesserts: [],
       maxdate: (function () {
         var date = new Date();
         var monthstr = '';
@@ -2614,6 +2615,9 @@ export default {
         v => (v && /^1[345789]\d{9}$/.test(v)) || '请输入正确的手机号码'
       ],
     }
+  },
+  created:function(){
+    this.selecteddesserts = this.desserts;
   },
   computed:{
     tablesum(){
@@ -2697,6 +2701,28 @@ export default {
         }
       }
       this.headers = obj;
+
+      let vuethis = this;
+
+      function namefilter(val){
+        return val.name.indexOf(vuethis.namesearchstr)!=-1;
+      }
+
+      function schoolidfilter(val){
+        return val.schoolid.indexOf(vuethis.schoolidsearchstr)!=-1;
+      }
+      if((this.namesearchstr==''||this.namesearchstr==undefined)&&(this.schoolidsearchstr==''||this.schoolidsearchstr==undefined)){
+        this.selecteddesserts = this.desserts;
+      }
+      else if((!(this.namesearchstr==''||this.namesearchstr==undefined))&&(!(this.schoolidsearchstr==''||this.schoolidsearchstr==undefined))){
+        this.selecteddesserts = this.desserts.filter(namefilter).filter(schoolidfilter);
+      }
+      else if(!(this.namesearchstr==''||this.namesearchstr==undefined)){
+        this.selecteddesserts = this.desserts.filter(namefilter);
+      }
+      else{
+        this.selecteddesserts = this.desserts.filter(schoolidfilter);
+      }
     },
     exportfunc(){
       console.log(this.selected);
