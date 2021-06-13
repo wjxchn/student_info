@@ -2657,7 +2657,8 @@ export default {
         data: this.addform
       }).then(res => {
         if (res.data.flag) {
-          this.$message.success("添加成功，请手动刷新");
+          this.$message.success("添加成功");
+          this.$router.go(0); 
         } else {
           this.$message.error("添加失败");
         }
@@ -2677,8 +2678,9 @@ export default {
         data: this.changeform
       }).then(res => {
         if (res.data.flag) {
-          this.$message.success("保存成功，请手动刷新");
-          this.changedialog[this.desserts.indexOf(item)] = false;     
+          this.$message.success("保存成功");
+          this.changedialog[this.desserts.indexOf(item)] = false;
+          this.$router.go(0);  
         } else {
           this.$message.error("保存失败");
           this.changedialog[this.desserts.indexOf(item)] = false;
@@ -2702,7 +2704,8 @@ export default {
         data: object
       }).then(res => {
         if (res.data.flag) {
-          this.$message.success("删除成功，请手动刷新");
+          this.$message.success("删除成功");
+          this.$router.go(0); 
         } else {
           this.$message.error("删除失败");
         }
