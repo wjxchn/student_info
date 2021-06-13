@@ -1,6 +1,6 @@
 <template>
   <div id="cancelLeave">
-    <background :titlevalue="chinesename"></background>
+    <background :titlevalue="chinesename" iconvalue="timer"></background>
     <div class="table">
       <div style="width:100%;height:38px;">
         <v-btn

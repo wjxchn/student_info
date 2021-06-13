@@ -1,10 +1,10 @@
 <template>
   <div id="basicInfo">
-    <background :titlevalue="chinesename"></background>
+    <background :titlevalue="chinesename" iconvalue="mdi-school"></background>
     <div class="basic_info_table">
       <v-dialog v-model="selectdialog" width="1000px" persistent>
         <template v-slot:activator="{ on, attrs }">
-          <v-btn
+          <v-btn 
             depressed
             small
             style="border:1px solid rgba(71, 112, 166, 0.996); width:100px; height:38px; color:rgba(71, 112, 166, 0.996); font-size:13px;"
@@ -19,6 +19,28 @@
             <span class="headline">选择字段</span>
           </v-card-title>
           <v-row no-gutters>
+            <v-col cols="12" sm="12">
+              <div style="margin-left:20px;display:inline-block;">
+                请输入姓名：
+                <v-text-field
+                  single-line
+                  outlined
+                  dense
+                  style="width:300px;font-size:15px;transform:scale(0,75,0,75);"
+                  v-model="namesearchstr"
+                ></v-text-field>
+              </div>
+              <div style="margin-left:20px;display:inline-block;">
+                请输入学号：
+                <v-text-field
+                  single-line
+                  outlined
+                  dense
+                  style="width:300px;font-size:15px;transform:scale(0,75,0,75);"
+                  v-model="studentidsearchstr"
+                ></v-text-field>
+              </div>
+            </v-col>          
             <v-col
               cols="12"
               sm="12"
@@ -30,7 +52,7 @@
               >
                 <v-checkbox
                   v-model="checkbox"
-                  :label="`全选: ${checkbox.toString()}`"
+                  :label="`全选`"
                 ></v-checkbox>
               </v-card>
             </v-col>
@@ -80,7 +102,7 @@
             <v-form
               ref="form"
               v-model="valid"
-              :lazy-validation="lazy"
+              :lazy-validation="false"
             >
               <v-container>
                 <v-row dense no-gutters>
@@ -133,6 +155,7 @@
                             required
                             outlined
                             dense
+                            :rules="nameRules"
                             style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
                           ></v-text-field>
                         </v-col>
@@ -150,6 +173,7 @@
                             required
                             outlined
                             dense
+                            :rules="[v => !!v || '请输入学号',]"
                             style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
                           ></v-text-field>
                         </v-col>
@@ -161,15 +185,9 @@
                           <v-subheader class="ma-0 pa-0" style="font-size:10px;">性别</v-subheader>
                         </v-col>
                         <v-col cols="8" class="ma-0 pa-0">
-                          <v-radio-group v-model="addform.sex" row style="width=:100%;transform:scale(0.75,0.75);" class="ma-2 pa-0">
-                            <v-radio
-                              v-for="i in sexchoice"
-                              :key="i"
-                              :label="i"
-                              :value="i"
-                              style="font-size:10px;"
-                            ></v-radio>
-                          </v-radio-group>
+                          <v-select :items="['男','女']" v-model="addform.sex" outlined dense
+                            style="width=:100%;transform:scale(0.75,0.75);font-size:15px;"
+                          ></v-select>
                         </v-col>
                       </v-row>
                     </v-container>
@@ -179,14 +197,14 @@
                           <v-subheader class="ma-0 pa-0" style="font-size:10px;">民族</v-subheader>
                         </v-col>
                         <v-col cols="8" class="ma-0 pa-0">
-                          <v-text-field
-                              class="ma-0 pa-0"
+                          <v-select
+                              :items="['汉族', '蒙古族', '回族', '藏族', '维吾尔族','苗族', '彝族', '壮族', '布依族', '朝鲜族','满族', '侗族', '瑶族', '白族', '土家族','哈尼族', '哈萨克族', '傣族', '黎族', '僳僳族','佤族', '畲族', '高山族', '拉祜族', '水族','东乡族', '纳西族', '景颇族', '柯尔克孜族', '土族','达斡尔族', '仫佬族', '羌族', '布朗族', '撒拉族','毛南族','仡佬族', '锡伯族', '阿昌族', '普米族','塔吉克族', '怒族', '乌孜别克族', '俄罗斯族', '鄂温克族', '德昂族', '保安族', '裕固族', '京族', '塔塔尔族','独龙族', '鄂伦春族', '赫哲族', '门巴族', '珞巴族','基诺族']"
                               v-model="addform.race"
                               required
                               outlined
                               dense
                               style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
-                            ></v-text-field>
+                          ></v-select>
                         </v-col>
                       </v-row>
                     </v-container>
@@ -202,6 +220,7 @@
                             required
                             outlined
                             dense
+                            :rules="ageRules"
                             style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
                           ></v-text-field>
                         </v-col>
@@ -219,6 +238,7 @@
                             required
                             outlined
                             dense
+                            :rules="[v => !!v || '请输入籍贯',]"
                             style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
                           ></v-text-field>
                         </v-col>
@@ -246,6 +266,7 @@
                             required
                             outlined
                             dense
+                            :rules="[v => !!v || '请输入现家庭住址',]"
                             style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
                           ></v-text-field>
                         </v-col>
@@ -263,6 +284,7 @@
                             required
                             outlined
                             dense
+                            :rules="[v => !!v || '请输入户口所在地',]"
                             style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
                           ></v-text-field>
                         </v-col>
@@ -280,6 +302,7 @@
                             required
                             outlined
                             dense
+                            :rules="nameRules"
                             style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
                           ></v-text-field>
                         </v-col>
@@ -291,14 +314,13 @@
                           <v-subheader class="ma-0 pa-0" style="font-size:10px;">紧急联系人关系</v-subheader>
                         </v-col>
                         <v-col cols="8" class="ma-0 pa-0">
-                          <v-text-field
-                            class="ma-0 pa-0"
+                          <v-select
+                            :items="['父子', '母子', '父女', '母女', '其他']"
                             v-model="addform.urgentcontactrelation"
-                            required
                             outlined
                             dense
                             style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
-                          ></v-text-field>
+                          ></v-select>
                         </v-col>
                       </v-row>
                     </v-container>
@@ -314,6 +336,7 @@
                             required
                             outlined
                             dense
+                            :rules="phoneRules"
                             style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
                           ></v-text-field>
                         </v-col>
@@ -391,7 +414,7 @@
                                 style="font-size:20px;width:100%;transform:scale(0.75,0.75);"
                               ></v-text-field>
                             </template>
-                            <v-date-picker v-model="addform.registeredtime" no-title scrollable>
+                            <v-date-picker v-model="addform.registeredtime" no-title scrollable :max="maxdate">
                               <v-spacer></v-spacer>
                               <v-btn text color="primary" @click="registeredmenu = false">Cancel</v-btn>
                               <v-btn text color="primary" @click="registeredmenu = false">OK</v-btn>
@@ -509,7 +532,7 @@
                                 style="font-size:20px;width:100%;transform:scale(0.75,0.75);"
                               ></v-text-field>
                             </template>
-                            <v-date-picker v-model="addform.appliedtime" no-title scrollable>
+                            <v-date-picker v-model="addform.appliedtime" no-title scrollable :max="maxdate">
                               <v-spacer></v-spacer>
                               <v-btn text color="primary" @click="appliedmenu = false">Cancel</v-btn>
                               <v-btn text color="primary" @click="appliedmenu = false">OK</v-btn>
@@ -572,7 +595,7 @@
                                 style="font-size:20px;width:100%;transform:scale(0.75,0.75);"
                               ></v-text-field>
                             </template>
-                            <v-date-picker v-model="addform.birthdate" no-title scrollable>
+                            <v-date-picker v-model="addform.birthdate" no-title scrollable :max="maxdate">
                               <v-spacer></v-spacer>
                               <v-btn text color="primary" @click="birthdatemenu = false">Cancel</v-btn>
                               <v-btn text color="primary" @click="birthdatemenu = false">OK</v-btn>
@@ -593,6 +616,7 @@
                             required
                             outlined
                             dense
+                            :rules="[v => !!v || '请输入身份证号',v => (v && v.length == 18) || '请输入18位身份证号']"
                             style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
                           ></v-text-field>
                         </v-col>
@@ -604,14 +628,13 @@
                           <v-subheader class="ma-0 pa-0" style="font-size:10px;">入学年份</v-subheader>
                         </v-col>
                         <v-col cols="8" class="ma-0 pa-0">
-                          <v-text-field
-                            class="ma-0 pa-0"
+                          <v-select
+                            :items="['201309', '201409', '201509', '201609', '201709', '201809', '201909', '202009', '202109', '202209', '202309', '202409', '202509', '202609', '202709', '202809', '202909', '203009']"
                             v-model="addform.schoolstartyear"
-                            required
                             outlined
                             dense
                             style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
-                          ></v-text-field>
+                          ></v-select>
                         </v-col>
                       </v-row>
                     </v-container>
@@ -621,14 +644,13 @@
                           <v-subheader class="ma-0 pa-0" style="font-size:10px;">政治面貌</v-subheader>
                         </v-col>
                         <v-col cols="8" class="ma-0 pa-0">
-                          <v-text-field
-                            class="ma-0 pa-0"
+                          <v-select
+                            :items="['正式党员', '预备党员', '共青团员', '群众', '其它']"
                             v-model="addform.politics"
-                            required
                             outlined
                             dense
                             style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
-                          ></v-text-field>
+                          ></v-select>
                         </v-col>
                       </v-row>
                     </v-container>
@@ -644,6 +666,7 @@
                             required
                             outlined
                             dense
+                            :rules="phoneRules"
                             style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
                           ></v-text-field>
                         </v-col>
@@ -665,14 +688,13 @@
                           <v-subheader class="ma-0 pa-0" style="font-size:10px;">所属校区</v-subheader>
                         </v-col>
                         <v-col cols="8" class="ma-0 pa-0">
-                          <v-text-field
-                            class="ma-0 pa-0"
+                          <v-select
+                            :items="['学院路校区', '沙河校区', '杭州研究院', '青岛研究院', '苏州研究院', '深圳研究院', '云南研究院', '其它']"
                             v-model="addform.schoolzone"
-                            required
                             outlined
                             dense
                             style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
-                          ></v-text-field>
+                          ></v-select>
                         </v-col>
                       </v-row>
                     </v-container>
@@ -682,14 +704,13 @@
                           <v-subheader class="ma-0 pa-0" style="font-size:10px;">学生类型</v-subheader>
                         </v-col>
                         <v-col cols="8" class="ma-0 pa-0">
-                          <v-text-field
-                            class="ma-0 pa-0"
+                          <v-select
                             v-model="addform.studenttype"
-                            required
+                            :items="['本科', '硕士', '博士']"
                             outlined
                             dense
                             style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
-                          ></v-text-field>
+                          ></v-select>
                         </v-col>
                       </v-row>
                     </v-container>
@@ -761,14 +782,13 @@
                           <v-subheader class="ma-0 pa-0" style="font-size:10px;">培养方式</v-subheader>
                         </v-col>
                         <v-col cols="8" class="ma-0 pa-0">
-                          <v-text-field
-                            class="ma-0 pa-0"
+                          <v-select
+                            :items="['全日制定向', '全日制非定向', '非全日制']"
                             v-model="addform.fosterway"
-                            required
                             outlined
                             dense
                             style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
-                          ></v-text-field>
+                          ></v-select>
                         </v-col>
                       </v-row>
                     </v-container>
@@ -1012,14 +1032,13 @@
                           <v-subheader class="ma-0 pa-0" style="font-size:10px;">宿舍区域</v-subheader>
                         </v-col>
                         <v-col cols="8" class="ma-0 pa-0">
-                          <v-text-field
-                            class="ma-0 pa-0"
+                          <v-select
+                            :items="['学院路校内', '学院路大运村','沙河']"
                             v-model="addform.dormitoryarea"
-                            required
                             outlined
                             dense
                             style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
-                          ></v-text-field>
+                          ></v-select>
                         </v-col>
                       </v-row>
                     </v-container>
@@ -1104,7 +1123,7 @@
         :items-per-page="itemsPerPage"
         hide-default-footer
         @page-count="pageCount = $event"
-        mobile-breakpoint=0
+        mobile-breakpoint=0   
       >
         <template v-slot:expanded-item="{ headers, item }">
           <td :colspan="headers.length" class="basic_info_expand_td">
@@ -1194,7 +1213,7 @@
                 <v-form
                   ref="form"
                   v-model="valid"
-                  :lazy-validation="lazy"
+                  :lazy-validation="false"
                 >
                   <v-container>
                     <v-row dense no-gutters>
@@ -1293,14 +1312,14 @@
                               <v-subheader class="ma-0 pa-0" style="font-size:10px;">民族</v-subheader>
                             </v-col>
                             <v-col cols="8" class="ma-0 pa-0">
-                              <v-text-field
-                                  class="ma-0 pa-0"
+                              <v-select
+                                  :items="['汉族', '蒙古族', '回族', '藏族', '维吾尔族','苗族', '彝族', '壮族', '布依族', '朝鲜族','满族', '侗族', '瑶族', '白族', '土家族','哈尼族', '哈萨克族', '傣族', '黎族', '僳僳族','佤族', '畲族', '高山族', '拉祜族', '水族','东乡族', '纳西族', '景颇族', '柯尔克孜族', '土族','达斡尔族', '仫佬族', '羌族', '布朗族', '撒拉族','毛南族','仡佬族', '锡伯族', '阿昌族', '普米族','塔吉克族', '怒族', '乌孜别克族', '俄罗斯族', '鄂温克族', '德昂族', '保安族', '裕固族', '京族', '塔塔尔族','独龙族', '鄂伦春族', '赫哲族', '门巴族', '珞巴族','基诺族']"
                                   v-model="changeform.race"
                                   required
                                   outlined
                                   dense
                                   style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
-                                ></v-text-field>
+                              ></v-select>
                             </v-col>
                           </v-row>
                         </v-container>
@@ -1310,14 +1329,9 @@
                               <v-subheader class="ma-0 pa-0" style="font-size:10px;">年龄</v-subheader>
                             </v-col>
                             <v-col cols="8" class="ma-0 pa-0">
-                              <v-text-field
-                                class="ma-0 pa-0"
-                                v-model="changeform.age"
-                                required
-                                outlined
-                                dense
-                                style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
-                              ></v-text-field>
+                              <v-select :items="['男','女']" v-model="changeform.sex" outlined dense
+                                style="width=:100%;transform:scale(0.75,0.75);font-size:15px;"
+                              ></v-select>
                             </v-col>
                           </v-row>
                         </v-container>
@@ -1333,6 +1347,7 @@
                                 required
                                 outlined
                                 dense
+                                :rules="[v => !!v || '请输入籍贯',]"
                                 style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
                               ></v-text-field>
                             </v-col>
@@ -1360,6 +1375,7 @@
                                 required
                                 outlined
                                 dense
+                                :rules="[v => !!v || '请输入现家庭住址',]"
                                 style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
                               ></v-text-field>
                             </v-col>
@@ -1377,6 +1393,7 @@
                                 required
                                 outlined
                                 dense
+                                :rules="[v => !!v || '请输入户口所在地',]"
                                 style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
                               ></v-text-field>
                             </v-col>
@@ -1394,6 +1411,7 @@
                                 required
                                 outlined
                                 dense
+                                :rules="nameRules"
                                 style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
                               ></v-text-field>
                             </v-col>
@@ -1405,14 +1423,13 @@
                               <v-subheader class="ma-0 pa-0" style="font-size:10px;">紧急联系人关系</v-subheader>
                             </v-col>
                             <v-col cols="8" class="ma-0 pa-0">
-                              <v-text-field
-                                class="ma-0 pa-0"
+                              <v-select
+                                :items="['父子', '母子', '父女', '母女', '其他']"
                                 v-model="changeform.urgentcontactrelation"
-                                required
                                 outlined
                                 dense
                                 style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
-                              ></v-text-field>
+                              ></v-select>
                             </v-col>
                           </v-row>
                         </v-container>
@@ -1707,6 +1724,7 @@
                                 required
                                 outlined
                                 dense
+                                :rules="[v => !!v || '请输入身份证号',v => (v && v.length == 18) || '请输入18位身份证号']"
                                 style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
                               ></v-text-field>
                             </v-col>
@@ -1718,14 +1736,13 @@
                               <v-subheader class="ma-0 pa-0" style="font-size:10px;">入学年份</v-subheader>
                             </v-col>
                             <v-col cols="8" class="ma-0 pa-0">
-                              <v-text-field
-                                class="ma-0 pa-0"
+                              <v-select
+                                :items="['201309', '201409', '201509', '201609', '201709', '201809', '201909', '202009', '202109', '202209', '202309', '202409', '202509', '202609', '202709', '202809', '202909', '203009']"
                                 v-model="changeform.schoolstartyear"
-                                required
                                 outlined
                                 dense
                                 style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
-                              ></v-text-field>
+                              ></v-select>
                             </v-col>
                           </v-row>
                         </v-container>
@@ -1735,14 +1752,13 @@
                               <v-subheader class="ma-0 pa-0" style="font-size:10px;">政治面貌</v-subheader>
                             </v-col>
                             <v-col cols="8" class="ma-0 pa-0">
-                              <v-text-field
-                                class="ma-0 pa-0"
+                              <v-select
+                                :items="['正式党员', '预备党员', '共青团员', '群众', '其它']"
                                 v-model="changeform.politics"
-                                required
                                 outlined
                                 dense
                                 style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
-                              ></v-text-field>
+                              ></v-select>
                             </v-col>
                           </v-row>
                         </v-container>
@@ -1779,14 +1795,13 @@
                               <v-subheader class="ma-0 pa-0" style="font-size:10px;">所属校区</v-subheader>
                             </v-col>
                             <v-col cols="8" class="ma-0 pa-0">
-                              <v-text-field
-                                class="ma-0 pa-0"
+                              <v-select
+                                :items="['学院路校区', '沙河校区', '杭州研究院', '青岛研究院', '苏州研究院', '深圳研究院', '云南研究院', '其它']"
                                 v-model="changeform.schoolzone"
-                                required
                                 outlined
                                 dense
                                 style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
-                              ></v-text-field>
+                              ></v-select>
                             </v-col>
                           </v-row>
                         </v-container>
@@ -1796,14 +1811,13 @@
                               <v-subheader class="ma-0 pa-0" style="font-size:10px;">学生类型</v-subheader>
                             </v-col>
                             <v-col cols="8" class="ma-0 pa-0">
-                              <v-text-field
-                                class="ma-0 pa-0"
+                              <v-select
                                 v-model="changeform.studenttype"
-                                required
+                                :items="['本科', '硕士', '博士']"
                                 outlined
                                 dense
                                 style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
-                              ></v-text-field>
+                              ></v-select>
                             </v-col>
                           </v-row>
                         </v-container>
@@ -2126,14 +2140,13 @@
                               <v-subheader class="ma-0 pa-0" style="font-size:10px;">宿舍区域</v-subheader>
                             </v-col>
                             <v-col cols="8" class="ma-0 pa-0">
-                              <v-text-field
-                                class="ma-0 pa-0"
+                              <v-select
+                                :items="['学院路校内', '学院路大运村','沙河']"
                                 v-model="changeform.dormitoryarea"
-                                required
                                 outlined
                                 dense
                                 style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
-                              ></v-text-field>
+                              ></v-select>
                             </v-col>
                           </v-row>
                         </v-container>
@@ -2196,7 +2209,7 @@
               <v-card-actions>
                 <div style="margin:0 auto;">
                 <v-btn color="#EBECF1" @click="changedialog = false" dark depressed style="color:rgba(71, 112, 166, 0.996078431372549);margin-top:10px;margin-right:10px;margin-bottom:10px;">取消</v-btn>
-                <v-btn color="rgba(71, 112, 166, 0.996078431372549)" @click="changedialog = false" dark depressed style="margin-top:10px;margin-left:10px;margin-bottom:10px;">添加</v-btn>
+                <v-btn color="rgba(71, 112, 166, 0.996078431372549)" @click="saveadd()" dark depressed style="margin-top:10px;margin-left:10px;margin-bottom:10px;">添加</v-btn>
                 </div>
               </v-card-actions>
             </v-card>
@@ -2208,27 +2221,23 @@
       <v-card style="overflow:hidden;" mobile-breakpoint=0>
           <div style="display: inline-block;float:left;padding-left:20px;width:80%;">
             <div style="position: absolute; top:50%;transform: translateY(-50%);font-size:10px;">
-              （TODO）合计：男10人，女10人；贫困生5人，非贫困生15人；关心关爱8人，非关心关爱12人；已毕业2人，未毕业18人
+              合计：男10人，女10人；贫困生5人，非贫困生15人；关心关爱8人，非关心关爱12人；已毕业2人，未毕业18人
             </div>
           </div>
           <div style="display: inline-block;float:right;padding-right:20px;width:20%;">
             <v-btn
-              :loading="loading3"
-              :disabled="loading3"
               color="rgba(128, 152, 192, 0.8)"
               class="ma-2 white--text"
-              @click="loader = 'loading3'"
               small
+              @click="exportfunc()"
             >
               导出
             </v-btn>
             <v-btn
-              :loading="loading3"
-              :disabled="loading3"
               color="rgba(128, 152, 192, 0.8)"
               class="ma-2 white--text"
-              @click="loader = 'loading3'"
               small
+              @click="generateresumefunc()"
             >
               生成简历
             </v-btn>
@@ -2236,7 +2245,7 @@
       </v-card>
       <div class="text-center pt-2">
         <div style="display: inline-block; margin-right:10px; font-weight:700; color:#0D4C7F;">
-          共50条
+          共{{tablesum}}条
         </div>
         <div style="display: inline-block;">
           <v-select
@@ -2289,6 +2298,8 @@ export default {
     return {
       chinesename: '基本信息管理',
       valid: true,
+      namesearchstr: '',
+      studentidsearchstr: '',
       addform: {
         imgsrc: require('../assets/basicinfo/u264.svg'),
         name: '',
@@ -2395,7 +2406,7 @@ export default {
       changeregisteredmenu: false,
       changeappliedmenu: false,
       changebirthdatemenu: false,
-      yesornolist: ['是','否'],
+      yesornolist: ['是','否'], 
       sexchoice: ['男','女'],
       checkbox: false,
       selectdialog: false,
@@ -2547,15 +2558,15 @@ export default {
           appliedaccount: '500.00',
           birthdate: '2002-01',
           idnum: 'xxxxx',
-          schoolstartyear: '2020',
+          schoolstartyear: '201309',
           politics: '共青团员',
           phonenumber: '19918917382',
           schoolzone: '学院路校区',
-          studenttype: '全日制硕士',
+          studenttype: '硕士',
           classnum: '200601',
           guider: '李四',
           isschoolended: '否',
-          fosterway: '非定向',
+          fosterway: '非全日制',
           recentplace: '上海',
           labdoornum: 'S601',
           outsideschoolplace: '上海黄浦区',
@@ -2568,15 +2579,52 @@ export default {
           undergraduatemajor: '有机化学',
           masterschool: '清华大学',
           mastermajor: '无机化学',
-          dormitoryarea: '大运村',
+          dormitoryarea: '学院路大运村',
           dormitorybuilding: '2',
           dormitoryroom: '205',
           dormitorybed: '2',
         }
       ],
+      maxdate: (function () {
+        var date = new Date();
+        var monthstr = '';
+        var daystr = '';
+        if (date.getMonth() >= 0 && date.getMonth() <= 8) {
+          monthstr = monthstr + '0' + (date.getMonth() + 1);
+        } else {
+          monthstr = monthstr + (date.getMonth() + 1);
+        }
+        if (date.getDate() >= 1 && date.getDate() <= 9) {
+          daystr = daystr + '0' + date.getDate();
+        } else {
+          daystr = daystr + date.getDate();
+        }
+        return '' + date.getFullYear() + '-' + monthstr + '-' + daystr;
+      })(),
+      nameRules: [
+        v => !!v || '必须输入姓名',
+        v => (v && v.length >= 2 && v.length <= 10) || '姓名的长度须大于等于2且小于等于10',
+      ],
+      ageRules: [
+        v => !!v || '必须输入年龄',
+        v => (v && parseInt(v) >= 15 && parseInt(v) <= 40) || '请填写15-40之间的数字',
+      ],
+      phoneRules: [
+        v => !!v || '请输入手机号码',
+        v => (v && /^1[345789]\d{9}$/.test(v)) || '请输入正确的手机号码'
+      ],
+    }
+  },
+  computed:{
+    tablesum(){
+      return this.desserts.length;
     }
   },
   methods: {
+    saveadd(){
+      console.log(this.addform);
+      this.changedialog = false;
+    },
     changefunc(item){
         this.changeform.imgsrc = item.imgsrc;
         this.changeform.name = item.name;
@@ -2641,7 +2689,7 @@ export default {
       }
       let obj = [
         { text: '', value: 'data-table-expand' },
-        { text: '操作', value: 'operation', align: 'center', sortable:false },
+        { text: '操作', value: 'operation', align: 'center', sortable:false, width:'300px' },        
       ];
       for(let k of this.infolist){
         if(k[2]){
@@ -2649,6 +2697,12 @@ export default {
         }
       }
       this.headers = obj;
+    },
+    exportfunc(){
+      console.log(this.selected);
+    },
+    generateresumefunc(){
+      console.log(this.selected);
     }
   },
   watch:{
@@ -2661,7 +2715,7 @@ export default {
       else{
         for(let i of this.checkinfolist){
           i[2] = false;
-        }
+        }  
       }
     },
     checkinfolist:{

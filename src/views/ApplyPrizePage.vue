@@ -1,12 +1,13 @@
 <template>
   <div id="applyPrizePage">
-    <background :titlevalue="chinesename"></background>
+    <background :titlevalue="chinesename" iconvalue="inventory"></background>
     <div class="table">
       <div style="width:100%;height:38px;">
         <v-btn 
           depressed
           small
           style="border:1px solid rgba(71, 112, 166, 0.996); width:100px; height:38px; color:rgba(71, 112, 166, 0.996); font-size:13px;"
+          @click="toapplyprize()"
         >
           返回申请列表
         </v-btn>
@@ -123,6 +124,11 @@ export default {
       ],
     }
   },
+  methods:{
+    toapplyprize(){
+      this.$router.push('/applyprize');
+    }
+  }
 }
 </script>
 

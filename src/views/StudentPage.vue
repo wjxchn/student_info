@@ -1,6 +1,6 @@
 <template>
   <div id="studentPage">
-    <background :titlevalue="chinesename"></background>
+    <background :titlevalue="chinesename" iconvalue="mdi-school"></background>
     <div style="position:absolute;top:230px;left:50%;transform:translate(-50%);width:90%;">
       <v-card style="margin-top: 20px;">
         <div class="basic_info_form">

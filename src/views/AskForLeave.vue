@@ -1,6 +1,6 @@
 <template>
   <div id="askForLeave">
-    <background :titlevalue="chinesename"></background>
+    <background :titlevalue="chinesename" iconvalue="timer"></background>
     <div style="position:absolute;top:230px;left:50%;transform:translate(-50%);width:90%;">
       <v-card>
         <div class="basic_info_form">
@@ -240,6 +240,7 @@ export default {
       }
       var begin = +new Date(tableValue.starttime);
       var end = +new Date(tableValue.endtime);
+      var now = +new Date();
       var timeFlag = (end - begin) / 1000 / 60 / 60 / 24;
       if (tableValue.schoolid == '') {
         alert('请输入学号');
@@ -259,6 +260,10 @@ export default {
         alert('请输入请假去向');
       } else if(timeFlag > 2) {
         alert('请假时间不能大于两天');
+      } else if(timeFlag < 0) {
+        alert('结束时间不能小于开始时间');
+      } else if(end + 57600000 < now) {
+        alert('结束时间不能小于今天');
       } else {
         axios({
           url: '/api/leaveinfo',
