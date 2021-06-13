@@ -172,16 +172,16 @@
                         <v-col cols="4"  class="ma-0 pa-0">
                           <v-subheader style="font-size:10px;">积极分子支部名称</v-subheader>
                         </v-col>
-                        <v-col cols="8">
-                          <v-text-field
-                            class="ma-0 pa-0"
-                            v-model="addform.activebranch"
-                            required
-                            outlined
-                            dense
-                            style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
-                          ></v-text-field>
-                        </v-col>
+<!--                        <v-col cols="8">-->
+<!--                          <v-text-field-->
+<!--                            class="ma-0 pa-0"-->
+<!--                            v-model="addform.activebranch"-->
+<!--                            required-->
+<!--                            outlined-->
+<!--                            dense-->
+<!--                            style="font-size:15px;width:100%;transform:scale(0.75,0.75);"-->
+<!--                          ></v-text-field>-->
+<!--                        </v-col>-->
                         <v-col cols="4"  class="ma-0 pa-0">
                           <v-subheader style="font-size:10px;">成为预备党员时间</v-subheader>
                         </v-col>
@@ -217,16 +217,16 @@
                         <v-col cols="4"  class="ma-0 pa-0">
                           <v-subheader style="font-size:10px;">所在党支部名称</v-subheader>
                         </v-col>
-                        <v-col cols="8">
-                          <v-text-field
-                            class="ma-0 pa-0"
-                            v-model="addform.preparedbranch"
-                            required
-                            outlined
-                            dense
-                            style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
-                          ></v-text-field>
-                        </v-col>
+<!--                        <v-col cols="8">-->
+<!--                          <v-text-field-->
+<!--                            class="ma-0 pa-0"-->
+<!--                            v-model="addform.preparedbranch"-->
+<!--                            required-->
+<!--                            outlined-->
+<!--                            dense-->
+<!--                            style="font-size:15px;width:100%;transform:scale(0.75,0.75);"-->
+<!--                          ></v-text-field>-->
+<!--                        </v-col>-->
                         <v-col cols="4"  class="ma-0 pa-0">
                           <v-subheader style="font-size:10px;">转正时间</v-subheader>
                         </v-col>
@@ -636,16 +636,16 @@
                             <v-col cols="4"  class="ma-0 pa-0">
                               <v-subheader style="font-size:10px;">积极分子支部名称</v-subheader>
                             </v-col>
-                            <v-col cols="8">
-                              <v-text-field
-                                class="ma-0 pa-0"
-                                v-model="changeform.activebranch"
-                                required
-                                outlined
-                                dense
-                                style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
-                              ></v-text-field>
-                            </v-col>
+<!--                            <v-col cols="8">-->
+<!--                              <v-text-field-->
+<!--                                class="ma-0 pa-0"-->
+<!--                                v-model="changeform.activebranch"-->
+<!--                                required-->
+<!--                                outlined-->
+<!--                                dense-->
+<!--                                style="font-size:15px;width:100%;transform:scale(0.75,0.75);"-->
+<!--                              ></v-text-field>-->
+<!--                            </v-col>-->
                             <v-col cols="4"  class="ma-0 pa-0">
                               <v-subheader style="font-size:10px;">成为预备党员时间</v-subheader>
                             </v-col>
@@ -681,16 +681,16 @@
                             <v-col cols="4"  class="ma-0 pa-0">
                               <v-subheader style="font-size:10px;">所在党支部名称</v-subheader>
                             </v-col>
-                            <v-col cols="8">
-                              <v-text-field
-                                class="ma-0 pa-0"
-                                v-model="changeform.preparedbranch"
-                                required
-                                outlined
-                                dense
-                                style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
-                              ></v-text-field>
-                            </v-col>
+<!--                            <v-col cols="8">-->
+<!--                              <v-text-field-->
+<!--                                class="ma-0 pa-0"-->
+<!--                                v-model="changeform.preparedbranch"-->
+<!--                                required-->
+<!--                                outlined-->
+<!--                                dense-->
+<!--                                style="font-size:15px;width:100%;transform:scale(0.75,0.75);"-->
+<!--                              ></v-text-field>-->
+<!--                            </v-col>-->
                             <v-col cols="4"  class="ma-0 pa-0">
                               <v-subheader style="font-size:10px;">转正时间</v-subheader>
                             </v-col>
@@ -993,9 +993,9 @@ export default {
         schoolid: '',
         activetime: '',
         score: '',
-        activebranch: '',
+        // activebranch: '',
         preparedtime: '',
-        preparedbranch: '',
+        // preparedbranch: '',
         formaltime: '',
         branch: '',
         buildtime: '',
@@ -1012,9 +1012,9 @@ export default {
         schoolid: '',
         activetime: '',
         score: '',
-        activebranch: '',
+        // activebranch: '',
         preparedtime: '',
-        preparedbranch: '',
+        // preparedbranch: '',
         formaltime: '',
         branch: '',
         buildtime: '',
@@ -1037,9 +1037,9 @@ export default {
       checkinfolist: [
         ['成为积极分子时间','activetime',false],
         ['是否通过党校考试','score',false],
-        ['积极分子支部名称','activebranch',false],
+        // ['积极分子支部名称','activebranch',false],
         ['成为预备党员时间','preparedtime',false],
-        ['所在党支部名称','preparedbranch',false],
+        // ['所在党支部名称','preparedbranch',false],
         ['转正时间','formaltime',false],
         ['党支部名称','branch',false],
         ['成立时间','buildtime',false],
@@ -1056,9 +1056,9 @@ export default {
         ['学号','schoolid',true],
         ['成为积极分子时间','activetime',true],
         ['是否通过党校考试','score',true],
-        ['积极分子支部名称','activebranch',true],
+        // ['积极分子支部名称','activebranch',true],
         ['成为预备党员时间','preparedtime',true],
-        ['所在党支部名称','preparedbranch',true],
+        // ['所在党支部名称','preparedbranch',true],
         ['转正时间','formaltime',true],
         ['党支部名称','branch',true],
         ['成立时间','buildtime',true],
@@ -1076,7 +1076,7 @@ export default {
         { text: '姓名', value: 'name', align: 'center',width: '105px' },
         { text: '成为积极分子时间', value: 'activetime', align: 'center',width: '150px' },
         { text: '是否通过党校考试', value: 'score', align: 'center',width: '150px' },
-        { text: '积极分子支部名称', value: 'activebranch', align: 'center',width: '150px' },
+        // { text: '积极分子支部名称', value: 'activebranch', align: 'center',width: '150px' },
         { text: '成为预备党员时间', value: 'preparedtime', align: 'center',width: '150px' },
         { text: '党支部名称', value: 'branch', align: 'center',width: '150px' },
         { text: '转正时间', value: 'formaltime', align: 'center',width: '150px' },
@@ -1091,27 +1091,27 @@ export default {
         { state: '30条/页', abbr: 30},
       ],
       desserts: [
-        {
-          id: 1,
-          imgsrc: require('../assets/basicinfo/u264.svg'),
-          name: '张三',
-          schoolid: '18737465',
-          activetime: '2020.05.06',
-          score: '通过',
-          activebranch: 'xx支部',
-          preparedtime: '2021.05.06',
-          preparedbranch: 'yy支部',
-          formaltime: '2021.05.06',
-          branch: 'yy支部',
-          buildtime: '2009.01.01',
-          secretaryname: '李四',
-          formalmembernum: '30人',
-          preparedmembernum: '20人',
-          activemembernum: '10人',
-          isatcollege: '是',
-          ischangedbranch: '是',
-          changeinfo: '1.xxxx',
-        }
+        // {
+        //   id: 1,
+        //   imgsrc: require('../assets/basicinfo/u264.svg'),
+        //   name: '张三',
+        //   schoolid: '18737465',
+        //   activetime: '2020.05.06',
+        //   score: '通过',
+        //   // activebranch: 'xx支部',
+        //   preparedtime: '2021.05.06',
+        //   preparedbranch: 'yy支部',
+        //   formaltime: '2021.05.06',
+        //   branch: 'yy支部',
+        //   buildtime: '2009.01.01',
+        //   secretaryname: '李四',
+        //   formalmembernum: '30人',
+        //   preparedmembernum: '20人',
+        //   activemembernum: '10人',
+        //   isatcollege: '是',
+        //   ischangedbranch: '是',
+        //   changeinfo: '1.xxxx',
+        // }
       ],
       maxdate: (function () {
         var date = new Date();
@@ -1158,9 +1158,9 @@ export default {
         this.changeform.schoolid = item.schoolid;
         this.changeform.activetime = item.activetime;
         this.changeform.score = item.score;
-        this.changeform.activebranch = item.activebranch;
+        // this.changeform.activebranch = item.activebranch;
         this.changeform.preparedtime = item.preparedtime;
-        this.changeform.preparedbranch = item.preparedbranch;
+        // this.changeform.preparedbranch = item.preparedbranch;
         this.changeform.formaltime = item.formaltime;
         this.changeform.branch = item.branch;
         this.changeform.buildtime = item.buildtime;
