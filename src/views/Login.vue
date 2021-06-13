@@ -115,7 +115,12 @@ export default {
         if (flag) {
           // localStorage.setItem("Authorization", res.data.auth+"-"+res.data.stuNum+"-"+res.data.stuName+"-"+res.data.stuSex);
           localStorage.setItem("Authorization", res.data.auth);
-          window.location.href = '/#/studentpage';
+          if(localStorage.getItem('Authorization').length>=42){
+            //这是教师
+            window.location.href = '/#/basicinfo';
+          }else{
+            window.location.href = '/#/studentpage';
+          }
         } else {
           window.location.href = '/#/login';
         }

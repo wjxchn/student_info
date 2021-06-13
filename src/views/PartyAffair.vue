@@ -107,7 +107,7 @@
                             dense
                             :rules="nameRules"
                             style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
-                          ></v-text-field>                        
+                          ></v-text-field>
                         </v-col>
                         <v-col cols="4"  class="ma-0 pa-0">
                           <v-subheader style="font-size:10px;">学号</v-subheader>
@@ -156,7 +156,7 @@
                           </v-menu>
                         </v-col>
                         <v-col cols="4"  class="ma-0 pa-0">
-                          <v-subheader style="font-size:10px;">党课成绩</v-subheader>
+                          <v-subheader style="font-size:10px;">是否通过党校考试</v-subheader>
                         </v-col>
                         <v-col cols="8">
                           <v-radio-group v-model="addform.score" row style="width=:100%;transform:scale(0.75,0.75);" class="ma-2 pa-0">
@@ -572,7 +572,7 @@
                                 outlined
                                 dense
                                 style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
-                              ></v-text-field>                        
+                              ></v-text-field>
                             </v-col>
                             <v-col cols="4"  class="ma-0 pa-0">
                               <v-subheader style="font-size:10px;">学号</v-subheader>
@@ -620,7 +620,7 @@
                               </v-menu>
                             </v-col>
                             <v-col cols="4"  class="ma-0 pa-0">
-                              <v-subheader style="font-size:10px;">党课成绩</v-subheader>
+                              <v-subheader style="font-size:10px;">是否通过党校考试</v-subheader>
                             </v-col>
                             <v-col cols="8">
                               <v-radio-group v-model="changeform.score" row style="width=:100%;transform:scale(0.75,0.75);" class="ma-2 pa-0">
@@ -964,6 +964,7 @@
 
 <script>
 import Background from '@/components/Background.vue'
+const axios = require('axios');
 export default {
   name: 'PartyAffair',
   components: {
@@ -982,7 +983,7 @@ export default {
       changepreparedtimemenu: false,
       changeformaltimemenu: false,
       changebuildtimemenu: false,
-      scoreradiochoice: ['通过','未通过'],
+      scoreradiochoice: ['是','否'],
       isatcollegeradiochoice: ['是', '否'],
       ischangedbranchradiochoice: ['是', '否'],
       addform: {
@@ -1033,7 +1034,7 @@ export default {
       selected: [],
       checkinfolist: [
         ['成为积极分子时间','activetime',false],
-        ['党课成绩','score',false],
+        ['是否通过党校考试','score',false],
         ['积极分子支部名称','activebranch',false],
         ['成为预备党员时间','preparedtime',false],
         ['所在党支部名称','preparedbranch',false],
@@ -1052,7 +1053,7 @@ export default {
         ['姓名','name',true],
         ['学号','schoolid',true],
         ['成为积极分子时间','activetime',true],
-        ['党课成绩','score',true],
+        ['是否通过党校考试','score',true],
         ['积极分子支部名称','activebranch',true],
         ['成为预备党员时间','preparedtime',true],
         ['所在党支部名称','preparedbranch',true],
@@ -1072,7 +1073,7 @@ export default {
         { text: '学号', value: 'schoolid', align: 'center',width: '150px' },
         { text: '姓名', value: 'name', align: 'center',width: '105px' },
         { text: '成为积极分子时间', value: 'activetime', align: 'center',width: '150px' },
-        { text: '党课成绩', value: 'score', align: 'center',width: '150px' },
+        { text: '是否通过党校考试', value: 'score', align: 'center',width: '150px' },
         { text: '积极分子支部名称', value: 'activebranch', align: 'center',width: '150px' },
         { text: '成为预备党员时间', value: 'preparedtime', align: 'center',width: '150px' },
         { text: '党支部名称', value: 'branch', align: 'center',width: '150px' },
@@ -1244,6 +1245,27 @@ export default {
       },
       deep: true
     }
+  },
+  mounted() {
+    axios({
+      url: '/api/basic/all',
+      method: 'post',
+      // params: {
+      //   stuNum: this.name,
+      // }
+      // data: this.form
+    }).then(res => {
+      if (res.data.flag) {
+        this.desserts = res.data.data;
+        for(let i=0;i<this.desserts.length;i++){
+          this.changedialog[i] = false;
+        }
+        console.log(res.data.data);
+        console.log("获取信息成功");
+      } else {
+        console.log("获取信息失败！");
+      }
+    })
   }
 }
 </script>
