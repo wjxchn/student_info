@@ -25,6 +25,7 @@
       </div>
     </div>
     <div class="basic_info_title">
+      <v-icon large style="height:32px;width:32px;position:relative;top:-7px;left:-20px;" dark>{{iconvalue}}</v-icon>
       <div class="basic_info_title_text" v-text="titlevalue">
         {{titlevalue}}
       </div>
@@ -37,7 +38,7 @@ export default {
   name: 'BackgroundComponent',
   data(){
     return{
-      isteacher: false,
+      isteacher: true,
       titlePicSrc:require('../assets/login/bhcslogo.png'),
       basicInfoBackgroundSrc: require('../assets/basicinfo/u15.jpg'),
     }
@@ -46,6 +47,10 @@ export default {
     titlevalue: {
       type: String,
       default: null
+    },
+    iconvalue:{
+      type: String,
+      default: 'mdi-school'
     }
   },
   methods: {

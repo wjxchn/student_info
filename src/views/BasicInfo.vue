@@ -1,6 +1,6 @@
 <template>
   <div id="basicInfo">
-    <background :titlevalue="chinesename"></background>
+    <background :titlevalue="chinesename" iconvalue="mdi-school"></background>
     <div class="basic_info_table">
       <v-dialog v-model="selectdialog" width="1000px" persistent>
         <template v-slot:activator="{ on, attrs }">

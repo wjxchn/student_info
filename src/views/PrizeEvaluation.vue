@@ -1,6 +1,6 @@
 <template>
   <div id="prizeEvaluation">
-    <background :titlevalue="chinesename"></background>
+    <background :titlevalue="chinesename" iconvalue="emoji_events"></background>
     <div class="table">
       <div style="width:100%;height:53px;">
       </div>    

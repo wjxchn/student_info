@@ -1,6 +1,6 @@
 <template>
   <div id="applyPrize">
-    <background :titlevalue="chinesename"></background>
+    <background :titlevalue="chinesename" iconvalue="inventory"></background>
     <div class="table">
       <div style="width:100%;height:38px;">
         <v-btn

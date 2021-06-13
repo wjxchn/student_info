@@ -1,6 +1,6 @@
 <template>
   <div id="partyAffair">
-    <background :titlevalue="chinesename"></background>
+    <background :titlevalue="chinesename" iconvalue="work"></background>
     <div class="party_affair_table">
       <v-dialog v-model="selectdialog" width="1000px" persistent>
         <template v-slot:activator="{ on, attrs }">

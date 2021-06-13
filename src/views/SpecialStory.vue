@@ -1,6 +1,6 @@
 <template>
   <div id="specialStory">
-    <background :titlevalue="chinesename"></background>
+    <background :titlevalue="chinesename" iconvalue="palette"></background>
     <div class="table">
       <div style="height:15px;width=100%;"></div>
       
