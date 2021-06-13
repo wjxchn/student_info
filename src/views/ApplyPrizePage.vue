@@ -403,7 +403,6 @@ export default {
 
 <style scoped>
 .table{
-  
   position: absolute;
   top:230px;
   width:80%;
