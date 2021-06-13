@@ -393,6 +393,7 @@ export default {
         }) 
       }
     },
+    // 提交申请奖项end
     toapplyprize(){
       this.$router.push('/applyprize');
     }
