@@ -598,6 +598,7 @@
                             dense
                             :rules="[v => !!v || '请输入身份证号',v => (v && v.length == 18) || '请输入18位身份证号']"
                             style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
+                            @change="genfromidnum" @input="genfromidnum"
                           ></v-text-field>
                         </v-col>
                       </v-row>
@@ -1721,6 +1722,7 @@
                                 dense
                                 :rules="[v => !!v || '请输入身份证号',v => (v && v.length == 18) || '请输入18位身份证号']"
                                 style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
+                                @change="changegenfromidnum" @input="changegenfromidnum"
                               ></v-text-field>
                             </v-col>
                           </v-row>
@@ -2616,6 +2618,28 @@ export default {
     }
   },
   methods: {
+    genfromidnum() {
+      if (this.addform.idnum.length == 18) {
+        var idnum = this.addform.idnum;
+        //440883199707272614
+        var year = idnum.substring(6, 10);
+        var month = idnum.substring(10, 12);
+        var day = idnum.substring(12, 14);
+        this.addform.birthdate = year + "-" + month + "-" + day;
+        this.addform.age = new Date().getYear() + 1900 - year;
+      }
+    },
+    changegenfromidnum() {
+      if (this.changeform.idnum.length == 18) {
+        var idnum = this.changeform.idnum;
+        //440883199707272614
+        var year = idnum.substring(6, 10);
+        var month = idnum.substring(10, 12);
+        var day = idnum.substring(12, 14);
+        this.changeform.birthdate = year + "-" + month + "-" + day;
+        this.changeform.age = new Date().getYear() + 1900 - year;
+      }
+    },
     addStuInfo(){
       this.adddialog = false;
       axios({
