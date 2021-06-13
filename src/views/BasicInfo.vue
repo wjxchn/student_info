@@ -2218,7 +2218,7 @@
               </v-card-actions>
             </v-card>
           </v-dialog>
-          <v-btn depressed small style="margin-left:30px;background-color:rgba(71, 112, 166, 0.996078431372549);color:white;">删除</v-btn>
+          <v-btn depressed small style="margin-left:30px;background-color:rgba(71, 112, 166, 0.996078431372549);color:white;" @click="deleteInfo">删除</v-btn>
         </template>
       </v-data-table>
       </div>
@@ -2537,57 +2537,57 @@ export default {
         { state: '30条/页', abbr: 30},
       ],
       desserts: [
-        {
-          id: 1,
-          imgsrc: require('../assets/basicinfo/u264.svg'),
-          name: '张三',
-          schoolid: '18737465',
-          sex: '女',
-          race: '汉族',
-          age: '18',
-          nativeplace: '湖南省长沙市',
-          nowplace: '北京市密云县xx路xx号xx门',
-          householdplace: '河南省洛阳市xx县xx镇xx村',
-          urgentcontactname: '张三丰',
-          urgentcontactrelation: '父女',
-          urgentcontactphone: '11122223333',
-          iscared: '是',
-          caredlevel: 1,
-          registeredtime: '2020.01.12',
-          mainreason: 'xxxxx',
-          ispoverty: '是',
-          povertylevel: 1,
-          istemporaryhelpapplied: '是',
-          appliedtime: '2020.05.06',
-          appliedaccount: '500.00',
-          birthdate: '2002-01',
-          idnum: 'xxxxx',
-          schoolstartyear: '201309',
-          politics: '共青团员',
-          phonenumber: '19918917382',
-          schoolzone: '学院路校区',
-          studenttype: '硕士',
-          classnum: '200601',
-          guider: '李四',
-          isschoolended: '否',
-          fosterway: '非全日制',
-          recentplace: '上海',
-          labdoornum: 'S601',
-          outsideschoolplace: '上海黄浦区',
-          specialproblem: '无',
-          professorname: '王五',
-          professorphonenumber: '18819819273',
-          directprofessorname: '赵六',
-          directprofessorphonenumber: '18364927495',
-          undergraduateschool: '北京大学',
-          undergraduatemajor: '有机化学',
-          masterschool: '清华大学',
-          mastermajor: '无机化学',
-          dormitoryarea: '学院路大运村',
-          dormitorybuilding: '2',
-          dormitoryroom: '205',
-          dormitorybed: '2',
-        }
+        // {
+        //   id: 1,
+        //   imgsrc: require('../assets/basicinfo/u264.svg'),
+        //   name: '张三',
+        //   schoolid: '18737465',
+        //   sex: '女',
+        //   race: '汉族',
+        //   age: '18',
+        //   nativeplace: '湖南省长沙市',
+        //   nowplace: '北京市密云县xx路xx号xx门',
+        //   householdplace: '河南省洛阳市xx县xx镇xx村',
+        //   urgentcontactname: '张三丰',
+        //   urgentcontactrelation: '父女',
+        //   urgentcontactphone: '11122223333',
+        //   iscared: '是',
+        //   caredlevel: 1,
+        //   registeredtime: '2020.01.12',
+        //   mainreason: 'xxxxx',
+        //   ispoverty: '是',
+        //   povertylevel: 1,
+        //   istemporaryhelpapplied: '是',
+        //   appliedtime: '2020.05.06',
+        //   appliedaccount: '500.00',
+        //   birthdate: '2002-01',
+        //   idnum: 'xxxxx',
+        //   schoolstartyear: '201309',
+        //   politics: '共青团员',
+        //   phonenumber: '19918917382',
+        //   schoolzone: '学院路校区',
+        //   studenttype: '硕士',
+        //   classnum: '200601',
+        //   guider: '李四',
+        //   isschoolended: '否',
+        //   fosterway: '非全日制',
+        //   recentplace: '上海',
+        //   labdoornum: 'S601',
+        //   outsideschoolplace: '上海黄浦区',
+        //   specialproblem: '无',
+        //   professorname: '王五',
+        //   professorphonenumber: '18819819273',
+        //   directprofessorname: '赵六',
+        //   directprofessorphonenumber: '18364927495',
+        //   undergraduateschool: '北京大学',
+        //   undergraduatemajor: '有机化学',
+        //   masterschool: '清华大学',
+        //   mastermajor: '无机化学',
+        //   dormitoryarea: '学院路大运村',
+        //   dormitorybuilding: '2',
+        //   dormitoryroom: '205',
+        //   dormitorybed: '2',
+        // }
       ],
       maxdate: (function () {
         var date = new Date();
@@ -2683,6 +2683,25 @@ export default {
       })
 
       this.changedialog = false;
+    },
+    deleteInfo(){
+      let object = new Object();
+      //前端需要传递一个schoolid进来
+      object["schoolid"] = "123456";
+      axios({
+        url: '/api/basic/delete',
+        method: 'post',
+        // params: {
+        //   stuNum: this.name,
+        // }
+        data: object
+      }).then(res => {
+        if (res.data.flag) {
+          alert("删除成功！");
+        } else {
+          alert("删除失败！");
+        }
+      })
     },
     changefunc(item){
         this.changeform.imgsrc = item.imgsrc;
@@ -2809,7 +2828,25 @@ export default {
       },
       deep: true
     }
-  }
+  },
+  mounted() {
+    axios({
+      url: '/api/basic/all',
+      method: 'post',
+      // params: {
+      //   stuNum: this.name,
+      // }
+      // data: this.form
+    }).then(res => {
+      if (res.data.flag) {
+        this.desserts = res.data.data;
+        console.log(res.data.data);
+        console.log("获取信息成功");
+      } else {
+        console.log("获取信息失败！");
+      }
+    })
+  },
 }
 </script>
 
