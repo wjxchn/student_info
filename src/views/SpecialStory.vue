@@ -251,6 +251,7 @@
       newStory() {
           this.id = '';
           this.name = '';
+          this.storyTitle = '';
           this.story = '';
       },
       cancelbtn() {
