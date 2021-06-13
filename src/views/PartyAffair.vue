@@ -525,7 +525,7 @@
           </td>
         </template>
         <template v-slot:item.operation="{item}">
-          <v-dialog v-model="changedialog" width="1200px">
+          <v-dialog v-model="changedialog[desserts.indexOf(item)]" width="1200px">
             <template v-slot:activator="{ on, attrs }">
               <v-btn
                 depressed
@@ -1027,7 +1027,7 @@ export default {
       checkbox: false,
       selectdialog: false,
       adddialog: false,
-      changedialog: false,
+      changedialog: [],
       expanded: [],
       singleExpand: false,
       singleSelect: false,
@@ -1175,7 +1175,7 @@ export default {
     },
     savechange(item){
       console.log(item);
-      this.changedialog = false;
+      this.changedialog[desserts.indexOf(item)] = false;
     },
     getstr(item,name){
       return item[name[1]];
