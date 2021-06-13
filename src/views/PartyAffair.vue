@@ -1,6 +1,6 @@
 <template>
   <div id="partyAffair">
-    <background :titlevalue="chinesename"></background>
+    <background :titlevalue="chinesename" iconvalue="work"></background>
     <div class="party_affair_table">
       <v-dialog v-model="selectdialog" width="1000px" persistent>
         <template v-slot:activator="{ on, attrs }">
@@ -30,7 +30,7 @@
               >
                 <v-checkbox
                   v-model="checkbox"
-                  :label="`全选: ${checkbox.toString()}`"
+                  :label="`全选`"
                 ></v-checkbox>
               </v-card>
             </v-col>
@@ -426,6 +426,18 @@
           </v-card-actions>
         </v-card>
       </v-dialog>
+      <v-text-field
+        v-model="search"
+        append-icon="mdi-magnify"
+        label="搜索含有的关键字"
+        single-line
+        hide-details
+        required
+        outlined
+        dense
+        dark
+        style="width:300px;display:inline-block;"
+      ></v-text-field>
       <div style="height:15px;"></div>
       <div style="min-width:960px;">
       <v-data-table
@@ -435,6 +447,7 @@
         :single-select="singleSelect"
         :single-expand="singleExpand"
         :expanded.sync="expanded"
+        :search="search"
         item-key="name"
         show-expand
         class="elevation-1"
@@ -892,6 +905,7 @@
               color="rgba(128, 152, 192, 0.8)"
               class="ma-2 white--text"
               small
+              @click="exportfunc()"
             >
               导出
             </v-btn>
@@ -899,6 +913,7 @@
               color="rgba(128, 152, 192, 0.8)"
               class="ma-2 white--text"
               small
+              @click="generateresumefunc()"
             >
               生成简历
             </v-btn>
@@ -906,7 +921,7 @@
       </v-card>
       <div class="text-center pt-2">
         <div style="display: inline-block; margin-right:10px; font-weight:700; color:#0D4C7F;">
-          共50条
+          共{{tablesum}}条
         </div>
         <div style="display: inline-block;">
           <v-select
@@ -959,6 +974,7 @@ export default {
     return {
       chinesename: '党务管理',
       valid: true,
+      search: '',
       activetimemenu: false,
       preparedtimemenu: false,
       formaltimemenu: false,
@@ -1025,7 +1041,7 @@ export default {
         ['转正时间','formaltime',false],
         ['党支部名称','branch',false],
         ['成立时间','buildtime',false],
-        ['书记姓名','secretaryname',false],
+        ['党支部书记姓名','secretaryname',false],
         ['正式党员人数','formalmembernum',false],
         ['预备党员人数','preparedmembernum',false],
         ['积极分子人数','activemembernum',false],
@@ -1044,7 +1060,7 @@ export default {
         ['转正时间','formaltime',true],
         ['党支部名称','branch',true],
         ['成立时间','buildtime',true],
-        ['书记姓名','secretaryname',true],
+        ['党支部书记姓名','secretaryname',true],
         ['正式党员人数','formalmembernum',true],
         ['预备党员人数','preparedmembernum',true],
         ['积极分子人数','activemembernum',true],
@@ -1125,6 +1141,11 @@ export default {
       ],
     }
   },
+  computed:{
+    tablesum(){
+      return this.desserts.length;
+    }
+  },
   methods: {
     saveadd(){
       console.log(this.addform);
@@ -1178,6 +1199,12 @@ export default {
         }
       }
       this.headers = obj;
+    },
+    exportfunc(){
+      console.log(this.selected);
+    },
+    generateresumefunc(){
+      console.log(this.selected);
     }
   },
   watch:{
@@ -1257,35 +1284,5 @@ export default {
 }
 .basic_info_expand_td{
   background-color: #FAFAFA;
-}
-#u21_img {
-  border-width:0px;
-  position:absolute;
-  left:0px;
-  top:0px;
-  width:43px;
-  height:40px;
-}
-#u21 {
-  border-width:0px;
-  position:absolute;
-  left:-60px;
-  top:2px;
-  width:43px;
-  height:40px;
-  display:flex;
-}
-#u21 .text {
-  position:absolute;
-  align-self:center;
-  padding:2px 2px 2px 20px;
-  box-sizing:border-box;
-  width:100%;
-}
-#u21_text {
-  border-width:0px;
-  word-wrap:break-word;
-  text-transform:none;
-  visibility:hidden;
 }
 </style>

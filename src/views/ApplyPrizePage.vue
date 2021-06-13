@@ -1,6 +1,6 @@
 <template>
   <div id="applyPrizePage">
-    <background :titlevalue="chinesename"></background>
+    <background :titlevalue="chinesename" iconvalue="inventory"></background>
     <div class="table">
       <!-- 弹窗begin -->
       <v-dialog v-model="applyPrizeDialog" width="1220px" persistent>
@@ -131,6 +131,7 @@
           depressed
           small
           style="border:1px solid rgba(71, 112, 166, 0.996); width:100px; height:38px; color:rgba(71, 112, 166, 0.996); font-size:13px;"
+          @click="toapplyprize()"
         >
           返回申请列表
         </v-btn>
@@ -343,6 +344,7 @@ export default {
       ],
     }
   },
+<<<<<<< HEAD
   methods: {
     // 申请按钮函数begin
     applyPrice(item) {
@@ -393,6 +395,12 @@ export default {
       }
     }
     // 提交申请奖项end
+=======
+  methods:{
+    toapplyprize(){
+      this.$router.push('/applyprize');
+    }
+>>>>>>> b8034f3ae0008d7cf9bb43bc24e5fede97b5ffa4
   }
 }
 </script>

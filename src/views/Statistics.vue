@@ -1,6 +1,6 @@
 <template>
   <div id="statistics">
-    <background :titlevalue="chinesename"></background>
+    <background :titlevalue="chinesename" iconvalue="pie_chart"></background>
     <div style="position:absolute;top:230px;left:50%;transform:translate(-50%);width:90%;">
       <v-card>
         <div style="padding-top:15px;margin-left:30px;margin-bottom:30px;">

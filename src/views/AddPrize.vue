@@ -1,6 +1,6 @@
 <template>
   <div id="addPrize">
-    <background :titlevalue="chinesename"></background>
+    <background :titlevalue="chinesename" iconvalue="military_tech"></background>
     <div class="table">
       <div style="width:100%;height:38px;">
         <v-btn

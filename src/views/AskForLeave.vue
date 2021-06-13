@@ -1,6 +1,6 @@
 <template>
   <div id="askForLeave">
-    <background :titlevalue="chinesename"></background>
+    <background :titlevalue="chinesename" iconvalue="timer"></background>
     <div style="position:absolute;top:230px;left:50%;transform:translate(-50%);width:90%;">
       <v-card>
         <div class="basic_info_form">

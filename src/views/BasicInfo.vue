@@ -1,10 +1,10 @@
 <template>
   <div id="basicInfo">
-    <background :titlevalue="chinesename"></background>
+    <background :titlevalue="chinesename" iconvalue="mdi-school"></background>
     <div class="basic_info_table">
       <v-dialog v-model="selectdialog" width="1000px" persistent>
         <template v-slot:activator="{ on, attrs }">
-          <v-btn 
+          <v-btn
             depressed
             small
             style="border:1px solid rgba(71, 112, 166, 0.996); width:100px; height:38px; color:rgba(71, 112, 166, 0.996); font-size:13px;"
@@ -30,7 +30,7 @@
               >
                 <v-checkbox
                   v-model="checkbox"
-                  :label="`全选: ${checkbox.toString()}`"
+                  :label="`全选`"
                 ></v-checkbox>
               </v-card>
             </v-col>
@@ -99,6 +99,7 @@
                           <v-subheader class="ma-0 pa-0" style="font-size:10px;">非证件照片</v-subheader>
                         </v-col>
                         <v-col cols="8" class="ma-0 pa-0">
+                          <input type="file" id="upload" ref="upload" @change="addimg" accept=".jpg, .jpeg, .png" style="display:block;width:90%;font-size:10px;margin-top:10px;">
                         </v-col>
                       </v-row>
                     </v-container>
@@ -108,6 +109,7 @@
                           <v-subheader class="ma-0 pa-0" style="font-size:10px;">上传图片预览</v-subheader>
                         </v-col>
                         <v-col cols="8" class="ma-0 pa-0">
+                          <img :src="addform.imgsrc" width="70%" alt=""/>
                         </v-col>
                       </v-row>
                     </v-container>
@@ -596,6 +598,7 @@
                             dense
                             :rules="[v => !!v || '请输入身份证号',v => (v && v.length == 18) || '请输入18位身份证号']"
                             style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
+                            @change="genfromidnum" @input="genfromidnum"
                           ></v-text-field>
                         </v-col>
                       </v-row>
@@ -1079,11 +1082,23 @@
           <v-card-actions>
             <div style="margin:0 auto;">
             <v-btn color="#EBECF1" @click="adddialog = false" dark depressed style="color:rgba(71, 112, 166, 0.996078431372549);margin-top:10px;margin-right:10px;margin-bottom:10px;">取消</v-btn>
-            <v-btn color="rgba(71, 112, 166, 0.996078431372549)" @click="adddialog = false" dark depressed style="margin-top:10px;margin-left:10px;margin-bottom:10px;">添加</v-btn>
+            <v-btn color="rgba(71, 112, 166, 0.996078431372549)" @click="addStuInfo()" dark depressed style="margin-top:10px;margin-left:10px;margin-bottom:10px;">添加</v-btn>
             </div>
           </v-card-actions>
         </v-card>
       </v-dialog>
+      <v-text-field
+        v-model="search"
+        append-icon="mdi-magnify"
+        label="搜索含有的关键字"
+        single-line
+        hide-details
+        required
+        outlined
+        dense
+        dark
+        style="width:300px;display:inline-block;"
+      ></v-text-field>
       <div style="height:15px;"></div>
       <div style="min-width:960px;">
       <v-data-table
@@ -1093,6 +1108,7 @@
         :single-select="singleSelect"
         :single-expand="singleExpand"
         :expanded.sync="expanded"
+        :search="search"
         item-key="name"
         show-expand
         class="elevation-1"
@@ -1101,7 +1117,7 @@
         :items-per-page="itemsPerPage"
         hide-default-footer
         @page-count="pageCount = $event"
-        mobile-breakpoint=0   
+        mobile-breakpoint=0
       >
         <template v-slot:expanded-item="{ headers, item }">
           <td :colspan="headers.length" class="basic_info_expand_td">
@@ -1210,6 +1226,7 @@
                               <v-subheader class="ma-0 pa-0" style="font-size:10px;">非证件照片</v-subheader>
                             </v-col>
                             <v-col cols="8" class="ma-0 pa-0">
+                              <input type="file" id="upload" ref="upload" @change="changeimg" accept=".jpg, .jpeg, .png" style="display:block;width:90%;font-size:10px;margin-top:10px;">
                             </v-col>
                           </v-row>
                         </v-container>
@@ -1219,6 +1236,7 @@
                               <v-subheader class="ma-0 pa-0" style="font-size:10px;">上传图片预览</v-subheader>
                             </v-col>
                             <v-col cols="8" class="ma-0 pa-0">
+                              <img :src="changeform.imgsrc" width="70%" alt=""/>
                             </v-col>
                           </v-row>
                         </v-container>
@@ -1704,6 +1722,7 @@
                                 dense
                                 :rules="[v => !!v || '请输入身份证号',v => (v && v.length == 18) || '请输入18位身份证号']"
                                 style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
+                                @change="changegenfromidnum" @input="changegenfromidnum"
                               ></v-text-field>
                             </v-col>
                           </v-row>
@@ -2187,7 +2206,7 @@
               <v-card-actions>
                 <div style="margin:0 auto;">
                 <v-btn color="#EBECF1" @click="changedialog = false" dark depressed style="color:rgba(71, 112, 166, 0.996078431372549);margin-top:10px;margin-right:10px;margin-bottom:10px;">取消</v-btn>
-                <v-btn color="rgba(71, 112, 166, 0.996078431372549)" @click="saveadd()" dark depressed style="margin-top:10px;margin-left:10px;margin-bottom:10px;">添加</v-btn>
+                <v-btn color="rgba(71, 112, 166, 0.996078431372549)" @click="saveupdate()" dark depressed style="margin-top:10px;margin-left:10px;margin-bottom:10px;">保存更改</v-btn>
                 </div>
               </v-card-actions>
             </v-card>
@@ -2207,6 +2226,7 @@
               color="rgba(128, 152, 192, 0.8)"
               class="ma-2 white--text"
               small
+              @click="exportfunc()"
             >
               导出
             </v-btn>
@@ -2214,6 +2234,7 @@
               color="rgba(128, 152, 192, 0.8)"
               class="ma-2 white--text"
               small
+              @click="generateresumefunc()"
             >
               生成简历
             </v-btn>
@@ -2221,7 +2242,7 @@
       </v-card>
       <div class="text-center pt-2">
         <div style="display: inline-block; margin-right:10px; font-weight:700; color:#0D4C7F;">
-          共50条
+          共{{tablesum}}条
         </div>
         <div style="display: inline-block;">
           <v-select
@@ -2265,6 +2286,7 @@
 
 <script>
 import Background from '@/components/Background.vue'
+const axios = require('axios');
 export default {
   name: 'BasicInfo',
   components: {
@@ -2274,6 +2296,7 @@ export default {
     return {
       chinesename: '基本信息管理',
       valid: true,
+      search: '',
       addform: {
         imgsrc: require('../assets/basicinfo/u264.svg'),
         name: '',
@@ -2380,7 +2403,7 @@ export default {
       changeregisteredmenu: false,
       changeappliedmenu: false,
       changebirthdatemenu: false,
-      yesornolist: ['是','否'], 
+      yesornolist: ['是','否'],
       sexchoice: ['男','女'],
       checkbox: false,
       selectdialog: false,
@@ -2589,9 +2612,69 @@ export default {
       ],
     }
   },
+  computed:{
+    tablesum(){
+      return this.desserts.length;
+    }
+  },
   methods: {
-    saveadd(){
+    genfromidnum() {
+      if (this.addform.idnum.length == 18) {
+        var idnum = this.addform.idnum;
+        //440883199707272614
+        var year = idnum.substring(6, 10);
+        var month = idnum.substring(10, 12);
+        var day = idnum.substring(12, 14);
+        this.addform.birthdate = year + "-" + month + "-" + day;
+        this.addform.age = new Date().getYear() + 1900 - year;
+      }
+    },
+    changegenfromidnum() {
+      if (this.changeform.idnum.length == 18) {
+        var idnum = this.changeform.idnum;
+        //440883199707272614
+        var year = idnum.substring(6, 10);
+        var month = idnum.substring(10, 12);
+        var day = idnum.substring(12, 14);
+        this.changeform.birthdate = year + "-" + month + "-" + day;
+        this.changeform.age = new Date().getYear() + 1900 - year;
+      }
+    },
+    addStuInfo(){
+      this.adddialog = false;
+      axios({
+        url: '/api/basic/add',
+        method: 'post',
+        // params: {
+        //   stuNum: this.name,
+        // }
+        data: this.addform
+      }).then(res => {
+        if (res.data.flag) {
+          alert("保存成功！");
+        } else {
+          alert("保存失败！");
+        }
+      })
+
+    },
+    saveupdate(){
       console.log(this.addform);
+      axios({
+        url: '/api/basic/update',
+        method: 'post',
+        // params: {
+        //   stuNum: this.name,
+        // }
+        data: this.changeform
+      }).then(res => {
+        if (res.data.flag) {
+          alert("保存成功！");
+        } else {
+          alert("保存失败！");
+        }
+      })
+
       this.changedialog = false;
     },
     changefunc(item){
@@ -2658,7 +2741,7 @@ export default {
       }
       let obj = [
         { text: '', value: 'data-table-expand' },
-        { text: '操作', value: 'operation', align: 'center', sortable:false },        
+        { text: '操作', value: 'operation', align: 'center', sortable:false, width:'300px' },
       ];
       for(let k of this.infolist){
         if(k[2]){
@@ -2666,7 +2749,20 @@ export default {
         }
       }
       this.headers = obj;
-    }
+
+    },
+    exportfunc(){
+      console.log(this.selected);
+    },
+    generateresumefunc(){
+      console.log(this.selected);
+    },
+    addimg(item){
+      this.addform.imgsrc = window.webkitURL.createObjectURL(item.target.files[0]);
+    },
+    changeimg(item){
+      this.changeform.imgsrc = window.webkitURL.createObjectURL(item.target.files[0]);
+    },
   },
   watch:{
     checkbox(val){
@@ -2678,7 +2774,7 @@ export default {
       else{
         for(let i of this.checkinfolist){
           i[2] = false;
-        }  
+        }
       }
     },
     checkinfolist:{
