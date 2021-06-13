@@ -2,7 +2,7 @@
   <div id="partyAffair">
     <background :titlevalue="chinesename" iconvalue="work"></background>
     <div class="party_affair_table">
-      <v-dialog v-model="selectdialog" width="1000px" persistent>
+      <v-dialog v-model="selectdialog" width="1000px">
         <template v-slot:activator="{ on, attrs }">
           <v-btn
             depressed
@@ -60,7 +60,7 @@
           </v-card-actions>
         </v-card>
       </v-dialog>
-      <v-dialog v-model="adddialog" width="1200px" persistent>
+      <v-dialog v-model="adddialog" width="1200px">
         <template v-slot:activator="{ on, attrs }">
           <v-btn
             depressed
@@ -525,7 +525,7 @@
           </td>
         </template>
         <template v-slot:item.operation="{item}">
-          <v-dialog v-model="changedialog" width="1200px" persistent>
+          <v-dialog v-model="changedialog" width="1200px">
             <template v-slot:activator="{ on, attrs }">
               <v-btn
                 depressed
@@ -884,8 +884,7 @@
               </div>
               <v-card-actions>
                 <div style="margin:0 auto;">
-                <v-btn color="#EBECF1" @click="changedialog = false" dark depressed style="color:rgba(71, 112, 166, 0.996078431372549);margin-top:10px;margin-right:10px;margin-bottom:10px;">取消</v-btn>
-                <v-btn color="rgba(71, 112, 166, 0.996078431372549)" @click="savechange(item)" dark depressed style="margin-top:10px;margin-left:10px;margin-bottom:10px;">保存</v-btn>
+                <v-btn color="rgba(71, 112, 166, 0.996078431372549)" @click="savechange(item)" dark depressed style="margin-top:10px;margin-left:10px;margin-bottom:10px;">保存更改</v-btn>
                 </div>
               </v-card-actions>
             </v-card>
@@ -1152,23 +1151,23 @@ export default {
       this.adddialog = false;
     },
     editfunc(item){
-        this.changeform.name = item.name;
-        this.changeform.schoolid = item.schoolid;
-        this.changeform.activetime = item.activetime;
-        this.changeform.score = item.score;
-        this.changeform.activebranch = item.activebranch;
-        this.changeform.preparedtime = item.preparedtime;
-        this.changeform.preparedbranch = item.preparedbranch;
-        this.changeform.formaltime = item.formaltime;
-        this.changeform.branch = item.branch;
-        this.changeform.buildtime = item.buildtime;
-        this.changeform.secretaryname = item.secretaryname;
-        this.changeform.formalmembernum = item.formalmembernum;
-        this.changeform.preparedmembernum = item.preparedmembernum;
-        this.changeform.activemembernum = item.activemembernum;
-        this.changeform.isatcollege = item.isatcollege;
-        this.changeform.ischangedbranch = item.ischangedbranch;
-        this.changeform.changeinfo = item.changeinfo;
+      this.changeform.name = item.name;
+      this.changeform.schoolid = item.schoolid;
+      this.changeform.activetime = item.activetime;
+      this.changeform.score = item.score;
+      this.changeform.activebranch = item.activebranch;
+      this.changeform.preparedtime = item.preparedtime;
+      this.changeform.preparedbranch = item.preparedbranch;
+      this.changeform.formaltime = item.formaltime;
+      this.changeform.branch = item.branch;
+      this.changeform.buildtime = item.buildtime;
+      this.changeform.secretaryname = item.secretaryname;
+      this.changeform.formalmembernum = item.formalmembernum;
+      this.changeform.preparedmembernum = item.preparedmembernum;
+      this.changeform.activemembernum = item.activemembernum;
+      this.changeform.isatcollege = item.isatcollege;
+      this.changeform.ischangedbranch = item.ischangedbranch;
+      this.changeform.changeinfo = item.changeinfo;
     },
     deletefunc(item){
       console.log(item);
