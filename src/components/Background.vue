@@ -45,8 +45,16 @@ export default {
   },
   mounted() {
     var token = localStorage.getItem('Authorization');
-    console.log("来自background的打印：",token);
-    this.isteacher = true;
+    //区分是老师还是学生的方式，是在token后加一个商定好的字符串，“aKuL82I3Mq”
+    var tokenLength = token.length;
+    var suffix = token.substring(tokenLength-10,tokenLength);
+    if(suffix == "aKuL82I3Mq"){
+      //说明是老师
+      this.isteacher = true;
+    }else{
+      //说明是学生
+      this.isteacher = false;
+    }
   },
   props: {
     titlevalue: {
