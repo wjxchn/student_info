@@ -60,6 +60,85 @@
           </v-card-actions>
         </v-card>
       </v-dialog>
+      <v-dialog v-model="filterdialog" width="1000px">
+        <template v-slot:activator="{ on, attrs }">
+          <v-btn
+            depressed
+            small
+            style="border:1px solid rgba(71, 112, 166, 0.996); width:100px; height:38px; color:rgba(71, 112, 166, 0.996); font-size:13px;"
+            v-bind="attrs"
+            v-on="on"
+          >
+            过滤
+          </v-btn>
+        </template>
+        <v-card>
+          <v-card-title>
+            <span class="headline">过滤字段</span>
+          </v-card-title>
+            <v-container>
+            <v-row no-gutters>
+            <v-col cols="12" sm="4">
+              <v-subheader style="margin-left:160px;font-size:10px;">按学号过滤</v-subheader>
+            </v-col>
+            <v-col cols="12" sm="8">
+          <v-text-field
+            class="ma-0 pa-0"
+            v-model="schoolidfilterstr"
+            required
+            outlined
+            dense
+            style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
+          ></v-text-field>            
+            </v-col>
+            <v-col cols="12" sm="4">
+              <v-subheader style="margin-left:160px;font-size:10px;">按入学年份过滤</v-subheader>
+            </v-col>
+            <v-col cols="12" sm="8">
+          <v-text-field
+            class="ma-0 pa-0"
+            v-model="schoolstartyearfilterstr"
+            required
+            outlined
+            dense
+            style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
+          ></v-text-field>            
+            </v-col>
+            <v-col cols="12" sm="4">
+              <v-subheader style="margin-left:160px;font-size:10px;">按辅导员过滤</v-subheader>
+            </v-col>
+            <v-col cols="12" sm="8">
+          <v-text-field
+            class="ma-0 pa-0"
+            v-model="guiderfilterstr"
+            required
+            outlined
+            dense
+            style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
+          ></v-text-field>            
+            </v-col>
+            <v-col cols="12" sm="4">
+              <v-subheader style="margin-left:160px;font-size:10px;">按学生类别</v-subheader>
+            </v-col>
+            <v-col cols="12" sm="8">
+          <v-text-field
+            class="ma-0 pa-0"
+            v-model="studenttypefilterstr"
+            required
+            outlined
+            dense
+            style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
+          ></v-text-field>            
+            </v-col>
+            </v-row>
+            </v-container>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn color="green darken-1" text @click="filterdialog = false">取消</v-btn>
+            <v-btn color="green darken-1" text @click="confirmfilter()">确定</v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
       <v-dialog v-model="adddialog" width="1200px">
         <template v-slot:activator="{ on, attrs }">
           <v-btn
@@ -1089,20 +1168,943 @@
           </v-card-actions>
         </v-card>
       </v-dialog>
-      <v-text-field
-        v-model="search"
-        append-icon="mdi-magnify"
-        label="搜索含有的关键字"
-        single-line
-        hide-details
-        required
-        outlined
-        dense
-        dark
-        style="width:300px;display:inline-block;"
-      ></v-text-field>
       <div style="height:15px;"></div>
       <div style="min-width:960px;">
+      <v-dialog
+        v-model="changedialog"
+        width="1200px"
+      >
+        <v-card>
+          <v-card-title>
+            <span class="headline">编辑学生信息</span>
+          </v-card-title>
+
+          <div class="basic_info_form">
+            <v-form
+              ref="form"
+              v-model="valid"
+              :lazy-validation="false"
+            >
+              <v-container>
+                <v-row dense no-gutters>
+                  <v-col class="ma-0 pb-12" cols="12" xs="3" sm="3" md="3" lg="3" xl="3">
+                    <v-container fluid class="ma-0 pa-0">
+                      <v-row  dense no-gutters class="ma-0 pa-0">
+                        <v-col cols="4" class="ma-0 pa-0">
+                          <v-subheader class="ma-0 pa-0" style="font-size:10px;">非证件照片</v-subheader>
+                        </v-col>
+                        <v-col cols="8" class="ma-0 pa-0">
+                          <input type="file" id="upload" ref="upload" @change="changeimg" accept=".jpg, .jpeg, .png" style="display:block;width:90%;font-size:10px;margin-top:10px;">
+                        </v-col>
+                      </v-row>
+                    </v-container>
+                    <v-container fluid class="ma-0 pa-0">
+                      <v-row  dense no-gutters class="ma-0 pa-0">
+                        <v-col cols="4" class="ma-0 pa-0">
+                          <v-subheader class="ma-0 pa-0" style="font-size:10px;">上传图片预览</v-subheader>
+                        </v-col>
+                        <v-col cols="8" class="ma-0 pa-0">
+                          <img :src="'/avatar/'+changeform.imgsrc" width="70%" alt=""/>
+                        </v-col>
+                      </v-row>
+                    </v-container>
+                  </v-col>
+                  <v-col class="ma-0 pb-12" cols="12" xs="3" sm="3" md="3" lg="3" xl="3">
+                    <v-container fluid class="ma-0 pa-0">
+                      <v-row  dense no-gutters class="ma-0 pa-0">
+                        <v-col cols="4" class="ma-0 pa-0">
+                          <v-subheader class="ma-0 pa-0" style="font-size:10px;">姓名</v-subheader>
+                        </v-col>
+                        <v-col cols="8" class="ma-0 pa-0">
+                          <v-text-field
+                            class="ma-0 pa-0"
+                            v-model="changeform.name"
+                            required
+                            outlined
+                            dense
+                            style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
+                          ></v-text-field>
+                        </v-col>
+                      </v-row>
+                    </v-container>
+                    <v-container fluid class="ma-0 pa-0">
+                      <v-row  dense no-gutters class="ma-0 pa-0">
+                        <v-col cols="4" class="ma-0 pa-0">
+                          <v-subheader class="ma-0 pa-0" style="font-size:10px;">学号</v-subheader>
+                        </v-col>
+                        <v-col cols="8" class="ma-0 pa-0">
+                          <v-text-field
+                            class="ma-0 pa-0"
+                            v-model="changeform.schoolid"
+                            required
+                            outlined
+                            dense
+                            style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
+                          ></v-text-field>
+                        </v-col>
+                      </v-row>
+                    </v-container>
+                    <v-container fluid class="ma-0 pa-0">
+                      <v-row  dense no-gutters class="ma-0 pa-0">
+                        <v-col cols="4" class="ma-0 pa-0">
+                          <v-subheader class="ma-0 pa-0" style="font-size:10px;">性别</v-subheader>
+                        </v-col>
+                        <v-col cols="8" class="ma-0 pa-0">
+                          <v-radio-group v-model="changeform.sex" row style="width=:100%;transform:scale(0.75,0.75);" class="ma-2 pa-0">
+                            <v-radio
+                              v-for="i in sexchoice"
+                              :key="i"
+                              :label="i"
+                              :value="i"
+                              style="font-size:10px;"
+                            ></v-radio>
+                          </v-radio-group>
+                        </v-col>
+                      </v-row>
+                    </v-container>
+                    <v-container fluid class="ma-0 pa-0">
+                      <v-row  dense no-gutters class="ma-0 pa-0">
+                        <v-col cols="4" class="ma-0 pa-0">
+                          <v-subheader class="ma-0 pa-0" style="font-size:10px;">民族</v-subheader>
+                        </v-col>
+                        <v-col cols="8" class="ma-0 pa-0">
+                          <v-select
+                              :items="['汉族', '蒙古族', '回族', '藏族', '维吾尔族','苗族', '彝族', '壮族', '布依族', '朝鲜族','满族', '侗族', '瑶族', '白族', '土家族','哈尼族', '哈萨克族', '傣族', '黎族', '僳僳族','佤族', '畲族', '高山族', '拉祜族', '水族','东乡族', '纳西族', '景颇族', '柯尔克孜族', '土族','达斡尔族', '仫佬族', '羌族', '布朗族', '撒拉族','毛南族','仡佬族', '锡伯族', '阿昌族', '普米族','塔吉克族', '怒族', '乌孜别克族', '俄罗斯族', '鄂温克族', '德昂族', '保安族', '裕固族', '京族', '塔塔尔族','独龙族', '鄂伦春族', '赫哲族', '门巴族', '珞巴族','基诺族']"
+                              v-model="changeform.race"
+                              required
+                              outlined
+                              dense
+                              style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
+                          ></v-select>
+                        </v-col>
+                      </v-row>
+                    </v-container>
+                    <v-container fluid class="ma-0 pa-0">
+                      <v-row  dense no-gutters class="ma-0 pa-0">
+                        <v-col cols="4" class="ma-0 pa-0">
+                          <v-subheader class="ma-0 pa-0" style="font-size:10px;">年龄</v-subheader>
+                        </v-col>
+                        <v-col cols="8" class="ma-0 pa-0">
+                          <v-select :items="['男','女']" v-model="changeform.sex" outlined dense
+                            style="width=:100%;transform:scale(0.75,0.75);font-size:15px;"
+                          ></v-select>
+                        </v-col>
+                      </v-row>
+                    </v-container>
+                    <v-container fluid class="ma-0 pa-0">
+                      <v-row  dense no-gutters class="ma-0 pa-0">
+                        <v-col cols="4" class="ma-0 pa-0">
+                          <v-subheader class="ma-0 pa-0" style="font-size:10px;">籍贯</v-subheader>
+                        </v-col>
+                        <v-col cols="8" class="ma-0 pa-0">
+                          <v-text-field
+                            class="ma-0 pa-0"
+                            v-model="changeform.nativeplace"
+                            required
+                            outlined
+                            dense
+                            :rules="[v => !!v || '请输入籍贯',]"
+                            style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
+                          ></v-text-field>
+                        </v-col>
+                      </v-row>
+                    </v-container>
+                  </v-col>
+                  <v-col class="ma-0 pb-12" cols="12" xs="3" sm="3" md="3" lg="3" xl="3">
+                    <v-container fluid class="ma-0 pa-0">
+                      <v-row  dense no-gutters class="ma-0 pa-0">
+                        <v-col cols="4" class="ma-0 pa-0">
+                          <v-subheader class="ma-0 pa-0" style="font-size:10px;">现家庭住址</v-subheader>
+                        </v-col>
+                        <v-col cols="8" class="ma-0 pa-0">
+                          <v-text-field
+                            class="ma-0 pa-0"
+                            v-model="changeform.nowplace"
+                            required
+                            outlined
+                            dense
+                            :rules="[v => !!v || '请输入现家庭住址',]"
+                            style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
+                          ></v-text-field>
+                        </v-col>
+                      </v-row>
+                    </v-container>
+                    <v-container fluid class="ma-0 pa-0">
+                      <v-row  dense no-gutters class="ma-0 pa-0">
+                        <v-col cols="4" class="ma-0 pa-0">
+                          <v-subheader class="ma-0 pa-0" style="font-size:10px;">户口所在地</v-subheader>
+                        </v-col>
+                        <v-col cols="8" class="ma-0 pa-0">
+                          <v-text-field
+                            class="ma-0 pa-0"
+                            v-model="changeform.householdplace"
+                            required
+                            outlined
+                            dense
+                            :rules="[v => !!v || '请输入户口所在地',]"
+                            style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
+                          ></v-text-field>
+                        </v-col>
+                      </v-row>
+                    </v-container>
+                    <v-container fluid class="ma-0 pa-0">
+                      <v-row  dense no-gutters class="ma-0 pa-0">
+                        <v-col cols="4" class="ma-0 pa-0">
+                          <v-subheader class="ma-0 pa-0" style="font-size:10px;">紧急联系人姓名</v-subheader>
+                        </v-col>
+                        <v-col cols="8" class="ma-0 pa-0">
+                          <v-text-field
+                            class="ma-0 pa-0"
+                            v-model="changeform.urgentcontactname"
+                            required
+                            outlined
+                            dense
+                            :rules="nameRules"
+                            style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
+                          ></v-text-field>
+                        </v-col>
+                      </v-row>
+                    </v-container>
+                    <v-container fluid class="ma-0 pa-0">
+                      <v-row  dense no-gutters class="ma-0 pa-0">
+                        <v-col cols="4" class="ma-0 pa-0">
+                          <v-subheader class="ma-0 pa-0" style="font-size:10px;">紧急联系人关系</v-subheader>
+                        </v-col>
+                        <v-col cols="8" class="ma-0 pa-0">
+                          <v-select
+                            :items="['父子', '母子', '父女', '母女', '其他']"
+                            v-model="changeform.urgentcontactrelation"
+                            outlined
+                            dense
+                            style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
+                          ></v-select>
+                        </v-col>
+                      </v-row>
+                    </v-container>
+                    <v-container fluid class="ma-0 pa-0">
+                      <v-row  dense no-gutters class="ma-0 pa-0">
+                        <v-col cols="4" class="ma-0 pa-0">
+                          <v-subheader class="ma-0 pa-0" style="font-size:10px;">紧急联系人电话</v-subheader>
+                        </v-col>
+                        <v-col cols="8" class="ma-0 pa-0">
+                          <v-text-field
+                            class="ma-0 pa-0"
+                            v-model="changeform.urgentcontactphone"
+                            required
+                            outlined
+                            dense
+                            :rules="phoneRules"
+                            style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
+                          ></v-text-field>
+                        </v-col>
+                      </v-row>
+                    </v-container>
+                  </v-col>
+                  <v-col class="ma-0 pb-12" cols="12" xs="3" sm="3" md="3" lg="3" xl="3">
+                    <v-container fluid class="ma-0 pa-0">
+                      <v-row  dense no-gutters class="ma-0 pa-0">
+                        <v-col cols="4" class="ma-0 pa-0">
+                          <v-subheader class="ma-0 pa-0" style="font-size:10px;">关心关爱</v-subheader>
+                        </v-col>
+                        <v-col cols="8" class="ma-0 pa-0">
+                          <v-radio-group v-model="changeform.iscared" row style="width=:100%;transform:scale(0.75,0.75);" class="ma-2 pa-0">
+                            <v-radio
+                              v-for="i in yesornolist"
+                              :key="i"
+                              :label="i"
+                              :value="i"
+                              style="font-size:10px;"
+                            ></v-radio>
+                          </v-radio-group>
+                        </v-col>
+                      </v-row>
+                    </v-container>
+                    <v-container fluid class="ma-0 pa-0">
+                      <v-row  dense no-gutters class="ma-0 pa-0">
+                        <v-col cols="4" class="ma-0 pa-0">
+                          <v-subheader class="ma-0 pa-0" style="font-size:10px;">关心等级</v-subheader>
+                        </v-col>
+                        <v-col cols="8" class="ma-0 pa-0">
+                          <v-text-field
+                            class="ma-0 pa-0"
+                            v-model="changeform.caredlevel"
+                            required
+                            outlined
+                            dense
+                            style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
+                          ></v-text-field>
+                        </v-col>
+                      </v-row>
+                    </v-container>
+                    <v-container fluid class="ma-0 pa-0">
+                      <v-row  dense no-gutters class="ma-0 pa-0">
+                        <v-col cols="4" class="ma-0 pa-0">
+                          <v-subheader class="ma-0 pa-0" style="font-size:10px;">登记时间</v-subheader>
+                        </v-col>
+                        <v-col cols="8" class="ma-0 pa-0">
+                          <v-menu
+                            ref="changeregisteredmenu"
+                            v-model="changeregisteredmenu"
+                            :close-on-content-click="false"
+                            transition="scale-transition"
+                            offset-y
+                            min-width="290px"
+                          >
+                            <template v-slot:activator="{ on, attrs }">
+                              <v-text-field
+                                v-model="changeform.registeredtime"
+                                prepend-icon="event"
+                                readonly
+                                required
+                                outlined
+                                dense
+                                v-bind="attrs"
+                                v-on="on"
+                                style="font-size:20px;width:100%;transform:scale(0.75,0.75);"
+                              ></v-text-field>
+                            </template>
+                            <v-date-picker v-model="changeform.registeredtime" no-title scrollable :max="maxdate">
+                              <v-spacer></v-spacer>
+                              <v-btn text color="primary" @click="changeregisteredmenu = false">Cancel</v-btn>
+                              <v-btn text color="primary" @click="changeregisteredmenu = false">OK</v-btn>
+                            </v-date-picker>
+                          </v-menu>
+                        </v-col>
+                      </v-row>
+                    </v-container>
+                    <v-container fluid class="ma-0 pa-0">
+                      <v-row  dense no-gutters class="ma-0 pa-0">
+                        <v-col cols="4" class="ma-0 pa-0">
+                          <v-subheader class="ma-0 pa-0" style="font-size:10px;">主要原因</v-subheader>
+                        </v-col>
+                        <v-col cols="8" class="ma-0 pa-0">
+                          <v-textarea
+                            v-model="changeform.mainreason"
+                            required
+                            outlined
+                            flat
+                            dense
+                            background-color="white"
+                            style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
+                            auto-grow
+                          ></v-textarea>
+                        </v-col>
+                      </v-row>
+                    </v-container>
+                  </v-col>
+                  <v-col class="ma-0 pb-12" cols="12" xs="3" sm="3" md="3" lg="3" xl="3">
+                    <v-container fluid class="ma-0 pa-0">
+                      <v-row  dense no-gutters class="ma-0 pa-0">
+                        <v-col cols="4" class="ma-0 pa-0">
+                          <v-subheader class="ma-0 pa-0" style="font-size:10px;">贫困生</v-subheader>
+                        </v-col>
+                        <v-col cols="8" class="ma-0 pa-0">
+                          <v-radio-group v-model="changeform.ispoverty" row style="width=:100%;transform:scale(0.75,0.75);" class="ma-2 pa-0">
+                            <v-radio
+                              v-for="i in yesornolist"
+                              :key="i"
+                              :label="i"
+                              :value="i"
+                              style="font-size:10px;"
+                            ></v-radio>
+                          </v-radio-group>
+                        </v-col>
+                      </v-row>
+                    </v-container>
+                    <v-container fluid class="ma-0 pa-0">
+                      <v-row  dense no-gutters class="ma-0 pa-0">
+                        <v-col cols="4" class="ma-0 pa-0">
+                          <v-subheader class="ma-0 pa-0" style="font-size:10px;">困难等级</v-subheader>
+                        </v-col>
+                        <v-col cols="8" class="ma-0 pa-0">
+                          <v-text-field
+                            class="ma-0 pa-0"
+                            v-model="changeform.povertylevel"
+                            required
+                            outlined
+                            dense
+                            style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
+                          ></v-text-field>
+                        </v-col>
+                      </v-row>
+                    </v-container>
+                    <v-container fluid class="ma-0 pa-0">
+                      <v-row  dense no-gutters class="ma-0 pa-0">
+                        <v-col cols="4" class="ma-0 pa-0">
+                          <v-subheader class="ma-0 pa-0" style="font-size:10px;">是否申请临时困难补助</v-subheader>
+                        </v-col>
+                        <v-col cols="8" class="ma-0 pa-0">
+                          <v-radio-group v-model="changeform.istemporaryhelpapplied" row style="width=:100%;transform:scale(0.75,0.75);" class="ma-2 pa-0">
+                            <v-radio
+                              v-for="i in yesornolist"
+                              :key="i"
+                              :label="i"
+                              :value="i"
+                              style="font-size:10px;"
+                            ></v-radio>
+                          </v-radio-group>
+                        </v-col>
+                      </v-row>
+                    </v-container>
+                    <v-container fluid class="ma-0 pa-0">
+                      <v-row  dense no-gutters class="ma-0 pa-0">
+                        <v-col cols="4" class="ma-0 pa-0">
+                          <v-subheader class="ma-0 pa-0" style="font-size:10px;">申请时间</v-subheader>
+                        </v-col>
+                        <v-col cols="8" class="ma-0 pa-0">
+                          <v-menu
+                            ref="changeappliedmenu"
+                            v-model="changeappliedmenu"
+                            :close-on-content-click="false"
+                            transition="scale-transition"
+                            offset-y
+                            min-width="290px"
+                          >
+                            <template v-slot:activator="{ on, attrs }">
+                              <v-text-field
+                                v-model="changeform.appliedtime"
+                                prepend-icon="event"
+                                readonly
+                                required
+                                outlined
+                                dense
+                                v-bind="attrs"
+                                v-on="on"
+                                style="font-size:20px;width:100%;transform:scale(0.75,0.75);"
+                              ></v-text-field>
+                            </template>
+                            <v-date-picker v-model="changeform.appliedtime" no-title scrollable :max="maxdate">
+                              <v-spacer></v-spacer>
+                              <v-btn text color="primary" @click="changeappliedmenu = false">Cancel</v-btn>
+                              <v-btn text color="primary" @click="changeappliedmenu = false">OK</v-btn>
+                            </v-date-picker>
+                          </v-menu>
+                        </v-col>
+                      </v-row>
+                    </v-container>
+                    <v-container fluid class="ma-0 pa-0">
+                      <v-row  dense no-gutters class="ma-0 pa-0">
+                        <v-col cols="4" class="ma-0 pa-0">
+                          <v-subheader class="ma-0 pa-0" style="font-size:10px;">申请金额</v-subheader>
+                        </v-col>
+                        <v-col cols="8" class="ma-0 pa-0">
+                          <v-text-field
+                            class="ma-0 pa-0"
+                            v-model="changeform.appliedaccount"
+                            required
+                            outlined
+                            dense
+                            style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
+                          ></v-text-field>
+                        </v-col>
+                      </v-row>
+                    </v-container>
+                  </v-col>
+                  <v-col class="ma-0 pb-12" cols="12" xs="3" sm="3" md="3" lg="3" xl="3">
+                    <v-container fluid class="ma-0 pa-0">
+                      <v-row  dense no-gutters class="ma-0 pa-0">
+                        <v-col cols="4" class="ma-0 pa-0">
+                          <v-subheader class="ma-0 pa-0" style="font-size:10px;">出生年月</v-subheader>
+                        </v-col>
+                        <v-col cols="8" class="ma-0 pa-0">
+                          <v-menu
+                            ref="changebirthdatemenu"
+                            v-model="changebirthdatemenu"
+                            :close-on-content-click="false"
+                            transition="scale-transition"
+                            offset-y
+                            min-width="290px"
+                          >
+                            <template v-slot:activator="{ on, attrs }">
+                              <v-text-field
+                                v-model="changeform.birthdate"
+                                prepend-icon="event"
+                                readonly
+                                required
+                                outlined
+                                dense
+                                v-bind="attrs"
+                                v-on="on"
+                                style="font-size:20px;width:100%;transform:scale(0.75,0.75);"
+                              ></v-text-field>
+                            </template>
+                            <v-date-picker v-model="changeform.birthdate" no-title scrollable :max="maxdate">
+                              <v-spacer></v-spacer>
+                              <v-btn text color="primary" @click="changebirthdatemenu = false">Cancel</v-btn>
+                              <v-btn text color="primary" @click="changebirthdatemenu = false">OK</v-btn>
+                            </v-date-picker>
+                          </v-menu>
+                        </v-col>
+                      </v-row>
+                    </v-container>
+                    <v-container fluid class="ma-0 pa-0">
+                      <v-row  dense no-gutters class="ma-0 pa-0">
+                        <v-col cols="4" class="ma-0 pa-0">
+                          <v-subheader class="ma-0 pa-0" style="font-size:10px;">身份证号</v-subheader>
+                        </v-col>
+                        <v-col cols="8" class="ma-0 pa-0">
+                          <v-text-field
+                            class="ma-0 pa-0"
+                            v-model="changeform.idnum"
+                            required
+                            outlined
+                            dense
+                            :rules="[v => !!v || '请输入身份证号',v => (v && v.length == 18) || '请输入18位身份证号']"
+                            style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
+                            @change="changegenfromidnum" @input="changegenfromidnum"
+                          ></v-text-field>
+                        </v-col>
+                      </v-row>
+                    </v-container>
+                    <v-container fluid class="ma-0 pa-0">
+                      <v-row  dense no-gutters class="ma-0 pa-0">
+                        <v-col cols="4" class="ma-0 pa-0">
+                          <v-subheader class="ma-0 pa-0" style="font-size:10px;">入学年份</v-subheader>
+                        </v-col>
+                        <v-col cols="8" class="ma-0 pa-0">
+                          <v-select
+                            :items="['201309', '201409', '201509', '201609', '201709', '201809', '201909', '202009', '202109', '202209', '202309', '202409', '202509', '202609', '202709', '202809', '202909', '203009']"
+                            v-model="changeform.schoolstartyear"
+                            outlined
+                            dense
+                            style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
+                          ></v-select>
+                        </v-col>
+                      </v-row>
+                    </v-container>
+                    <v-container fluid class="ma-0 pa-0">
+                      <v-row  dense no-gutters class="ma-0 pa-0">
+                        <v-col cols="4" class="ma-0 pa-0">
+                          <v-subheader class="ma-0 pa-0" style="font-size:10px;">政治面貌</v-subheader>
+                        </v-col>
+                        <v-col cols="8" class="ma-0 pa-0">
+                          <v-select
+                            :items="['正式党员', '预备党员', '共青团员', '群众', '其它']"
+                            v-model="changeform.politics"
+                            outlined
+                            dense
+                            style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
+                          ></v-select>
+                        </v-col>
+                      </v-row>
+                    </v-container>
+                    <v-container fluid class="ma-0 pa-0">
+                      <v-row  dense no-gutters class="ma-0 pa-0">
+                        <v-col cols="4" class="ma-0 pa-0">
+                          <v-subheader class="ma-0 pa-0" style="font-size:10px;">手机号</v-subheader>
+                        </v-col>
+                        <v-col cols="8" class="ma-0 pa-0">
+                          <v-text-field
+                            class="ma-0 pa-0"
+                            v-model="changeform.phonenumber"
+                            required
+                            outlined
+                            dense
+                            :rules="phoneRules"
+                            style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
+                          ></v-text-field>
+                        </v-col>
+                      </v-row>
+                    </v-container>
+                  </v-col>
+                  <v-col class="ma-0 pb-12" cols="12" xs="3" sm="3" md="3" lg="3" xl="3">
+                    <v-container fluid class="ma-0 pa-0">
+                      <v-row  dense no-gutters class="ma-0 pa-0">
+                        <v-col cols="4" class="ma-0 pa-0">
+                          <v-subheader class="ma-0 pa-0" style="font-size:10px;">所属校区</v-subheader>
+                        </v-col>
+                        <v-col cols="8" class="ma-0 pa-0">
+                          <v-select
+                            :items="['学院路校区', '沙河校区', '杭州研究院', '青岛研究院', '苏州研究院', '深圳研究院', '云南研究院', '其它']"
+                            v-model="changeform.schoolzone"
+                            outlined
+                            dense
+                            style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
+                          ></v-select>
+                        </v-col>
+                      </v-row>
+                    </v-container>
+                    <v-container fluid class="ma-0 pa-0">
+                      <v-row  dense no-gutters class="ma-0 pa-0">
+                        <v-col cols="4" class="ma-0 pa-0">
+                          <v-subheader class="ma-0 pa-0" style="font-size:10px;">学生类型</v-subheader>
+                        </v-col>
+                        <v-col cols="8" class="ma-0 pa-0">
+                          <v-select
+                            v-model="changeform.studenttype"
+                            :items="['本科', '硕士', '博士']"
+                            outlined
+                            dense
+                            style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
+                          ></v-select>
+                        </v-col>
+                      </v-row>
+                    </v-container>
+                    <v-container fluid class="ma-0 pa-0">
+                      <v-row  dense no-gutters class="ma-0 pa-0">
+                        <v-col cols="4" class="ma-0 pa-0">
+                          <v-subheader class="ma-0 pa-0" style="font-size:10px;">班号</v-subheader>
+                        </v-col>
+                        <v-col cols="8" class="ma-0 pa-0">
+                          <v-text-field
+                            class="ma-0 pa-0"
+                            v-model="changeform.classnum"
+                            required
+                            outlined
+                            dense
+                            style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
+                          ></v-text-field>
+                        </v-col>
+                      </v-row>
+                    </v-container>
+                    <v-container fluid class="ma-0 pa-0">
+                      <v-row  dense no-gutters class="ma-0 pa-0">
+                        <v-col cols="4" class="ma-0 pa-0">
+                          <v-subheader class="ma-0 pa-0" style="font-size:10px;">辅导员</v-subheader>
+                        </v-col>
+                        <v-col cols="8" class="ma-0 pa-0">
+                          <v-text-field
+                            class="ma-0 pa-0"
+                            v-model="changeform.guider"
+                            required
+                            outlined
+                            dense
+                            style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
+                          ></v-text-field>
+                        </v-col>
+                      </v-row>
+                    </v-container>
+                    <v-container fluid class="ma-0 pa-0">
+                      <v-row  dense no-gutters class="ma-0 pa-0">
+                        <v-col cols="4" class="ma-0 pa-0">
+                          <v-subheader class="ma-0 pa-0" style="font-size:10px;">是否毕业</v-subheader>
+                        </v-col>
+                        <v-col cols="8" class="ma-0 pa-0">
+                          <v-radio-group v-model="changeform.isschoolended" row style="width=:100%;transform:scale(0.75,0.75);" class="ma-2 pa-0">
+                            <v-radio
+                              v-for="i in yesornolist"
+                              :key="i"
+                              :label="i"
+                              :value="i"
+                              style="font-size:10px;"
+                            ></v-radio>
+                          </v-radio-group>
+                        </v-col>
+                      </v-row>
+                    </v-container>
+                  </v-col>
+                  <v-col class="ma-0 pb-12" cols="12" xs="3" sm="3" md="3" lg="3" xl="3">
+                    <v-container fluid class="ma-0 pa-0">
+                      <v-row  dense no-gutters class="ma-0 pa-0">
+                        <v-col cols="4" class="ma-0 pa-0">
+                          <v-subheader class="ma-0 pa-0" style="font-size:10px;">培养方式</v-subheader>
+                        </v-col>
+                        <v-col cols="8" class="ma-0 pa-0">
+                          <v-text-field
+                            class="ma-0 pa-0"
+                            v-model="changeform.fosterway"
+                            required
+                            outlined
+                            dense
+                            style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
+                          ></v-text-field>
+                        </v-col>
+                      </v-row>
+                    </v-container>
+                    <v-container fluid class="ma-0 pa-0">
+                      <v-row  dense no-gutters class="ma-0 pa-0">
+                        <v-col cols="4" class="ma-0 pa-0">
+                          <v-subheader class="ma-0 pa-0" style="font-size:10px;">近期所在地</v-subheader>
+                        </v-col>
+                        <v-col cols="8" class="ma-0 pa-0">
+                          <v-text-field
+                            class="ma-0 pa-0"
+                            v-model="changeform.recentplace"
+                            required
+                            outlined
+                            dense
+                            style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
+                          ></v-text-field>
+                        </v-col>
+                      </v-row>
+                    </v-container>
+                    <v-container fluid class="ma-0 pa-0">
+                      <v-row  dense no-gutters class="ma-0 pa-0">
+                        <v-col cols="4" class="ma-0 pa-0">
+                          <v-subheader class="ma-0 pa-0" style="font-size:10px;">实验室门牌号</v-subheader>
+                        </v-col>
+                        <v-col cols="8" class="ma-0 pa-0">
+                          <v-text-field
+                            class="ma-0 pa-0"
+                            v-model="changeform.labdoornum"
+                            required
+                            outlined
+                            dense
+                            style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
+                          ></v-text-field>
+                        </v-col>
+                      </v-row>
+                    </v-container>
+                    <v-container fluid class="ma-0 pa-0">
+                      <v-row  dense no-gutters class="ma-0 pa-0">
+                        <v-col cols="4" class="ma-0 pa-0">
+                          <v-subheader class="ma-0 pa-0" style="font-size:10px;">校外住址</v-subheader>
+                        </v-col>
+                        <v-col cols="8" class="ma-0 pa-0">
+                          <v-text-field
+                            class="ma-0 pa-0"
+                            v-model="changeform.outsideschoolplace"
+                            required
+                            outlined
+                            dense
+                            style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
+                          ></v-text-field>
+                        </v-col>
+                      </v-row>
+                    </v-container>
+                    <v-container fluid class="ma-0 pa-0">
+                      <v-row  dense no-gutters class="ma-0 pa-0">
+                        <v-col cols="4" class="ma-0 pa-0">
+                          <v-subheader class="ma-0 pa-0" style="font-size:10px;">特殊问题</v-subheader>
+                        </v-col>
+                        <v-col cols="8" class="ma-0 pa-0">
+                          <v-text-field
+                            class="ma-0 pa-0"
+                            v-model="changeform.specialproblem"
+                            required
+                            outlined
+                            dense
+                            style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
+                          ></v-text-field>
+                        </v-col>
+                      </v-row>
+                    </v-container>
+                  </v-col>
+                  <v-col class="ma-0 pb-12" cols="12" xs="3" sm="3" md="3" lg="3" xl="3">
+                    <v-container fluid class="ma-0 pa-0">
+                      <v-row  dense no-gutters class="ma-0 pa-0">
+                        <v-col cols="4" class="ma-0 pa-0">
+                          <v-subheader class="ma-0 pa-0" style="font-size:10px;">主导师姓名</v-subheader>
+                        </v-col>
+                        <v-col cols="8" class="ma-0 pa-0">
+                          <v-text-field
+                            class="ma-0 pa-0"
+                            v-model="changeform.professorname"
+                            required
+                            outlined
+                            dense
+                            :rules="nameRules"
+                            style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
+                          ></v-text-field>
+                        </v-col>
+                      </v-row>
+                    </v-container>
+                    <v-container fluid class="ma-0 pa-0">
+                      <v-row  dense no-gutters class="ma-0 pa-0">
+                        <v-col cols="4" class="ma-0 pa-0">
+                          <v-subheader class="ma-0 pa-0" style="font-size:10px;">主导师手机号</v-subheader>
+                        </v-col>
+                        <v-col cols="8" class="ma-0 pa-0">
+                          <v-text-field
+                            class="ma-0 pa-0"
+                            v-model="changeform.professorphonenumber"
+                            required
+                            outlined
+                            dense
+                            :rules="phoneRules"
+                            style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
+                          ></v-text-field>
+                        </v-col>
+                      </v-row>
+                    </v-container>
+                    <v-container fluid class="ma-0 pa-0">
+                      <v-row  dense no-gutters class="ma-0 pa-0">
+                        <v-col cols="4" class="ma-0 pa-0">
+                          <v-subheader class="ma-0 pa-0" style="font-size:10px;">直带导师姓名</v-subheader>
+                        </v-col>
+                        <v-col cols="8" class="ma-0 pa-0">
+                          <v-text-field
+                            class="ma-0 pa-0"
+                            v-model="changeform.directprofessorname"
+                            required
+                            outlined
+                            dense
+                            :rules="nameRules"
+                            style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
+                          ></v-text-field>
+                        </v-col>
+                      </v-row>
+                    </v-container>
+                    <v-container fluid class="ma-0 pa-0">
+                      <v-row  dense no-gutters class="ma-0 pa-0">
+                        <v-col cols="4" class="ma-0 pa-0">
+                          <v-subheader class="ma-0 pa-0" style="font-size:10px;">直带导师手机号</v-subheader>
+                        </v-col>
+                        <v-col cols="8" class="ma-0 pa-0">
+                          <v-text-field
+                            class="ma-0 pa-0"
+                            v-model="changeform.directprofessorphonenumber"
+                            required
+                            outlined
+                            dense
+                            :rules="phoneRules"
+                            style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
+                          ></v-text-field>
+                        </v-col>
+                      </v-row>
+                    </v-container>
+                  </v-col>
+                  <v-col class="ma-0 pb-12" cols="12" xs="3" sm="3" md="3" lg="3" xl="3">
+                    <v-container fluid class="ma-0 pa-0">
+                      <v-row  dense no-gutters class="ma-0 pa-0">
+                        <v-col cols="4" class="ma-0 pa-0">
+                          <v-subheader class="ma-0 pa-0" style="font-size:10px;">本科学校</v-subheader>
+                        </v-col>
+                        <v-col cols="8" class="ma-0 pa-0">
+                          <v-text-field
+                            class="ma-0 pa-0"
+                            v-model="changeform.undergraduateschool"
+                            required
+                            outlined
+                            dense
+                            style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
+                          ></v-text-field>
+                        </v-col>
+                      </v-row>
+                    </v-container>
+                    <v-container fluid class="ma-0 pa-0">
+                      <v-row  dense no-gutters class="ma-0 pa-0">
+                        <v-col cols="4" class="ma-0 pa-0">
+                          <v-subheader class="ma-0 pa-0" style="font-size:10px;">本科专业</v-subheader>
+                        </v-col>
+                        <v-col cols="8" class="ma-0 pa-0">
+                          <v-text-field
+                            class="ma-0 pa-0"
+                            v-model="changeform.undergraduatemajor"
+                            required
+                            outlined
+                            dense
+                            style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
+                          ></v-text-field>
+                        </v-col>
+                      </v-row>
+                    </v-container>
+                    <v-container fluid class="ma-0 pa-0">
+                      <v-row  dense no-gutters class="ma-0 pa-0">
+                        <v-col cols="4" class="ma-0 pa-0">
+                          <v-subheader class="ma-0 pa-0" style="font-size:10px;">硕士学校</v-subheader>
+                        </v-col>
+                        <v-col cols="8" class="ma-0 pa-0">
+                          <v-text-field
+                            class="ma-0 pa-0"
+                            v-model="changeform.masterschool"
+                            required
+                            outlined
+                            dense
+                            style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
+                          ></v-text-field>
+                        </v-col>
+                      </v-row>
+                    </v-container>
+                    <v-container fluid class="ma-0 pa-0">
+                      <v-row  dense no-gutters class="ma-0 pa-0">
+                        <v-col cols="4" class="ma-0 pa-0">
+                          <v-subheader class="ma-0 pa-0" style="font-size:10px;">硕士专业</v-subheader>
+                        </v-col>
+                        <v-col cols="8" class="ma-0 pa-0">
+                          <v-text-field
+                            class="ma-0 pa-0"
+                            v-model="changeform.masterschool"
+                            required
+                            outlined
+                            dense
+                            style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
+                          ></v-text-field>
+                        </v-col>
+                      </v-row>
+                    </v-container>
+                  </v-col>
+                  <v-col class="ma-0 pb-12" cols="12" xs="3" sm="3" md="3" lg="3" xl="3">
+                    <v-container fluid class="ma-0 pa-0">
+                      <v-row  dense no-gutters class="ma-0 pa-0">
+                        <v-col cols="4" class="ma-0 pa-0">
+                          <v-subheader class="ma-0 pa-0" style="font-size:10px;">宿舍区域</v-subheader>
+                        </v-col>
+                        <v-col cols="8" class="ma-0 pa-0">
+                          <v-select
+                            :items="['学院路校内', '学院路大运村','沙河']"
+                            v-model="changeform.dormitoryarea"
+                            outlined
+                            dense
+                            style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
+                          ></v-select>
+                        </v-col>
+                      </v-row>
+                    </v-container>
+                    <v-container fluid class="ma-0 pa-0">
+                      <v-row  dense no-gutters class="ma-0 pa-0">
+                        <v-col cols="4" class="ma-0 pa-0">
+                          <v-subheader class="ma-0 pa-0" style="font-size:10px;">宿舍楼号</v-subheader>
+                        </v-col>
+                        <v-col cols="8" class="ma-0 pa-0">
+                          <v-text-field
+                            class="ma-0 pa-0"
+                            v-model="changeform.dormitorybuilding"
+                            required
+                            outlined
+                            dense
+                            style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
+                          ></v-text-field>
+                        </v-col>
+                      </v-row>
+                    </v-container>
+                    <v-container fluid class="ma-0 pa-0">
+                      <v-row  dense no-gutters class="ma-0 pa-0">
+                        <v-col cols="4" class="ma-0 pa-0">
+                          <v-subheader class="ma-0 pa-0" style="font-size:10px;">房间号</v-subheader>
+                        </v-col>
+                        <v-col cols="8" class="ma-0 pa-0">
+                          <v-text-field
+                            class="ma-0 pa-0"
+                            v-model="changeform.dormitoryroom"
+                            required
+                            outlined
+                            dense
+                            style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
+                          ></v-text-field>
+                        </v-col>
+                      </v-row>
+                    </v-container>
+                    <v-container fluid class="ma-0 pa-0">
+                      <v-row  dense no-gutters class="ma-0 pa-0">
+                        <v-col cols="4" class="ma-0 pa-0">
+                          <v-subheader class="ma-0 pa-0" style="font-size:10px;">床号</v-subheader>
+                        </v-col>
+                        <v-col cols="8" class="ma-0 pa-0">
+                          <v-text-field
+                            class="ma-0 pa-0"
+                            v-model="changeform.dormitorybed"
+                            required
+                            outlined
+                            dense
+                            style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
+                          ></v-text-field>
+                        </v-col>
+                      </v-row>
+                    </v-container>
+                  </v-col>
+                </v-row>
+              </v-container>
+            </v-form>
+          </div>
+
+          <v-card-actions>
+            <div style="margin:0 auto;">
+              <v-btn color="rgba(71, 112, 166, 0.996078431372549)" @click="saveupdate(item)" dark depressed style="margin-top:10px;margin-left:10px;margin-bottom:10px;">保存更改</v-btn>
+            </div>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
       <v-data-table
         v-model="selected"
         :headers="headers"
@@ -1110,7 +2112,6 @@
         :single-select="singleSelect"
         :single-expand="singleExpand"
         :expanded.sync="expanded"
-        :search="search"
         item-key="name"
         show-expand
         class="elevation-1"
@@ -1188,1035 +2189,7 @@
           </td>
         </template>
         <template v-slot:item.operation="{item}">
-          <v-dialog v-model="changedialog[desserts.indexOf(item)]" width="1200px">
-            <template v-slot:activator="{ on, attrs }">
-              <v-btn
-                depressed
-                small
-                style="background-color:white;border:1px solid grey;"
-                v-bind="attrs"
-                v-on="on"
-                @click="changefunc(item)"
-              >
-                编辑
-              </v-btn>
-            </template>
-            <v-card>
-              <v-card-title>
-                <span class="headline">编辑学生信息</span>
-              </v-card-title>
-              <div class="basic_info_form">
-                <v-form
-                  ref="form"
-                  v-model="valid"
-                  :lazy-validation="false"
-                >
-                  <v-container>
-                    <v-row dense no-gutters>
-                      <v-col
-                        class="ma-0 pb-12"
-                        cols="12"
-                        xs="3"
-                        sm="3"
-                        md="3"
-                        lg="3"
-                        xl="3"
-                      >
-                        <v-container fluid class="ma-0 pa-0">
-                          <v-row  dense no-gutters class="ma-0 pa-0">
-                            <v-col cols="4" class="ma-0 pa-0">
-                              <v-subheader class="ma-0 pa-0" style="font-size:10px;">非证件照片</v-subheader>
-                            </v-col>
-                            <v-col cols="8" class="ma-0 pa-0">
-                              <input type="file" id="upload" ref="upload" @change="changeimg" accept=".jpg, .jpeg, .png" style="display:block;width:90%;font-size:10px;margin-top:10px;">
-                            </v-col>
-                          </v-row>
-                        </v-container>
-                        <v-container fluid class="ma-0 pa-0">
-                          <v-row  dense no-gutters class="ma-0 pa-0">
-                            <v-col cols="4" class="ma-0 pa-0">
-                              <v-subheader class="ma-0 pa-0" style="font-size:10px;">上传图片预览</v-subheader>
-                            </v-col>
-                            <v-col cols="8" class="ma-0 pa-0">
-                              <img :src="'/avatar/'+changeform.imgsrc" width="70%" alt=""/>
-                            </v-col>
-                          </v-row>
-                        </v-container>
-                      </v-col>
-                      <v-col
-                        class="ma-0 pb-12"
-                        cols="12"
-                        xs="3"
-                        sm="3"
-                        md="3"
-                        lg="3"
-                        xl="3"
-                      >
-                        <v-container fluid class="ma-0 pa-0">
-                          <v-row  dense no-gutters class="ma-0 pa-0">
-                            <v-col cols="4" class="ma-0 pa-0">
-                              <v-subheader class="ma-0 pa-0" style="font-size:10px;">姓名</v-subheader>
-                            </v-col>
-                            <v-col cols="8" class="ma-0 pa-0">
-                              <v-text-field
-                                class="ma-0 pa-0"
-                                v-model="changeform.name"
-                                required
-                                outlined
-                                dense
-                                style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
-                              ></v-text-field>
-                            </v-col>
-                          </v-row>
-                        </v-container>
-                        <v-container fluid class="ma-0 pa-0">
-                          <v-row  dense no-gutters class="ma-0 pa-0">
-                            <v-col cols="4" class="ma-0 pa-0">
-                              <v-subheader class="ma-0 pa-0" style="font-size:10px;">学号</v-subheader>
-                            </v-col>
-                            <v-col cols="8" class="ma-0 pa-0">
-                              <v-text-field
-                                class="ma-0 pa-0"
-                                v-model="changeform.schoolid"
-                                required
-                                outlined
-                                dense
-                                style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
-                              ></v-text-field>
-                            </v-col>
-                          </v-row>
-                        </v-container>
-                        <v-container fluid class="ma-0 pa-0">
-                          <v-row  dense no-gutters class="ma-0 pa-0">
-                            <v-col cols="4" class="ma-0 pa-0">
-                              <v-subheader class="ma-0 pa-0" style="font-size:10px;">性别</v-subheader>
-                            </v-col>
-                            <v-col cols="8" class="ma-0 pa-0">
-                              <v-radio-group v-model="changeform.sex" row style="width=:100%;transform:scale(0.75,0.75);" class="ma-2 pa-0">
-                                <v-radio
-                                  v-for="i in sexchoice"
-                                  :key="i"
-                                  :label="i"
-                                  :value="i"
-                                  style="font-size:10px;"
-                                ></v-radio>
-                              </v-radio-group>
-                            </v-col>
-                          </v-row>
-                        </v-container>
-                        <v-container fluid class="ma-0 pa-0">
-                          <v-row  dense no-gutters class="ma-0 pa-0">
-                            <v-col cols="4" class="ma-0 pa-0">
-                              <v-subheader class="ma-0 pa-0" style="font-size:10px;">民族</v-subheader>
-                            </v-col>
-                            <v-col cols="8" class="ma-0 pa-0">
-                              <v-select
-                                  :items="['汉族', '蒙古族', '回族', '藏族', '维吾尔族','苗族', '彝族', '壮族', '布依族', '朝鲜族','满族', '侗族', '瑶族', '白族', '土家族','哈尼族', '哈萨克族', '傣族', '黎族', '僳僳族','佤族', '畲族', '高山族', '拉祜族', '水族','东乡族', '纳西族', '景颇族', '柯尔克孜族', '土族','达斡尔族', '仫佬族', '羌族', '布朗族', '撒拉族','毛南族','仡佬族', '锡伯族', '阿昌族', '普米族','塔吉克族', '怒族', '乌孜别克族', '俄罗斯族', '鄂温克族', '德昂族', '保安族', '裕固族', '京族', '塔塔尔族','独龙族', '鄂伦春族', '赫哲族', '门巴族', '珞巴族','基诺族']"
-                                  v-model="changeform.race"
-                                  required
-                                  outlined
-                                  dense
-                                  style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
-                              ></v-select>
-                            </v-col>
-                          </v-row>
-                        </v-container>
-                        <v-container fluid class="ma-0 pa-0">
-                          <v-row  dense no-gutters class="ma-0 pa-0">
-                            <v-col cols="4" class="ma-0 pa-0">
-                              <v-subheader class="ma-0 pa-0" style="font-size:10px;">年龄</v-subheader>
-                            </v-col>
-                            <v-col cols="8" class="ma-0 pa-0">
-                              <v-select :items="['男','女']" v-model="changeform.sex" outlined dense
-                                style="width=:100%;transform:scale(0.75,0.75);font-size:15px;"
-                              ></v-select>
-                            </v-col>
-                          </v-row>
-                        </v-container>
-                        <v-container fluid class="ma-0 pa-0">
-                          <v-row  dense no-gutters class="ma-0 pa-0">
-                            <v-col cols="4" class="ma-0 pa-0">
-                              <v-subheader class="ma-0 pa-0" style="font-size:10px;">籍贯</v-subheader>
-                            </v-col>
-                            <v-col cols="8" class="ma-0 pa-0">
-                              <v-text-field
-                                class="ma-0 pa-0"
-                                v-model="changeform.nativeplace"
-                                required
-                                outlined
-                                dense
-                                :rules="[v => !!v || '请输入籍贯',]"
-                                style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
-                              ></v-text-field>
-                            </v-col>
-                          </v-row>
-                        </v-container>
-                      </v-col>
-                      <v-col
-                        class="ma-0 pb-12"
-                        cols="12"
-                        xs="3"
-                        sm="3"
-                        md="3"
-                        lg="3"
-                        xl="3"
-                      >
-                        <v-container fluid class="ma-0 pa-0">
-                          <v-row  dense no-gutters class="ma-0 pa-0">
-                            <v-col cols="4" class="ma-0 pa-0">
-                              <v-subheader class="ma-0 pa-0" style="font-size:10px;">现家庭住址</v-subheader>
-                            </v-col>
-                            <v-col cols="8" class="ma-0 pa-0">
-                              <v-text-field
-                                class="ma-0 pa-0"
-                                v-model="changeform.nowplace"
-                                required
-                                outlined
-                                dense
-                                :rules="[v => !!v || '请输入现家庭住址',]"
-                                style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
-                              ></v-text-field>
-                            </v-col>
-                          </v-row>
-                        </v-container>
-                        <v-container fluid class="ma-0 pa-0">
-                          <v-row  dense no-gutters class="ma-0 pa-0">
-                            <v-col cols="4" class="ma-0 pa-0">
-                              <v-subheader class="ma-0 pa-0" style="font-size:10px;">户口所在地</v-subheader>
-                            </v-col>
-                            <v-col cols="8" class="ma-0 pa-0">
-                              <v-text-field
-                                class="ma-0 pa-0"
-                                v-model="changeform.householdplace"
-                                required
-                                outlined
-                                dense
-                                :rules="[v => !!v || '请输入户口所在地',]"
-                                style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
-                              ></v-text-field>
-                            </v-col>
-                          </v-row>
-                        </v-container>
-                        <v-container fluid class="ma-0 pa-0">
-                          <v-row  dense no-gutters class="ma-0 pa-0">
-                            <v-col cols="4" class="ma-0 pa-0">
-                              <v-subheader class="ma-0 pa-0" style="font-size:10px;">紧急联系人姓名</v-subheader>
-                            </v-col>
-                            <v-col cols="8" class="ma-0 pa-0">
-                              <v-text-field
-                                class="ma-0 pa-0"
-                                v-model="changeform.urgentcontactname"
-                                required
-                                outlined
-                                dense
-                                :rules="nameRules"
-                                style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
-                              ></v-text-field>
-                            </v-col>
-                          </v-row>
-                        </v-container>
-                        <v-container fluid class="ma-0 pa-0">
-                          <v-row  dense no-gutters class="ma-0 pa-0">
-                            <v-col cols="4" class="ma-0 pa-0">
-                              <v-subheader class="ma-0 pa-0" style="font-size:10px;">紧急联系人关系</v-subheader>
-                            </v-col>
-                            <v-col cols="8" class="ma-0 pa-0">
-                              <v-select
-                                :items="['父子', '母子', '父女', '母女', '其他']"
-                                v-model="changeform.urgentcontactrelation"
-                                outlined
-                                dense
-                                style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
-                              ></v-select>
-                            </v-col>
-                          </v-row>
-                        </v-container>
-                        <v-container fluid class="ma-0 pa-0">
-                          <v-row  dense no-gutters class="ma-0 pa-0">
-                            <v-col cols="4" class="ma-0 pa-0">
-                              <v-subheader class="ma-0 pa-0" style="font-size:10px;">紧急联系人电话</v-subheader>
-                            </v-col>
-                            <v-col cols="8" class="ma-0 pa-0">
-                              <v-text-field
-                                class="ma-0 pa-0"
-                                v-model="changeform.urgentcontactphone"
-                                required
-                                outlined
-                                dense
-                                :rules="phoneRules"
-                                style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
-                              ></v-text-field>
-                            </v-col>
-                          </v-row>
-                        </v-container>
-                      </v-col>
-                      <v-col
-                        class="ma-0 pb-12"
-                        cols="12"
-                        xs="3"
-                        sm="3"
-                        md="3"
-                        lg="3"
-                        xl="3"
-                      >
-                        <v-container fluid class="ma-0 pa-0">
-                          <v-row  dense no-gutters class="ma-0 pa-0">
-                            <v-col cols="4" class="ma-0 pa-0">
-                              <v-subheader class="ma-0 pa-0" style="font-size:10px;">关心关爱</v-subheader>
-                            </v-col>
-                            <v-col cols="8" class="ma-0 pa-0">
-                              <v-radio-group v-model="changeform.iscared" row style="width=:100%;transform:scale(0.75,0.75);" class="ma-2 pa-0">
-                                <v-radio
-                                  v-for="i in yesornolist"
-                                  :key="i"
-                                  :label="i"
-                                  :value="i"
-                                  style="font-size:10px;"
-                                ></v-radio>
-                              </v-radio-group>
-                            </v-col>
-                          </v-row>
-                        </v-container>
-                        <v-container fluid class="ma-0 pa-0">
-                          <v-row  dense no-gutters class="ma-0 pa-0">
-                            <v-col cols="4" class="ma-0 pa-0">
-                              <v-subheader class="ma-0 pa-0" style="font-size:10px;">关心等级</v-subheader>
-                            </v-col>
-                            <v-col cols="8" class="ma-0 pa-0">
-                              <v-text-field
-                                class="ma-0 pa-0"
-                                v-model="changeform.caredlevel"
-                                required
-                                outlined
-                                dense
-                                style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
-                              ></v-text-field>
-                            </v-col>
-                          </v-row>
-                        </v-container>
-                        <v-container fluid class="ma-0 pa-0">
-                          <v-row  dense no-gutters class="ma-0 pa-0">
-                            <v-col cols="4" class="ma-0 pa-0">
-                              <v-subheader class="ma-0 pa-0" style="font-size:10px;">登记时间</v-subheader>
-                            </v-col>
-                            <v-col cols="8" class="ma-0 pa-0">
-                              <v-menu
-                                ref="changeregisteredmenu"
-                                v-model="changeregisteredmenu"
-                                :close-on-content-click="false"
-                                transition="scale-transition"
-                                offset-y
-                                min-width="290px"
-                              >
-                                <template v-slot:activator="{ on, attrs }">
-                                  <v-text-field
-                                    v-model="changeform.registeredtime"
-                                    prepend-icon="event"
-                                    readonly
-                                    required
-                                    outlined
-                                    dense
-                                    v-bind="attrs"
-                                    v-on="on"
-                                    style="font-size:20px;width:100%;transform:scale(0.75,0.75);"
-                                  ></v-text-field>
-                                </template>
-                                <v-date-picker v-model="changeform.registeredtime" no-title scrollable :max="maxdate">
-                                  <v-spacer></v-spacer>
-                                  <v-btn text color="primary" @click="changeregisteredmenu = false">Cancel</v-btn>
-                                  <v-btn text color="primary" @click="changeregisteredmenu = false">OK</v-btn>
-                                </v-date-picker>
-                              </v-menu>
-                            </v-col>
-                          </v-row>
-                        </v-container>
-                        <v-container fluid class="ma-0 pa-0">
-                          <v-row  dense no-gutters class="ma-0 pa-0">
-                            <v-col cols="4" class="ma-0 pa-0">
-                              <v-subheader class="ma-0 pa-0" style="font-size:10px;">主要原因</v-subheader>
-                            </v-col>
-                            <v-col cols="8" class="ma-0 pa-0">
-                              <v-textarea
-                                v-model="changeform.mainreason"
-                                required
-                                outlined
-                                flat
-                                dense
-                                background-color="white"
-                                style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
-                                auto-grow
-                              ></v-textarea>
-                            </v-col>
-                          </v-row>
-                        </v-container>
-                      </v-col>
-                      <v-col
-                        class="ma-0 pb-12"
-                        cols="12"
-                        xs="3"
-                        sm="3"
-                        md="3"
-                        lg="3"
-                        xl="3"
-                      >
-                        <v-container fluid class="ma-0 pa-0">
-                          <v-row  dense no-gutters class="ma-0 pa-0">
-                            <v-col cols="4" class="ma-0 pa-0">
-                              <v-subheader class="ma-0 pa-0" style="font-size:10px;">贫困生</v-subheader>
-                            </v-col>
-                            <v-col cols="8" class="ma-0 pa-0">
-                              <v-radio-group v-model="changeform.ispoverty" row style="width=:100%;transform:scale(0.75,0.75);" class="ma-2 pa-0">
-                                <v-radio
-                                  v-for="i in yesornolist"
-                                  :key="i"
-                                  :label="i"
-                                  :value="i"
-                                  style="font-size:10px;"
-                                ></v-radio>
-                              </v-radio-group>
-                            </v-col>
-                          </v-row>
-                        </v-container>
-                        <v-container fluid class="ma-0 pa-0">
-                          <v-row  dense no-gutters class="ma-0 pa-0">
-                            <v-col cols="4" class="ma-0 pa-0">
-                              <v-subheader class="ma-0 pa-0" style="font-size:10px;">困难等级</v-subheader>
-                            </v-col>
-                            <v-col cols="8" class="ma-0 pa-0">
-                              <v-text-field
-                                class="ma-0 pa-0"
-                                v-model="changeform.povertylevel"
-                                required
-                                outlined
-                                dense
-                                style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
-                              ></v-text-field>
-                            </v-col>
-                          </v-row>
-                        </v-container>
-                        <v-container fluid class="ma-0 pa-0">
-                          <v-row  dense no-gutters class="ma-0 pa-0">
-                            <v-col cols="4" class="ma-0 pa-0">
-                              <v-subheader class="ma-0 pa-0" style="font-size:10px;">是否申请临时困难补助</v-subheader>
-                            </v-col>
-                            <v-col cols="8" class="ma-0 pa-0">
-                              <v-radio-group v-model="changeform.istemporaryhelpapplied" row style="width=:100%;transform:scale(0.75,0.75);" class="ma-2 pa-0">
-                                <v-radio
-                                  v-for="i in yesornolist"
-                                  :key="i"
-                                  :label="i"
-                                  :value="i"
-                                  style="font-size:10px;"
-                                ></v-radio>
-                              </v-radio-group>
-                            </v-col>
-                          </v-row>
-                        </v-container>
-                        <v-container fluid class="ma-0 pa-0">
-                          <v-row  dense no-gutters class="ma-0 pa-0">
-                            <v-col cols="4" class="ma-0 pa-0">
-                              <v-subheader class="ma-0 pa-0" style="font-size:10px;">申请时间</v-subheader>
-                            </v-col>
-                            <v-col cols="8" class="ma-0 pa-0">
-                              <v-menu
-                                ref="changeappliedmenu"
-                                v-model="changeappliedmenu"
-                                :close-on-content-click="false"
-                                transition="scale-transition"
-                                offset-y
-                                min-width="290px"
-                              >
-                                <template v-slot:activator="{ on, attrs }">
-                                  <v-text-field
-                                    v-model="changeform.appliedtime"
-                                    prepend-icon="event"
-                                    readonly
-                                    required
-                                    outlined
-                                    dense
-                                    v-bind="attrs"
-                                    v-on="on"
-                                    style="font-size:20px;width:100%;transform:scale(0.75,0.75);"
-                                  ></v-text-field>
-                                </template>
-                                <v-date-picker v-model="changeform.appliedtime" no-title scrollable :max="maxdate">
-                                  <v-spacer></v-spacer>
-                                  <v-btn text color="primary" @click="changeappliedmenu = false">Cancel</v-btn>
-                                  <v-btn text color="primary" @click="changeappliedmenu = false">OK</v-btn>
-                                </v-date-picker>
-                              </v-menu>
-                            </v-col>
-                          </v-row>
-                        </v-container>
-                        <v-container fluid class="ma-0 pa-0">
-                          <v-row  dense no-gutters class="ma-0 pa-0">
-                            <v-col cols="4" class="ma-0 pa-0">
-                              <v-subheader class="ma-0 pa-0" style="font-size:10px;">申请金额</v-subheader>
-                            </v-col>
-                            <v-col cols="8" class="ma-0 pa-0">
-                              <v-text-field
-                                class="ma-0 pa-0"
-                                v-model="changeform.appliedaccount"
-                                required
-                                outlined
-                                dense
-                                style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
-                              ></v-text-field>
-                            </v-col>
-                          </v-row>
-                        </v-container>
-                      </v-col>
-                      <v-col
-                        class="ma-0 pb-12"
-                        cols="12"
-                        xs="3"
-                        sm="3"
-                        md="3"
-                        lg="3"
-                        xl="3"
-                      >
-                        <v-container fluid class="ma-0 pa-0">
-                          <v-row  dense no-gutters class="ma-0 pa-0">
-                            <v-col cols="4" class="ma-0 pa-0">
-                              <v-subheader class="ma-0 pa-0" style="font-size:10px;">出生年月</v-subheader>
-                            </v-col>
-                            <v-col cols="8" class="ma-0 pa-0">
-                              <v-menu
-                                ref="changebirthdatemenu"
-                                v-model="changebirthdatemenu"
-                                :close-on-content-click="false"
-                                transition="scale-transition"
-                                offset-y
-                                min-width="290px"
-                              >
-                                <template v-slot:activator="{ on, attrs }">
-                                  <v-text-field
-                                    v-model="changeform.birthdate"
-                                    prepend-icon="event"
-                                    readonly
-                                    required
-                                    outlined
-                                    dense
-                                    v-bind="attrs"
-                                    v-on="on"
-                                    style="font-size:20px;width:100%;transform:scale(0.75,0.75);"
-                                  ></v-text-field>
-                                </template>
-                                <v-date-picker v-model="changeform.birthdate" no-title scrollable :max="maxdate">
-                                  <v-spacer></v-spacer>
-                                  <v-btn text color="primary" @click="changebirthdatemenu = false">Cancel</v-btn>
-                                  <v-btn text color="primary" @click="changebirthdatemenu = false">OK</v-btn>
-                                </v-date-picker>
-                              </v-menu>
-                            </v-col>
-                          </v-row>
-                        </v-container>
-                        <v-container fluid class="ma-0 pa-0">
-                          <v-row  dense no-gutters class="ma-0 pa-0">
-                            <v-col cols="4" class="ma-0 pa-0">
-                              <v-subheader class="ma-0 pa-0" style="font-size:10px;">身份证号</v-subheader>
-                            </v-col>
-                            <v-col cols="8" class="ma-0 pa-0">
-                              <v-text-field
-                                class="ma-0 pa-0"
-                                v-model="changeform.idnum"
-                                required
-                                outlined
-                                dense
-                                :rules="[v => !!v || '请输入身份证号',v => (v && v.length == 18) || '请输入18位身份证号']"
-                                style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
-                                @change="changegenfromidnum" @input="changegenfromidnum"
-                              ></v-text-field>
-                            </v-col>
-                          </v-row>
-                        </v-container>
-                        <v-container fluid class="ma-0 pa-0">
-                          <v-row  dense no-gutters class="ma-0 pa-0">
-                            <v-col cols="4" class="ma-0 pa-0">
-                              <v-subheader class="ma-0 pa-0" style="font-size:10px;">入学年份</v-subheader>
-                            </v-col>
-                            <v-col cols="8" class="ma-0 pa-0">
-                              <v-select
-                                :items="['201309', '201409', '201509', '201609', '201709', '201809', '201909', '202009', '202109', '202209', '202309', '202409', '202509', '202609', '202709', '202809', '202909', '203009']"
-                                v-model="changeform.schoolstartyear"
-                                outlined
-                                dense
-                                style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
-                              ></v-select>
-                            </v-col>
-                          </v-row>
-                        </v-container>
-                        <v-container fluid class="ma-0 pa-0">
-                          <v-row  dense no-gutters class="ma-0 pa-0">
-                            <v-col cols="4" class="ma-0 pa-0">
-                              <v-subheader class="ma-0 pa-0" style="font-size:10px;">政治面貌</v-subheader>
-                            </v-col>
-                            <v-col cols="8" class="ma-0 pa-0">
-                              <v-select
-                                :items="['正式党员', '预备党员', '共青团员', '群众', '其它']"
-                                v-model="changeform.politics"
-                                outlined
-                                dense
-                                style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
-                              ></v-select>
-                            </v-col>
-                          </v-row>
-                        </v-container>
-                        <v-container fluid class="ma-0 pa-0">
-                          <v-row  dense no-gutters class="ma-0 pa-0">
-                            <v-col cols="4" class="ma-0 pa-0">
-                              <v-subheader class="ma-0 pa-0" style="font-size:10px;">手机号</v-subheader>
-                            </v-col>
-                            <v-col cols="8" class="ma-0 pa-0">
-                              <v-text-field
-                                class="ma-0 pa-0"
-                                v-model="changeform.phonenumber"
-                                required
-                                outlined
-                                dense
-                                :rules="phoneRules"
-                                style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
-                              ></v-text-field>
-                            </v-col>
-                          </v-row>
-                        </v-container>
-                      </v-col>
-                      <v-col
-                        class="ma-0 pb-12"
-                        cols="12"
-                        xs="3"
-                        sm="3"
-                        md="3"
-                        lg="3"
-                        xl="3"
-                      >
-                        <v-container fluid class="ma-0 pa-0">
-                          <v-row  dense no-gutters class="ma-0 pa-0">
-                            <v-col cols="4" class="ma-0 pa-0">
-                              <v-subheader class="ma-0 pa-0" style="font-size:10px;">所属校区</v-subheader>
-                            </v-col>
-                            <v-col cols="8" class="ma-0 pa-0">
-                              <v-select
-                                :items="['学院路校区', '沙河校区', '杭州研究院', '青岛研究院', '苏州研究院', '深圳研究院', '云南研究院', '其它']"
-                                v-model="changeform.schoolzone"
-                                outlined
-                                dense
-                                style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
-                              ></v-select>
-                            </v-col>
-                          </v-row>
-                        </v-container>
-                        <v-container fluid class="ma-0 pa-0">
-                          <v-row  dense no-gutters class="ma-0 pa-0">
-                            <v-col cols="4" class="ma-0 pa-0">
-                              <v-subheader class="ma-0 pa-0" style="font-size:10px;">学生类型</v-subheader>
-                            </v-col>
-                            <v-col cols="8" class="ma-0 pa-0">
-                              <v-select
-                                v-model="changeform.studenttype"
-                                :items="['本科', '硕士', '博士']"
-                                outlined
-                                dense
-                                style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
-                              ></v-select>
-                            </v-col>
-                          </v-row>
-                        </v-container>
-                        <v-container fluid class="ma-0 pa-0">
-                          <v-row  dense no-gutters class="ma-0 pa-0">
-                            <v-col cols="4" class="ma-0 pa-0">
-                              <v-subheader class="ma-0 pa-0" style="font-size:10px;">班号</v-subheader>
-                            </v-col>
-                            <v-col cols="8" class="ma-0 pa-0">
-                              <v-text-field
-                                class="ma-0 pa-0"
-                                v-model="changeform.classnum"
-                                required
-                                outlined
-                                dense
-                                style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
-                              ></v-text-field>
-                            </v-col>
-                          </v-row>
-                        </v-container>
-                        <v-container fluid class="ma-0 pa-0">
-                          <v-row  dense no-gutters class="ma-0 pa-0">
-                            <v-col cols="4" class="ma-0 pa-0">
-                              <v-subheader class="ma-0 pa-0" style="font-size:10px;">辅导员</v-subheader>
-                            </v-col>
-                            <v-col cols="8" class="ma-0 pa-0">
-                              <v-text-field
-                                class="ma-0 pa-0"
-                                v-model="changeform.guider"
-                                required
-                                outlined
-                                dense
-                                style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
-                              ></v-text-field>
-                            </v-col>
-                          </v-row>
-                        </v-container>
-                        <v-container fluid class="ma-0 pa-0">
-                          <v-row  dense no-gutters class="ma-0 pa-0">
-                            <v-col cols="4" class="ma-0 pa-0">
-                              <v-subheader class="ma-0 pa-0" style="font-size:10px;">是否毕业</v-subheader>
-                            </v-col>
-                            <v-col cols="8" class="ma-0 pa-0">
-                              <v-radio-group v-model="changeform.isschoolended" row style="width=:100%;transform:scale(0.75,0.75);" class="ma-2 pa-0">
-                                <v-radio
-                                  v-for="i in yesornolist"
-                                  :key="i"
-                                  :label="i"
-                                  :value="i"
-                                  style="font-size:10px;"
-                                ></v-radio>
-                              </v-radio-group>
-                            </v-col>
-                          </v-row>
-                        </v-container>
-                      </v-col>
-                      <v-col
-                        class="ma-0 pb-12"
-                        cols="12"
-                        xs="3"
-                        sm="3"
-                        md="3"
-                        lg="3"
-                        xl="3"
-                      >
-                        <v-container fluid class="ma-0 pa-0">
-                          <v-row  dense no-gutters class="ma-0 pa-0">
-                            <v-col cols="4" class="ma-0 pa-0">
-                              <v-subheader class="ma-0 pa-0" style="font-size:10px;">培养方式</v-subheader>
-                            </v-col>
-                            <v-col cols="8" class="ma-0 pa-0">
-                              <v-text-field
-                                class="ma-0 pa-0"
-                                v-model="changeform.fosterway"
-                                required
-                                outlined
-                                dense
-                                style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
-                              ></v-text-field>
-                            </v-col>
-                          </v-row>
-                        </v-container>
-                        <v-container fluid class="ma-0 pa-0">
-                          <v-row  dense no-gutters class="ma-0 pa-0">
-                            <v-col cols="4" class="ma-0 pa-0">
-                              <v-subheader class="ma-0 pa-0" style="font-size:10px;">近期所在地</v-subheader>
-                            </v-col>
-                            <v-col cols="8" class="ma-0 pa-0">
-                              <v-text-field
-                                class="ma-0 pa-0"
-                                v-model="changeform.recentplace"
-                                required
-                                outlined
-                                dense
-                                style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
-                              ></v-text-field>
-                            </v-col>
-                          </v-row>
-                        </v-container>
-                        <v-container fluid class="ma-0 pa-0">
-                          <v-row  dense no-gutters class="ma-0 pa-0">
-                            <v-col cols="4" class="ma-0 pa-0">
-                              <v-subheader class="ma-0 pa-0" style="font-size:10px;">实验室门牌号</v-subheader>
-                            </v-col>
-                            <v-col cols="8" class="ma-0 pa-0">
-                              <v-text-field
-                                class="ma-0 pa-0"
-                                v-model="changeform.labdoornum"
-                                required
-                                outlined
-                                dense
-                                style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
-                              ></v-text-field>
-                            </v-col>
-                          </v-row>
-                        </v-container>
-                        <v-container fluid class="ma-0 pa-0">
-                          <v-row  dense no-gutters class="ma-0 pa-0">
-                            <v-col cols="4" class="ma-0 pa-0">
-                              <v-subheader class="ma-0 pa-0" style="font-size:10px;">校外住址</v-subheader>
-                            </v-col>
-                            <v-col cols="8" class="ma-0 pa-0">
-                              <v-text-field
-                                class="ma-0 pa-0"
-                                v-model="changeform.outsideschoolplace"
-                                required
-                                outlined
-                                dense
-                                style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
-                              ></v-text-field>
-                            </v-col>
-                          </v-row>
-                        </v-container>
-                        <v-container fluid class="ma-0 pa-0">
-                          <v-row  dense no-gutters class="ma-0 pa-0">
-                            <v-col cols="4" class="ma-0 pa-0">
-                              <v-subheader class="ma-0 pa-0" style="font-size:10px;">特殊问题</v-subheader>
-                            </v-col>
-                            <v-col cols="8" class="ma-0 pa-0">
-                              <v-text-field
-                                class="ma-0 pa-0"
-                                v-model="changeform.specialproblem"
-                                required
-                                outlined
-                                dense
-                                style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
-                              ></v-text-field>
-                            </v-col>
-                          </v-row>
-                        </v-container>
-                      </v-col>
-                      <v-col
-                        class="ma-0 pb-12"
-                        cols="12"
-                        xs="3"
-                        sm="3"
-                        md="3"
-                        lg="3"
-                        xl="3"
-                      >
-                        <v-container fluid class="ma-0 pa-0">
-                          <v-row  dense no-gutters class="ma-0 pa-0">
-                            <v-col cols="4" class="ma-0 pa-0">
-                              <v-subheader class="ma-0 pa-0" style="font-size:10px;">主导师姓名</v-subheader>
-                            </v-col>
-                            <v-col cols="8" class="ma-0 pa-0">
-                              <v-text-field
-                                class="ma-0 pa-0"
-                                v-model="changeform.professorname"
-                                required
-                                outlined
-                                dense
-                                :rules="nameRules"
-                                style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
-                              ></v-text-field>
-                            </v-col>
-                          </v-row>
-                        </v-container>
-                        <v-container fluid class="ma-0 pa-0">
-                          <v-row  dense no-gutters class="ma-0 pa-0">
-                            <v-col cols="4" class="ma-0 pa-0">
-                              <v-subheader class="ma-0 pa-0" style="font-size:10px;">主导师手机号</v-subheader>
-                            </v-col>
-                            <v-col cols="8" class="ma-0 pa-0">
-                              <v-text-field
-                                class="ma-0 pa-0"
-                                v-model="changeform.professorphonenumber"
-                                required
-                                outlined
-                                dense
-                                :rules="phoneRules"
-                                style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
-                              ></v-text-field>
-                            </v-col>
-                          </v-row>
-                        </v-container>
-                        <v-container fluid class="ma-0 pa-0">
-                          <v-row  dense no-gutters class="ma-0 pa-0">
-                            <v-col cols="4" class="ma-0 pa-0">
-                              <v-subheader class="ma-0 pa-0" style="font-size:10px;">直带导师姓名</v-subheader>
-                            </v-col>
-                            <v-col cols="8" class="ma-0 pa-0">
-                              <v-text-field
-                                class="ma-0 pa-0"
-                                v-model="changeform.directprofessorname"
-                                required
-                                outlined
-                                dense
-                                :rules="[v => (!v)||(v && v.length >= 2 && v.length <= 10) || '姓名的长度须大于等于2且小于等于10',],"
-                                style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
-                              ></v-text-field>
-                            </v-col>
-                          </v-row>
-                        </v-container>
-                        <v-container fluid class="ma-0 pa-0">
-                          <v-row  dense no-gutters class="ma-0 pa-0">
-                            <v-col cols="4" class="ma-0 pa-0">
-                              <v-subheader class="ma-0 pa-0" style="font-size:10px;">直带导师手机号</v-subheader>
-                            </v-col>
-                            <v-col cols="8" class="ma-0 pa-0">
-                              <v-text-field
-                                class="ma-0 pa-0"
-                                v-model="changeform.directprofessorphonenumber"
-                                required
-                                outlined
-                                dense
-                                style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
-                              ></v-text-field>
-                            </v-col>
-                          </v-row>
-                        </v-container>
-                      </v-col>
-                      <v-col
-                        class="ma-0 pb-12"
-                        cols="12"
-                        xs="3"
-                        sm="3"
-                        md="3"
-                        lg="3"
-                        xl="3"
-                      >
-                        <v-container fluid class="ma-0 pa-0">
-                          <v-row  dense no-gutters class="ma-0 pa-0">
-                            <v-col cols="4" class="ma-0 pa-0">
-                              <v-subheader class="ma-0 pa-0" style="font-size:10px;">本科学校</v-subheader>
-                            </v-col>
-                            <v-col cols="8" class="ma-0 pa-0">
-                              <v-text-field
-                                class="ma-0 pa-0"
-                                v-model="changeform.undergraduateschool"
-                                required
-                                outlined
-                                dense
-                                style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
-                              ></v-text-field>
-                            </v-col>
-                          </v-row>
-                        </v-container>
-                        <v-container fluid class="ma-0 pa-0">
-                          <v-row  dense no-gutters class="ma-0 pa-0">
-                            <v-col cols="4" class="ma-0 pa-0">
-                              <v-subheader class="ma-0 pa-0" style="font-size:10px;">本科专业</v-subheader>
-                            </v-col>
-                            <v-col cols="8" class="ma-0 pa-0">
-                              <v-text-field
-                                class="ma-0 pa-0"
-                                v-model="changeform.undergraduatemajor"
-                                required
-                                outlined
-                                dense
-                                style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
-                              ></v-text-field>
-                            </v-col>
-                          </v-row>
-                        </v-container>
-                        <v-container fluid class="ma-0 pa-0">
-                          <v-row  dense no-gutters class="ma-0 pa-0">
-                            <v-col cols="4" class="ma-0 pa-0">
-                              <v-subheader class="ma-0 pa-0" style="font-size:10px;">硕士学校</v-subheader>
-                            </v-col>
-                            <v-col cols="8" class="ma-0 pa-0">
-                              <v-text-field
-                                class="ma-0 pa-0"
-                                v-model="changeform.masterschool"
-                                required
-                                outlined
-                                dense
-                                style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
-                              ></v-text-field>
-                            </v-col>
-                          </v-row>
-                        </v-container>
-                        <v-container fluid class="ma-0 pa-0">
-                          <v-row  dense no-gutters class="ma-0 pa-0">
-                            <v-col cols="4" class="ma-0 pa-0">
-                              <v-subheader class="ma-0 pa-0" style="font-size:10px;">硕士专业</v-subheader>
-                            </v-col>
-                            <v-col cols="8" class="ma-0 pa-0">
-                              <v-text-field
-                                class="ma-0 pa-0"
-                                v-model="changeform.masterschool"
-                                required
-                                outlined
-                                dense
-                                style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
-                              ></v-text-field>
-                            </v-col>
-                          </v-row>
-                        </v-container>
-                      </v-col>
-                      <v-col
-                        class="ma-0 pb-12"
-                        cols="12"
-                        xs="3"
-                        sm="3"
-                        md="3"
-                        lg="3"
-                        xl="3"
-                      >
-                        <v-container fluid class="ma-0 pa-0">
-                          <v-row  dense no-gutters class="ma-0 pa-0">
-                            <v-col cols="4" class="ma-0 pa-0">
-                              <v-subheader class="ma-0 pa-0" style="font-size:10px;">宿舍区域</v-subheader>
-                            </v-col>
-                            <v-col cols="8" class="ma-0 pa-0">
-                              <v-select
-                                :items="['学院路校内', '学院路大运村','沙河']"
-                                v-model="changeform.dormitoryarea"
-                                outlined
-                                dense
-                                style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
-                              ></v-select>
-                            </v-col>
-                          </v-row>
-                        </v-container>
-                        <v-container fluid class="ma-0 pa-0">
-                          <v-row  dense no-gutters class="ma-0 pa-0">
-                            <v-col cols="4" class="ma-0 pa-0">
-                              <v-subheader class="ma-0 pa-0" style="font-size:10px;">宿舍楼号</v-subheader>
-                            </v-col>
-                            <v-col cols="8" class="ma-0 pa-0">
-                              <v-text-field
-                                class="ma-0 pa-0"
-                                v-model="changeform.dormitorybuilding"
-                                required
-                                outlined
-                                dense
-                                style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
-                              ></v-text-field>
-                            </v-col>
-                          </v-row>
-                        </v-container>
-                        <v-container fluid class="ma-0 pa-0">
-                          <v-row  dense no-gutters class="ma-0 pa-0">
-                            <v-col cols="4" class="ma-0 pa-0">
-                              <v-subheader class="ma-0 pa-0" style="font-size:10px;">房间号</v-subheader>
-                            </v-col>
-                            <v-col cols="8" class="ma-0 pa-0">
-                              <v-text-field
-                                class="ma-0 pa-0"
-                                v-model="changeform.dormitoryroom"
-                                required
-                                outlined
-                                dense
-                                style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
-                              ></v-text-field>
-                            </v-col>
-                          </v-row>
-                        </v-container>
-                        <v-container fluid class="ma-0 pa-0">
-                          <v-row  dense no-gutters class="ma-0 pa-0">
-                            <v-col cols="4" class="ma-0 pa-0">
-                              <v-subheader class="ma-0 pa-0" style="font-size:10px;">床号</v-subheader>
-                            </v-col>
-                            <v-col cols="8" class="ma-0 pa-0">
-                              <v-text-field
-                                class="ma-0 pa-0"
-                                v-model="changeform.dormitorybed"
-                                required
-                                outlined
-                                dense
-                                style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
-                              ></v-text-field>
-                            </v-col>
-                          </v-row>
-                        </v-container>
-                      </v-col>
-                    </v-row>
-                  </v-container>
-                </v-form>
-              </div>
-              <v-card-actions>
-                <div style="margin:0 auto;">
-                <v-btn color="rgba(71, 112, 166, 0.996078431372549)" @click="saveupdate(item)" dark depressed style="margin-top:10px;margin-left:10px;margin-bottom:10px;">保存更改</v-btn>
-                </div>
-              </v-card-actions>
-            </v-card>
-          </v-dialog>
+          <v-btn depressed small style="background-color:white;border:1px solid grey;" @click="changefunc(item)" @click.stop="changedialog = true">编辑</v-btn>
           <v-btn depressed small style="margin-left:30px;background-color:rgba(71, 112, 166, 0.996078431372549);color:white;" @click="deleteInfo(item)">删除</v-btn>
         </template>
       </v-data-table>
@@ -2302,7 +2275,6 @@ export default {
     return {
       chinesename: '基本信息管理',
       valid: true,
-      search: '',
       addform: {
         imgsrc: require('../assets/basicinfo/u264.svg'),
         name: '',
@@ -2403,6 +2375,10 @@ export default {
         dormitoryroom: '',
         dormitorybed: '',
       },
+      schoolidfilterstr: '',
+      schoolstartyearfilterstr: '',
+      guiderfilterstr: '',
+      studenttypefilterstr: '',
       registeredmenu: false,
       appliedmenu: false,
       birthdatemenu: false,
@@ -2414,7 +2390,8 @@ export default {
       checkbox: false,
       selectdialog: false,
       adddialog: false,
-      changedialog: [],
+      filterdialog: false,
+      changedialog: false,
       expanded: [],
       singleExpand: false,
       singleSelect: false,
@@ -2668,6 +2645,7 @@ export default {
       })
     },
     saveupdate(item){
+      console.log(item);
       console.log(this.addform);
       axios({
         url: '/api/basic/update',
@@ -2679,16 +2657,16 @@ export default {
       }).then(res => {
         if (res.data.flag) {
           this.$message.success("保存成功");
-          this.changedialog[this.desserts.indexOf(item)] = false;
+          this.changedialog = false;
           this.$router.go(0);  
         } else {
           this.$message.error("保存失败");
-          this.changedialog[this.desserts.indexOf(item)] = false;
+          this.changedialog = false;
         }
       }).catch(err => {
           console.log(err);
           this.$message.error("保存失败");
-          this.changedialog[this.desserts.indexOf(item)] = false;      
+          this.changedialog = false;      
       })
     },
     deleteInfo(item){
@@ -2715,6 +2693,7 @@ export default {
       })
     },
     changefunc(item){
+      console.log(item);
         this.changeform.imgsrc = item.imgsrc;
         this.changeform.name = item.name;
         this.changeform.schoolid = item.schoolid;
@@ -2788,6 +2767,9 @@ export default {
       this.headers = obj;
 
     },
+    confirmfilter(){
+      this.filterdialog = false;
+    },
     exportfunc(){
       console.log(this.selected);
     },
@@ -2851,9 +2833,6 @@ export default {
     }).then(res => {
       if (res.data.flag) {
         this.desserts = res.data.data;
-        for(let i=0;i<this.desserts.length;i++){
-          this.changedialog[i] = false;
-        }
         console.log(res.data.data);
         console.log("获取信息成功");
       } else {
