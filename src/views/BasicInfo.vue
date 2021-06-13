@@ -2856,6 +2856,8 @@ export default {
       } else {
         console.log("获取信息失败！");
       }
+    }).catch(err => {
+      console.log(err);
     })
   },
 }

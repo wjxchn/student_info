@@ -1187,7 +1187,7 @@ export default {
         data: this.changeform
       }).then(res => {
         if (res.data.flag) {
-          this.$message.success("保存成功，请手动刷新");
+          this.$message.success("保存成功，请手动刷新");          
           this.changedialog[this.desserts.indexOf(item)] = false;     
         } else {
           this.$message.error("保存失败");
@@ -1287,6 +1287,8 @@ export default {
       } else {
         console.log("获取信息失败！");
       }
+    }).catch(err => {
+      console.log(err);
     })
   }
 }
