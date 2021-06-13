@@ -2245,7 +2245,7 @@
       </v-card>
       <div class="text-center pt-2">
         <div style="display: inline-block; margin-right:10px; font-weight:700; color:#0D4C7F;">
-          共50条
+          共{{tablesum}}条
         </div>
         <div style="display: inline-block;">
           <v-select
@@ -2613,6 +2613,11 @@ export default {
         v => !!v || '请输入手机号码',
         v => (v && /^1[345789]\d{9}$/.test(v)) || '请输入正确的手机号码'
       ],
+    }
+  },
+  computed:{
+    tablesum(){
+      return this.desserts.length;
     }
   },
   methods: {
