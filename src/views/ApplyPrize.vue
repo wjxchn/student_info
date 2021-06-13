@@ -7,6 +7,7 @@
           depressed
           small
           style="border:1px solid rgba(71, 112, 166, 0.996); width:100px; height:38px; float:right; color:rgba(71, 112, 166, 0.996); font-size:13px;display:block;"
+          @click="toapplyprizepage()"
         >
           申报奖项
         </v-btn>
@@ -129,6 +130,11 @@ export default {
       ],
     }
   },
+  methods:{
+    toapplyprizepage(){
+      this.$router.push('/applyprizepage');
+    }
+  }
 }
 </script>
 

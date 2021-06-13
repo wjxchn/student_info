@@ -10,6 +10,19 @@
       <div class="login_bar_title">
         学生信息管理系统
       </div>
+      <div style="position:absolute;top:0;right:0;">
+        <v-icon v-if="!isteacher" large style="height:80px;width:80px;" dark @click="tostudentpage">mdi-school</v-icon>
+        <v-icon v-if="isteacher" large style="height:80px;width:80px;" dark @click="tobasicinfo">mdi-school</v-icon>
+        <v-icon v-if="isteacher" large style="height:80px;width:80px;" dark @click="topartyaffair">work</v-icon>
+        <v-icon v-if="isteacher" large style="height:80px;width:80px;" dark @click="tostatistics">pie_chart</v-icon>
+        <v-icon v-if="isteacher" large style="height:80px;width:80px;" dark @click="toaddprize">military_tech</v-icon>
+        <v-icon v-if="isteacher" large style="height:80px;width:80px;" dark @click="toprizeevaluation">emoji_events</v-icon>
+        <v-icon v-if="!isteacher" large style="height:80px;width:80px;" dark @click="toapplyprize">inventory</v-icon>
+        <v-icon v-if="isteacher" large style="height:80px;width:80px;" dark @click="toprizecandidate">inventory</v-icon>
+        <v-icon v-if="!isteacher" large style="height:80px;width:80px;" dark @click="toaskforleave">timer</v-icon>
+        <v-icon v-if="isteacher" large style="height:80px;width:80px;" dark @click="tocancelleave">timer</v-icon>
+        <v-icon v-if="isteacher" large style="height:80px;width:80px;" dark @click="tospecialstory">palette</v-icon>
+      </div>
     </div>
     <div class="basic_info_title">
       <div class="basic_info_title_text" v-text="titlevalue">
@@ -24,6 +37,7 @@ export default {
   name: 'BackgroundComponent',
   data(){
     return{
+      isteacher: false,
       titlePicSrc:require('../assets/login/bhcslogo.png'),
       basicInfoBackgroundSrc: require('../assets/basicinfo/u15.jpg'),
     }
@@ -32,6 +46,41 @@ export default {
     titlevalue: {
       type: String,
       default: null
+    }
+  },
+  methods: {
+    tostudentpage(){
+      this.$router.push('/studentpage');
+    },
+    tobasicinfo(){
+      this.$router.push('/basicinfo');
+    },
+    topartyaffair(){
+      this.$router.push('/partyaffair');
+    },
+    tostatistics(){
+      this.$router.push('/statistics');
+    },
+    toaddprize(){
+      this.$router.push('/addprize');
+    },
+    toprizeevaluation(){
+      this.$router.push('/prizeevaluation');
+    },
+    toapplyprize(){
+      this.$router.push('/applyprize');
+    },
+    toprizecandidate(){
+      this.$router.push('/prizecandidate');
+    },
+    toaskforleave(){
+      this.$router.push('/askforleave');
+    },
+    tocancelleave(){
+      this.$router.push('/cancelleave');
+    },
+    tospecialstory(){
+      this.$router.push('/specialstory');
     }
   }
 }

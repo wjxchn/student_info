@@ -7,6 +7,7 @@
           depressed
           small
           style="border:1px solid rgba(71, 112, 166, 0.996); width:100px; height:38px; color:rgba(71, 112, 166, 0.996); font-size:13px;"
+          @click="toapplyprize()"
         >
           返回申请列表
         </v-btn>
@@ -123,6 +124,11 @@ export default {
       ],
     }
   },
+  methods:{
+    toapplyprize(){
+      this.$router.push('/applyprize');
+    }
+  }
 }
 </script>
 

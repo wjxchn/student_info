@@ -1258,34 +1258,4 @@ export default {
 .basic_info_expand_td{
   background-color: #FAFAFA;
 }
-#u21_img {
-  border-width:0px;
-  position:absolute;
-  left:0px;
-  top:0px;
-  width:43px;
-  height:40px;
-}
-#u21 {
-  border-width:0px;
-  position:absolute;
-  left:-60px;
-  top:2px;
-  width:43px;
-  height:40px;
-  display:flex;
-}
-#u21 .text {
-  position:absolute;
-  align-self:center;
-  padding:2px 2px 2px 20px;
-  box-sizing:border-box;
-  width:100%;
-}
-#u21_text {
-  border-width:0px;
-  word-wrap:break-word;
-  text-transform:none;
-  visibility:hidden;
-}
 </style>
