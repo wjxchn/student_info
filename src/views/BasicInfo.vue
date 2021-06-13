@@ -1140,7 +1140,7 @@
                     tile
                     flat
                   >
-                    <img :src="item.imgsrc" width="70%" height="70%" alt="" />
+                    <img :src="'/avatar/'+item.imgsrc" width="70%" height="70%" alt="" />
                   </v-card>
                 </v-col>
                 <v-col
@@ -1238,7 +1238,7 @@
                               <v-subheader class="ma-0 pa-0" style="font-size:10px;">上传图片预览</v-subheader>
                             </v-col>
                             <v-col cols="8" class="ma-0 pa-0">
-                              <img :src="changeform.imgsrc" width="70%" alt=""/>
+                              <img :src="'/avatar/'+changeform.imgsrc" width="70%" alt=""/>
                             </v-col>
                           </v-row>
                         </v-container>
