@@ -2229,6 +2229,7 @@
               color="rgba(128, 152, 192, 0.8)"
               class="ma-2 white--text"
               small
+              @click="exportfunc()"
             >
               导出
             </v-btn>
@@ -2236,6 +2237,7 @@
               color="rgba(128, 152, 192, 0.8)"
               class="ma-2 white--text"
               small
+              @click="generateresumefunc()"
             >
               生成简历
             </v-btn>
@@ -2690,6 +2692,12 @@ export default {
         }
       }
       this.headers = obj;
+    },
+    exportfunc(){
+      console.log(this.selected);
+    },
+    generateresumefunc(){
+      console.log(this.selected);
     }
   },
   watch:{
