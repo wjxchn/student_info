@@ -61,17 +61,17 @@
         </v-card>
       </v-dialog>
       <v-dialog v-model="adddialog" width="1200px" persistent>
-        <template v-slot:activator="{ on, attrs }">
-          <v-btn
-            depressed
-            small
-            style="border:1px solid rgba(71, 112, 166, 0.996); width:100px; height:38px; float:right; color:rgba(71, 112, 166, 0.996); font-size:13px;"
-            v-bind="attrs"
-            v-on="on"
-          >
-            添加学生信息
-          </v-btn>
-        </template>
+<!--        <template v-slot:activator="{ on, attrs }">-->
+<!--          <v-btn-->
+<!--            depressed-->
+<!--            small-->
+<!--            style="border:1px solid rgba(71, 112, 166, 0.996); width:100px; height:38px; float:right; color:rgba(71, 112, 166, 0.996); font-size:13px;"-->
+<!--            v-bind="attrs"-->
+<!--            v-on="on"-->
+<!--          >-->
+<!--            添加学生信息-->
+<!--          </v-btn>-->
+<!--        </template>-->
         <v-card>
           <v-card-title>
             <span class="headline">添加学生信息</span>
@@ -890,14 +890,15 @@
               </v-card-actions>
             </v-card>
           </v-dialog>
-          <v-btn depressed small style="margin-left:30px;background-color:rgba(71, 112, 166, 0.996078431372549);color:white;" @click="deletefunc(item)">删除</v-btn>
+<!--          <v-btn depressed small style="margin-left:30px;background-color:rgba(71, 112, 166, 0.996078431372549);color:white;" @click="deletefunc(item)">删除</v-btn>-->
         </template>
       </v-data-table>
     </div>
       <v-card style="overflow:hidden;" mobile-breakpoint=0>
           <div style="display: inline-block;float:left;padding-left:20px;width:80%;">
             <div style="position: absolute; top:50%;transform: translateY(-50%);font-size:10px;">
-              合计：男10人，女10人；贫困生5人，非贫困生15人；关心关爱8人，非关心关爱12人；已毕业2人，未毕业18人
+              合计：男10人，女10人。
+<!--              贫困生5人，非贫困生15人；关心关爱8人，非关心关爱12人；已毕业2人，未毕业18人-->
             </div>
           </div>
           <div style="display: inline-block;float:right;padding-right:20px;width:20%;">
