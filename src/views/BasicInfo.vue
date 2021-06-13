@@ -2218,7 +2218,7 @@
               </v-card-actions>
             </v-card>
           </v-dialog>
-          <v-btn depressed small style="margin-left:30px;background-color:rgba(71, 112, 166, 0.996078431372549);color:white;" @click="deleteInfo">删除</v-btn>
+          <v-btn depressed small style="margin-left:30px;background-color:rgba(71, 112, 166, 0.996078431372549);color:white;" @click="deleteInfo(item)">删除</v-btn>
         </template>
       </v-data-table>
       </div>
@@ -2683,11 +2683,12 @@ export default {
       })
 
       this.changedialog = false;
+      this.$router.go(0);
     },
-    deleteInfo(){
+    deleteInfo(item){
       let object = new Object();
       //前端需要传递一个schoolid进来
-      object["schoolid"] = "123456";
+      object["schoolid"] = item.schoolid;
       axios({
         url: '/api/basic/delete',
         method: 'post',
@@ -2702,6 +2703,7 @@ export default {
           alert("删除失败！");
         }
       })
+      this.$router.go(0);
     },
     changefunc(item){
         this.changeform.imgsrc = item.imgsrc;
