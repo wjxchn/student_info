@@ -4,7 +4,7 @@
     <div class="basic_info_table">
       <v-dialog v-model="selectdialog" width="1000px" persistent>
         <template v-slot:activator="{ on, attrs }">
-          <v-btn 
+          <v-btn
             depressed
             small
             style="border:1px solid rgba(71, 112, 166, 0.996); width:100px; height:38px; color:rgba(71, 112, 166, 0.996); font-size:13px;"
@@ -1104,7 +1104,7 @@
         :items-per-page="itemsPerPage"
         hide-default-footer
         @page-count="pageCount = $event"
-        mobile-breakpoint=0   
+        mobile-breakpoint=0
       >
         <template v-slot:expanded-item="{ headers, item }">
           <td :colspan="headers.length" class="basic_info_expand_td">
@@ -2208,7 +2208,7 @@
       <v-card style="overflow:hidden;" mobile-breakpoint=0>
           <div style="display: inline-block;float:left;padding-left:20px;width:80%;">
             <div style="position: absolute; top:50%;transform: translateY(-50%);font-size:10px;">
-              合计：男10人，女10人；贫困生5人，非贫困生15人；关心关爱8人，非关心关爱12人；已毕业2人，未毕业18人
+              （TODO）合计：男10人，女10人；贫困生5人，非贫困生15人；关心关爱8人，非关心关爱12人；已毕业2人，未毕业18人
             </div>
           </div>
           <div style="display: inline-block;float:right;padding-right:20px;width:20%;">
@@ -2395,7 +2395,7 @@ export default {
       changeregisteredmenu: false,
       changeappliedmenu: false,
       changebirthdatemenu: false,
-      yesornolist: ['是','否'], 
+      yesornolist: ['是','否'],
       sexchoice: ['男','女'],
       checkbox: false,
       selectdialog: false,
@@ -2641,7 +2641,7 @@ export default {
       }
       let obj = [
         { text: '', value: 'data-table-expand' },
-        { text: '操作', value: 'operation', align: 'center', sortable:false },        
+        { text: '操作', value: 'operation', align: 'center', sortable:false },
       ];
       for(let k of this.infolist){
         if(k[2]){
@@ -2661,7 +2661,7 @@ export default {
       else{
         for(let i of this.checkinfolist){
           i[2] = false;
-        }  
+        }
       }
     },
     checkinfolist:{
