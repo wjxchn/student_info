@@ -38,10 +38,15 @@ export default {
   name: 'BackgroundComponent',
   data(){
     return{
-      isteacher: true,
+      isteacher: false,
       titlePicSrc:require('../assets/login/bhcslogo.png'),
       basicInfoBackgroundSrc: require('../assets/basicinfo/u15.jpg'),
     }
+  },
+  mounted() {
+    var token = localStorage.getItem('Authorization');
+    console.log("来自background的打印：",token);
+    this.isteacher = true;
   },
   props: {
     titlevalue: {
