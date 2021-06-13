@@ -2657,12 +2657,15 @@ export default {
         data: this.addform
       }).then(res => {
         if (res.data.flag) {
-          alert("保存成功！");
+          this.$message.success("添加成功");
+          this.$router.go(0); 
         } else {
-          alert("保存失败！");
+          this.$message.error("添加失败");
         }
+      }).catch(err => {
+          console.log(err);
+          this.$message.error("添加失败");
       })
-      this.$router.go(0);
     },
     saveupdate(item){
       console.log(this.addform);
@@ -2675,14 +2678,18 @@ export default {
         data: this.changeform
       }).then(res => {
         if (res.data.flag) {
-          alert("保存成功！");
+          this.$message.success("保存成功");
+          this.changedialog[this.desserts.indexOf(item)] = false;
+          this.$router.go(0);  
         } else {
-          alert("保存失败！");
+          this.$message.error("保存失败");
+          this.changedialog[this.desserts.indexOf(item)] = false;
         }
+      }).catch(err => {
+          console.log(err);
+          this.$message.error("保存失败");
+          this.changedialog[this.desserts.indexOf(item)] = false;      
       })
-
-      this.changedialog[this.desserts.indexOf(item)] = false;
-      this.$router.go(0);
     },
     deleteInfo(item){
       let object = new Object();
@@ -2697,12 +2704,15 @@ export default {
         data: object
       }).then(res => {
         if (res.data.flag) {
-          alert("删除成功！");
+          this.$message.success("删除成功");
+          this.$router.go(0); 
         } else {
-          alert("删除失败！");
+          this.$message.error("删除失败");
         }
+      }).catch(err => {
+          console.log(err);
+          this.$message.error("删除失败");       
       })
-      this.$router.go(0);
     },
     changefunc(item){
         this.changeform.imgsrc = item.imgsrc;
@@ -2849,6 +2859,8 @@ export default {
       } else {
         console.log("获取信息失败！");
       }
+    }).catch(err => {
+      console.log(err);
     })
   },
 }

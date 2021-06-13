@@ -525,7 +525,7 @@
           </td>
         </template>
         <template v-slot:item.operation="{item}">
-          <v-dialog v-model="changedialog" width="1200px">
+          <v-dialog v-model="changedialog[desserts.indexOf(item)]" width="1200px">
             <template v-slot:activator="{ on, attrs }">
               <v-btn
                 depressed
@@ -1030,7 +1030,7 @@ export default {
       checkbox: false,
       selectdialog: false,
       adddialog: false,
-      changedialog: false,
+      changedialog: [],
       expanded: [],
       singleExpand: false,
       singleSelect: false,
@@ -1187,13 +1187,18 @@ export default {
         data: this.changeform
       }).then(res => {
         if (res.data.flag) {
-          alert("保存成功！");
+          this.$message.success("保存成功");          
+          this.changedialog[this.desserts.indexOf(item)] = false;
+          this.$router.go(0);  
         } else {
-          alert("保存失败！");
+          this.$message.error("保存失败");
+          this.changedialog[this.desserts.indexOf(item)] = false;
         }
+      }).catch(err => {
+          console.log(err);
+          this.$message.error("保存失败");
+          this.changedialog[this.desserts.indexOf(item)] = false;      
       })
-
-      this.changedialog = false;
     },
     getstr(item,name){
       return item[name[1]];
@@ -1283,6 +1288,8 @@ export default {
       } else {
         console.log("获取信息失败！");
       }
+    }).catch(err => {
+      console.log(err);
     })
   }
 }
