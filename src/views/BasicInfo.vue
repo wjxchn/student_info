@@ -82,59 +82,57 @@
               <v-subheader style="margin-left:160px;font-size:10px;">按学号过滤</v-subheader>
             </v-col>
             <v-col cols="12" sm="8">
-          <v-text-field
-            class="ma-0 pa-0"
-            v-model="schoolidfilterstr"
-            required
-            outlined
-            dense
-            style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
-          ></v-text-field>            
+              <v-text-field
+                class="ma-0 pa-0"
+                v-model="schoolidfilterstr"
+                required
+                outlined
+                dense
+                style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
+              ></v-text-field>            
             </v-col>
             <v-col cols="12" sm="4">
               <v-subheader style="margin-left:160px;font-size:10px;">按入学年份过滤</v-subheader>
             </v-col>
             <v-col cols="12" sm="8">
-          <v-text-field
-            class="ma-0 pa-0"
-            v-model="schoolstartyearfilterstr"
-            required
-            outlined
-            dense
-            style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
-          ></v-text-field>            
+              <v-select
+                :items="['201309', '201409', '201509', '201609', '201709', '201809', '201909', '202009', '202109', '202209', '202309', '202409', '202509', '202609', '202709', '202809', '202909', '203009']"
+                v-model="schoolstartyearfilterstr"
+                outlined
+                dense
+                style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
+              ></v-select>          
             </v-col>
             <v-col cols="12" sm="4">
               <v-subheader style="margin-left:160px;font-size:10px;">按辅导员过滤</v-subheader>
             </v-col>
             <v-col cols="12" sm="8">
-          <v-text-field
-            class="ma-0 pa-0"
-            v-model="guiderfilterstr"
-            required
-            outlined
-            dense
-            style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
-          ></v-text-field>            
+              <v-text-field
+                class="ma-0 pa-0"
+                v-model="guiderfilterstr"
+                required
+                outlined
+                dense
+                style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
+              ></v-text-field>            
             </v-col>
             <v-col cols="12" sm="4">
               <v-subheader style="margin-left:160px;font-size:10px;">按学生类别</v-subheader>
             </v-col>
             <v-col cols="12" sm="8">
-          <v-text-field
-            class="ma-0 pa-0"
-            v-model="studenttypefilterstr"
-            required
-            outlined
-            dense
-            style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
-          ></v-text-field>            
+              <v-select
+                v-model="studenttypefilterstr"
+                :items="['本科', '硕士', '博士']"
+                outlined
+                dense
+                style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
+              ></v-select>           
             </v-col>
             </v-row>
             </v-container>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn color="green darken-1" text @click="filterdialog = false">取消</v-btn>
+            <v-btn color="green darken-1" text @click="clearfilter()">清空</v-btn>
             <v-btn color="green darken-1" text @click="confirmfilter()">确定</v-btn>
           </v-card-actions>
         </v-card>
@@ -2197,7 +2195,6 @@
       <v-card style="overflow:hidden;" mobile-breakpoint=0>
           <div style="display: inline-block;float:left;padding-left:20px;width:80%;">
             <div style="position: absolute; top:50%;transform: translateY(-50%);font-size:10px;">
-              合计：男10人，女10人；贫困生5人，非贫困生15人；关心关爱8人，非关心关爱12人；已毕业2人，未毕业18人
             </div>
           </div>
           <div style="display: inline-block;float:right;padding-right:20px;width:20%;">
@@ -2768,6 +2765,14 @@ export default {
       this.headers = obj;
 
     },
+    clearfilter(){
+      this.filterdialog = false;
+      this.schoolidfilterstr = '';
+      this.schoolstartyearfilterstr = '';
+      this.guiderfilterstr = '';
+      this.studenttypefilterstr = '';
+      this.filtereddesserts = this.desserts;
+    },
     confirmfilter(){
       this.filterdialog = false;
       console.log(this.schoolidfilterstr);
@@ -2778,6 +2783,7 @@ export default {
         this.filtereddesserts = this.desserts;
       }
       else{
+        this.filtereddesserts = this.desserts;
         if(this.schoolidfilterstr!=''){
           this.filtereddesserts = this.filtereddesserts.filter((val)=>{return val.schoolid.indexOf(this.schoolidfilterstr)!=-1});
         }

@@ -121,7 +121,7 @@
             </v-container>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn color="green darken-1" text @click="filterdialog = false">取消</v-btn>
+            <v-btn color="green darken-1" text @click="clearfilter()">清空</v-btn>
             <v-btn color="green darken-1" text @click="confirmfilter()">确定</v-btn>
           </v-card-actions>
         </v-card>
@@ -949,8 +949,6 @@
       <v-card style="overflow:hidden;" mobile-breakpoint=0>
           <div style="display: inline-block;float:left;padding-left:20px;width:80%;">
             <div style="position: absolute; top:50%;transform: translateY(-50%);font-size:10px;">
-              合计：男10人，女10人。
-<!--              贫困生5人，非贫困生15人；关心关爱8人，非关心关爱12人；已毕业2人，未毕业18人-->
             </div>
           </div>
           <div style="display: inline-block;float:right;padding-right:20px;width:20%;">
@@ -1279,6 +1277,13 @@ export default {
       }
       this.headers = obj;
     },
+    clearfilter(){
+      this.filterdialog = false;
+      this.schoolidfilterstr = '';
+      this.formaltimeidfilterstr = '';
+      this.branchfilterstr = '';
+      this.filtereddesserts = this.desserts;
+    },
     confirmfilter(){
       this.filterdialog = false;
       console.log(this.schoolidfilterstr);
@@ -1288,6 +1293,7 @@ export default {
         this.filtereddesserts = this.desserts;
       }
       else{
+        this.filtereddesserts = this.desserts;
         if(this.schoolidfilterstr!=''){
           this.filtereddesserts = this.filtereddesserts.filter((val)=>{return val.schoolid.indexOf(this.schoolidfilterstr)!=-1});
         }
