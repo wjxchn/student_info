@@ -199,19 +199,33 @@ export default {
         a += '\n学生姓名: ';
         a += item.studentname;    
         alert(a)
+      }).catch(() => {
+        alert('销假失败');
       })
     },
     // 批量销假
     cancelLeaveAll() {
       var len = this.selected.length;
+      var data = new Array();           // 是选中的请假条的id所组成的数组
       for(var i = 0; i < len; i ++) {
-        for(var j = 0; j < this.desserts.length; j ++) {
-          if(this.desserts[j].leaveId == this.selected[i].leaveId) {
-            this.desserts.splice(j, 1);
+        data.push(this.selected[i].leaveId);
+      }
+      axios({
+        url: '9999',
+        method: 'post',
+        data: data,
+      }).then(() => {
+        for(var i = 0; i < len; i ++) {
+          for(var j = 0; j < this.desserts.length; j ++) {
+            if(this.desserts[j].leaveId == this.selected[i].leaveId) {
+              this.desserts.splice(j, 1);
+              break;
+            }
           }
         }
-      }
-      console.log(this.selected);
+      }).catch(() => {
+        alert('批量删除失败！');
+      })
     }
   }
 }

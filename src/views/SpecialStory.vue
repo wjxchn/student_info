@@ -89,7 +89,6 @@
                     placeholder="请选择上传图片"
                     show-size="true"
                     v-model="file[0]"
-                    @click="fileInputFun"
                   ></v-file-input>
                 </v-row>
                 <v-row>
@@ -98,9 +97,7 @@
                     multiple
                     placeholder="请选择上传图片"
                     show-size="true"
-                    v-if="file[0]!=''"
                     v-model="file[1]"
-                    @click="fileInputFun"
                   ></v-file-input>
                 </v-row>
                 <v-row>
@@ -110,8 +107,6 @@
                     placeholder="请选择上传图片"
                     show-size="true"
                     v-model="file[2]"
-                    v-if="file[1]!=''"
-                    @click="fileInputFun"
                   ></v-file-input>
                 </v-row>
               </v-col>
@@ -271,14 +266,14 @@
             studentid: '18362329',
             studentname: '张三',
             storyTitle: '见义勇为',
-            addtime: '2021-06-01',
+            addtime: '2021-06-01 09:22',
             story: '这是一个故事这是一个故事这是一个故事这是一个故事这是一个故事这是一个故事这是一个故事这是一个故事这是一个故事'
           },{
             storyId: 2,
             studentid: '18362330',
             studentname: '张三',
             storyTitle: '见义勇为',
-            addtime: '2021-06-01',
+            addtime: '2021-06-01 09:22',
             story: '这是一个故事这是一个故事这是一个故事这是一个故事这是一个故事这是一个故事这是一个故事这是一个故事这是一个故事'
           },
         ],
@@ -335,13 +330,22 @@
         var year = today.getFullYear();
         var month = today.getMonth();
         var day = today.getDate();
-        this.time = year + '-' + month + '-' + day;
+        var hour = today.getHours();
+        var minute = today.getMinutes();
+        var files = new Array();
+        for(var i = 0; i < this.file.length; i ++) {
+          if(this.file[i] != '') {
+            files.push(this.file[i]);
+          }
+        }
+        this.time = year + '-' + month + '-' + day + ' ' + hour + ':' + minute;
         var storyInfo = {
           stuId: this.id,
           stuName: this.name,
           stuStory: this.story,
           storyTitle: this.storyTitle,
-          time: this.time
+          time: this.time,
+          files: files
         };
         if(this.name == '') {
           alert('请输入姓名');
@@ -361,13 +365,6 @@
           }).catch(() => {
             alert('提交失败');
           })
-        }
-      },
-      // 第一个上传文件，若上传之后，第二个上传框展示
-      fileInputFun() {
-        console.log(this.file[0]);
-        if(this.file[0] != '') {
-          this.isFile2 = true;
         }
       },
     }

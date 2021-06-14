@@ -22,7 +22,7 @@
                 </v-row>
                 <v-row>
                   <v-col style="margin-left:100px;font-weight:700;">项目金额：</v-col>
-                  <v-col style="margin-right:200px;">{{prizeAccount}}</v-col>
+                  <v-col style="margin-right:200px;" v-html="prizeAccountShow"></v-col>
                 </v-row>
                 <v-row>
                   <v-col style="margin-left:100px;font-weight:700;color:skyblue">申请条件：</v-col>
@@ -64,12 +64,18 @@
                 <v-row>
                   <v-col cols="4" style="line-height:30px;">申请等级：</v-col>
                   <v-col cols="4" style="height:30px;">
-                    <v-text-field
-                      class="ma-0 pa-0"
-                      required
-                      dense
+                    <v-select
+                      :items="prizeAccount"
+                      item-text="level"
+                      item-value="money"
+                      label="Select"
                       v-model="apply_level"
-                    ></v-text-field>
+                      persistent-hint 
+                      return-object
+                      height="20px"
+                      style="padding:0;"
+                      single-line
+                    ></v-select>
                   </v-col>
                 </v-row>
                 <v-row>
@@ -190,7 +196,11 @@
                 </v-row>
                 <v-row>
                   <v-col cols="1" style="margin-left:600px;padding:10px;font-weight:700;">奖项金额：</v-col>
-                  <v-col style="padding:10px;"> {{item.prizeaccount}} </v-col>
+                  <v-col style="padding:10px;">
+                     <p>{{item.prizeaccount[0].level}}:&nbsp;{{item.prizeaccount[0].money}}</p>
+                     <p v-if="item.prizeaccount.length>1">{{item.prizeaccount[1].level}}:&nbsp;{{item.prizeaccount[1].money}}</p>
+                     <p v-if="item.prizeaccount.length>2">{{item.prizeaccount[2].level}}:&nbsp;{{item.prizeaccount[2].money}}</p>
+                  </v-col>
                 </v-row>
                 <v-row>
                   <v-col cols="1" style="margin-left:600px;padding:10px;font-weight:700;">申请条件：</v-col>
@@ -280,6 +290,7 @@ export default {
       prizeId: '',
       prizeName: '',
       prizeAccount: '',
+      prizeAccountShow: '',
       applyCondition: '',
       applyDeadline: '',
       // 用于渲染申请dialogue等信息end
@@ -287,7 +298,7 @@ export default {
       // 用于获取填写的信息begin
       apply_studentId: '',
       apply_studentName: '',
-      apply_level: '',
+      apply_level: '',  
       apply_file1: '',
       apply_file2: '',
       // 用于获取填写的信息end
@@ -305,7 +316,7 @@ export default {
       headers: [
         { text: '奖项编号', value: 'prizeitemid', align: 'center',width: '150px' },
         { text: '奖项名称', value: 'prizename', align: 'center',width: '150px' },
-        { text: '奖项金额', value: 'prizeaccount', align: 'center',width: '150px' },
+        { text: '奖项金额', value: 'prizesum', align: 'center',width: '150px' },
         { text: '申请条件', value: 'applycondition', align: 'center',width: '150px' },
         { text: '申请截止日期', value: 'applydeadline', align: 'center',width: '150px' },
         { text: '操作', value: 'operation', align: 'center', sortable:false, width: '300px' },
@@ -322,21 +333,35 @@ export default {
         {
           prizeitemid: 1,
           prizename: '励志奖学金',
-          prizeaccount: '1000.00',
+          prizesum: 10000,
+          prizeaccount: [
+            {level: '一等奖', money: '1000.0'},
+            {level: '二等奖', money: '500.0'},
+            {level: '三等奖', money: '200.0'},
+          ],
           applycondition: '成绩单，教师推荐',
           applydeadline: '2021-06-01',
           vote: '打分制',
         },{
           prizeitemid: 2,
           prizename: '励志奖学金',
-          prizeaccount: '1000.00',
+          prizesum: 20000,
+          prizeaccount: [
+            {level: '一等奖', money: '1000.0'},
+            {level: '二等奖', money: '500.0'},
+            {level: '三等奖', money: '200.0'},
+          ],
           applycondition: '成绩单，教师推荐',
           applydeadline: '2021-06-01',
           vote: '评选制',
         },{
           prizeitemid: 3,
           prizename: '励志奖学金',
-          prizeaccount: '1000.00',
+          prizesum: 30000,
+          prizeaccount: [
+            {level: '一等奖', money: '1000.0'},
+            {level: '二等奖', money: '500.0'},
+          ],
           applycondition: '成绩单，教师推荐',
           applydeadline: '2021-06-01',
           vote: '抽签制',
@@ -359,11 +384,19 @@ export default {
       this.apply_level = '';
       this.apply_file1 = '';
       this.apply_file2 = '';
+      this.prizeAccountShow = '';
+      for(var i = 0; i < item.prizeaccount.length; i ++) {
+        this.prizeAccountShow += item.prizeaccount[i].level;
+        this.prizeAccountShow += ':&nbsp;&nbsp;';
+        this.prizeAccountShow += item.prizeaccount[i].money;
+        this.prizeAccountShow += '</br>'
+      }
     },
     // 申请按钮函数end
 
     // 提交申请奖项begin
     applyCommit() {
+      console.log(this.apply_level);
       var data = {
         id: this.apply_studentId,
         name: this.apply_studentName,
