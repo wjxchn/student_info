@@ -82,59 +82,57 @@
               <v-subheader style="margin-left:160px;font-size:10px;">按学号过滤</v-subheader>
             </v-col>
             <v-col cols="12" sm="8">
-          <v-text-field
-            class="ma-0 pa-0"
-            v-model="schoolidfilterstr"
-            required
-            outlined
-            dense
-            style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
-          ></v-text-field>            
+              <v-text-field
+                class="ma-0 pa-0"
+                v-model="schoolidfilterstr"
+                required
+                outlined
+                dense
+                style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
+              ></v-text-field>            
             </v-col>
             <v-col cols="12" sm="4">
               <v-subheader style="margin-left:160px;font-size:10px;">按入学年份过滤</v-subheader>
             </v-col>
             <v-col cols="12" sm="8">
-          <v-text-field
-            class="ma-0 pa-0"
-            v-model="schoolstartyearfilterstr"
-            required
-            outlined
-            dense
-            style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
-          ></v-text-field>            
+              <v-select
+                :items="['201309', '201409', '201509', '201609', '201709', '201809', '201909', '202009', '202109', '202209', '202309', '202409', '202509', '202609', '202709', '202809', '202909', '203009']"
+                v-model="schoolstartyearfilterstr"
+                outlined
+                dense
+                style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
+              ></v-select>          
             </v-col>
             <v-col cols="12" sm="4">
               <v-subheader style="margin-left:160px;font-size:10px;">按辅导员过滤</v-subheader>
             </v-col>
             <v-col cols="12" sm="8">
-          <v-text-field
-            class="ma-0 pa-0"
-            v-model="guiderfilterstr"
-            required
-            outlined
-            dense
-            style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
-          ></v-text-field>            
+              <v-text-field
+                class="ma-0 pa-0"
+                v-model="guiderfilterstr"
+                required
+                outlined
+                dense
+                style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
+              ></v-text-field>            
             </v-col>
             <v-col cols="12" sm="4">
               <v-subheader style="margin-left:160px;font-size:10px;">按学生类别</v-subheader>
             </v-col>
             <v-col cols="12" sm="8">
-          <v-text-field
-            class="ma-0 pa-0"
-            v-model="studenttypefilterstr"
-            required
-            outlined
-            dense
-            style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
-          ></v-text-field>            
+              <v-select
+                v-model="studenttypefilterstr"
+                :items="['本科', '硕士', '博士']"
+                outlined
+                dense
+                style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
+              ></v-select>           
             </v-col>
             </v-row>
             </v-container>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn color="green darken-1" text @click="filterdialog = false">取消</v-btn>
+            <v-btn color="green darken-1" text @click="clearfilter()">清空</v-btn>
             <v-btn color="green darken-1" text @click="confirmfilter()">确定</v-btn>
           </v-card-actions>
         </v-card>
@@ -909,14 +907,16 @@
                           <v-subheader class="ma-0 pa-0" style="font-size:10px;">特殊问题</v-subheader>
                         </v-col>
                         <v-col cols="8" class="ma-0 pa-0">
-                          <v-text-field
-                            class="ma-0 pa-0"
+                          <v-textarea
                             v-model="addform.specialproblem"
                             required
                             outlined
+                            flat
                             dense
+                            background-color="white"
                             style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
-                          ></v-text-field>
+                            auto-grow
+                          ></v-textarea>
                         </v-col>
                       </v-row>
                     </v-container>
@@ -1868,14 +1868,16 @@
                           <v-subheader class="ma-0 pa-0" style="font-size:10px;">特殊问题</v-subheader>
                         </v-col>
                         <v-col cols="8" class="ma-0 pa-0">
-                          <v-text-field
-                            class="ma-0 pa-0"
+                          <v-textarea
                             v-model="changeform.specialproblem"
                             required
                             outlined
+                            flat
                             dense
+                            background-color="white"
                             style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
-                          ></v-text-field>
+                            auto-grow
+                          ></v-textarea>
                         </v-col>
                       </v-row>
                     </v-container>
@@ -2108,7 +2110,7 @@
       <v-data-table
         v-model="selected"
         :headers="headers"
-        :items="desserts"
+        :items="filtereddesserts"
         :single-select="singleSelect"
         :single-expand="singleExpand"
         :expanded.sync="expanded"
@@ -2197,7 +2199,6 @@
       <v-card style="overflow:hidden;" mobile-breakpoint=0>
           <div style="display: inline-block;float:left;padding-left:20px;width:80%;">
             <div style="position: absolute; top:50%;transform: translateY(-50%);font-size:10px;">
-              合计：男10人，女10人；贫困生5人，非贫困生15人；关心关爱8人，非关心关爱12人；已毕业2人，未毕业18人
             </div>
           </div>
           <div style="display: inline-block;float:right;padding-right:20px;width:20%;">
@@ -2565,6 +2566,7 @@ export default {
         //   dormitorybed: '2',
         // }
       ],
+      filtereddesserts: [],
       maxdate: (function () {
         var date = new Date();
         var monthstr = '';
@@ -2597,7 +2599,7 @@ export default {
   },
   computed:{
     tablesum(){
-      return this.desserts.length;
+      return this.filtereddesserts.length;
     }
   },
   methods: {
@@ -2635,7 +2637,7 @@ export default {
       }).then(res => {
         if (res.data.flag) {
           this.$message.success("添加成功");
-          this.$router.go(0); 
+          this.getdata();
         } else {
           this.$message.error("添加失败");
         }
@@ -2658,7 +2660,7 @@ export default {
         if (res.data.flag) {
           this.$message.success("保存成功");
           this.changedialog = false;
-          this.$router.go(0);  
+          this.getdata();
         } else {
           this.$message.error("保存失败");
           this.changedialog = false;
@@ -2683,7 +2685,7 @@ export default {
       }).then(res => {
         if (res.data.flag) {
           this.$message.success("删除成功");
-          this.$router.go(0); 
+          this.getdata();
         } else {
           this.$message.error("删除失败");
         }
@@ -2767,8 +2769,38 @@ export default {
       this.headers = obj;
 
     },
+    clearfilter(){
+      this.filterdialog = false;
+      this.schoolidfilterstr = '';
+      this.schoolstartyearfilterstr = '';
+      this.guiderfilterstr = '';
+      this.studenttypefilterstr = '';
+      this.filtereddesserts = this.desserts;
+    },
     confirmfilter(){
       this.filterdialog = false;
+      console.log(this.schoolidfilterstr);
+      console.log(this.schoolstartyearfilterstr);
+      console.log(this.guiderfilterstr);
+      console.log(this.studenttypefilterstr);
+      if(this.schoolidfilterstr==''&&this.schoolstartyearfilterstr==''&&this.guiderfilterstr==''&&this.studenttypefilterstr==''){
+        this.filtereddesserts = this.desserts;
+      }
+      else{
+        this.filtereddesserts = this.desserts;
+        if(this.schoolidfilterstr!=''){
+          this.filtereddesserts = this.filtereddesserts.filter((val)=>{return val.schoolid.indexOf(this.schoolidfilterstr)!=-1});
+        }
+        if(this.schoolstartyearfilterstr!=''){
+          this.filtereddesserts = this.filtereddesserts.filter((val)=>{return val.schoolstartyear.indexOf(this.schoolstartyearfilterstr)!=-1});
+        }
+        if(this.guiderfilterstr!=''){
+          this.filtereddesserts = this.filtereddesserts.filter((val)=>{return val.guider.indexOf(this.guiderfilterstr)!=-1});
+        }
+        if(this.studenttypefilterstr!=''){
+          this.filtereddesserts = this.filtereddesserts.filter((val)=>{return val.studenttype.indexOf(this.studenttypefilterstr)!=-1});
+        }  
+      }
     },
     exportfunc(){
       console.log(this.selected);
@@ -2782,6 +2814,27 @@ export default {
     changeimg(item){
       this.changeform.imgsrc = window.webkitURL.createObjectURL(item.target.files[0]);
     },
+    getdata(){
+      axios({
+        url: '/api/basic/all',
+        method: 'post',
+        // params: {
+        //   stuNum: this.name,
+        // }
+        // data: this.form
+      }).then(res => {
+        if (res.data.flag) {
+          this.desserts = res.data.data;
+          this.filtereddesserts = this.desserts;
+          console.log(res.data.data);
+          console.log("获取信息成功");
+        } else {
+          console.log("获取信息失败！");
+        }
+      }).catch(err => {
+        console.log(err);
+      })
+    }
   },
   watch:{
     checkbox(val){
@@ -2823,24 +2876,7 @@ export default {
     }
   },
   mounted() {
-    axios({
-      url: '/api/basic/all',
-      method: 'post',
-      // params: {
-      //   stuNum: this.name,
-      // }
-      // data: this.form
-    }).then(res => {
-      if (res.data.flag) {
-        this.desserts = res.data.data;
-        console.log(res.data.data);
-        console.log("获取信息成功");
-      } else {
-        console.log("获取信息失败！");
-      }
-    }).catch(err => {
-      console.log(err);
-    })
+    this.getdata();
   },
 }
 </script>
