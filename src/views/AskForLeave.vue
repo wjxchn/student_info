@@ -189,7 +189,7 @@ export default {
         alert('结束时间不能小于今天');
       } else {
         axios({
-          url: '/api/leaveinfo',
+          url: '/api/leaveinfo/add',
           method: 'post',
           // params: {
           //   stuNum: this.name,
