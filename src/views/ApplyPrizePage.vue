@@ -1,10 +1,10 @@
 <template>
   <div id="applyPrizePage">
-    <background :titlevalue="chinesename" iconvalue="inventory"></background>
+    <background :titlevalue="chinesename" iconvalue="mdi-trophy"></background>
     <div class="table">
       <!-- 弹窗begin -->
       <v-dialog v-model="applyPrizeDialog" width="1220px" persistent>
-        <v-card style="height:550px;margin-left:15px;" width="1187px">
+        <v-card style="height:500px;margin-left:15px;" width="1187px">
           <v-card-title>
             <span style="font-size:24px;text-shadow:2px 2px 2px rgba(0,0,0,.5)">申请奖项</span>
           </v-card-title>
@@ -38,29 +38,7 @@
                 </v-row>
               </v-col>
               <!-- 第二列 -->
-              <v-col cols="5">
-                <v-row style="margin-top:30px;">
-                  <v-col cols="4">学号：</v-col>
-                  <v-col cols="4" style="height:30px;">
-                    <v-text-field
-                      class="ma-0 pa-0"
-                      required
-                      dense
-                      v-model="apply_studentId"
-                    ></v-text-field>
-                  </v-col>
-                </v-row>
-                <v-row>
-                  <v-col cols="4" style="line-height:30px;">姓名：</v-col>
-                  <v-col cols="4" style="height:30px;">
-                    <v-text-field
-                      class="ma-0 pa-0"
-                      required
-                      dense
-                      v-model="apply_studentName"
-                    ></v-text-field>
-                  </v-col>
-                </v-row>
+              <v-col cols="5" style="margin-top: 20px;">
                 <v-row>
                   <v-col cols="4" style="line-height:30px;">申请等级：</v-col>
                   <v-col cols="4" style="height:30px;">
@@ -173,49 +151,59 @@
               申请
             </v-btn>
           </template>
-          <template v-slot:top>
-              <v-toolbar flat>
-                <v-toolbar-title style="font-size:24px;text-shadow:2px 2px 2px rgba(0,0,0,.3)">奖项申请</v-toolbar-title>
-                <v-spacer></v-spacer>
-                <v-switch
-                  v-model="singleExpand"
-                  label="Single expand"
-                  class="mt-2"
-                ></v-switch>
-              </v-toolbar>
-            </template>
-            <template v-slot:expanded-item="{ headers, item }">
-              <td :colspan="headers.length" style="font-size:15px;">
-                <v-row>
-                  <v-col cols="1" style="margin-left:600px;margin-top:100px;padding:10px;font-weight:700;">奖项编号：</v-col>
-                  <v-col style="padding:10px;margin-top:100px;"> {{item.prizeitemid}} </v-col>
+
+          <template v-slot:expanded-item="{ headers, item }">
+            <td :colspan="headers.length" style="font-size:15px;">
+              <div class="detail_box">
+                <v-row dense>
+                  <v-col><p class="attribution_name">奖项编号：</p></v-col>
+                  <v-col><p class="attr_data">{{item.prizeitemid}}</p></v-col>
                 </v-row>
-                <v-row>
-                  <v-col cols="1" style="margin-left:600px;padding:10px;font-weight:700;">奖项名称：</v-col>
-                  <v-col style="padding:10px;"> {{item.prizename}} </v-col>
+
+                <v-row dense>
+                  <v-col><p class="attribution_name">奖项名称：</p></v-col>
+                  <v-col><p class="attr_data">{{ item.prizename }}</p></v-col>
                 </v-row>
-                <v-row>
-                  <v-col cols="1" style="margin-left:600px;padding:10px;font-weight:700;">奖项金额：</v-col>
-                  <v-col style="padding:10px;">
-                     <p>{{item.prizeaccount[0].level}}:&nbsp;{{item.prizeaccount[0].money}}</p>
-                     <p v-if="item.prizeaccount.length>1">{{item.prizeaccount[1].level}}:&nbsp;{{item.prizeaccount[1].money}}</p>
-                     <p v-if="item.prizeaccount.length>2">{{item.prizeaccount[2].level}}:&nbsp;{{item.prizeaccount[2].money}}</p>
+
+                <v-row dense>
+                  <v-col><p class="attribution_name">奖项金额：</p></v-col>
+
+                  <v-col>
+                    <div style="width: 200px;">
+                      <v-row dense>
+                        <v-col>{{item.prizeaccount[0].level}}:</v-col>
+                        <v-col class="prize_money">{{item.prizeaccount[0].money}} 元</v-col>
+                      </v-row>
+
+                      <v-row v-if="item.prizeaccount.length>1" dense>
+                        <v-col>{{item.prizeaccount[1].level}}:</v-col>
+                        <v-col class="prize_money">{{item.prizeaccount[1].money}} 元</v-col>
+                      </v-row>
+
+                      <v-row v-if="item.prizeaccount.length>2" dense>
+                        <v-col>{{item.prizeaccount[2].level}}:</v-col>
+                        <v-col class="prize_money">{{item.prizeaccount[2].money}} 元</v-col>
+                      </v-row>
+                    </div>
+
+                    <div style="height: 15px;"></div>
                   </v-col>
                 </v-row>
-                <v-row>
-                  <v-col cols="1" style="margin-left:600px;padding:10px;font-weight:700;">申请条件：</v-col>
-                  <v-col style="padding:10px;"> {{item.applycondition}} </v-col>
+
+                <v-row dense>
+                  <v-col><p class="attribution_name">申请条件：</p></v-col> <v-col><p class="attr_data">成绩单</p></v-col>
                 </v-row>
-                <v-row>
-                  <v-col cols="1" style="margin-left:600px;padding:10px;font-weight:700;">申请截止日期：</v-col>
-                  <v-col style="padding:10px;"> {{item.applydeadline}} </v-col>
+
+                <v-row dense>
+                  <v-col><p class="attribution_name">申请截止时间：</p></v-col> <v-col><p class="attr_data">2020-01-01</p></v-col>
                 </v-row>
-                <v-row>
-                  <v-col cols="1" style="margin-left:600px;margin-bottom:100px;padding:10px;font-weight:700;">投票方式：</v-col>
-                  <v-col style="padding:10px;margin-bottom:100px;"> {{item.vote}} </v-col>
+
+                <v-row dense>
+                  <v-col><p class="attribution_name">投票方式：</p></v-col> <v-col><p class="attr_data">打分制</p></v-col>
                 </v-row>
-              </td>
-            </template>
+              </div>
+            </td>
+          </template>
         </v-data-table>
       </div>
       <!-- 列表end -->
@@ -267,171 +255,166 @@
 </template>
 
 <script>
-import Background from '@/components/Background.vue'
-import axios from 'axios';
-// 获取数据库中的奖项begin
-axios({
-  url: '9999',
-  method: 'get',
-}).then((res) => {
-  this.desserts = res;
-}).catch(() => {
-  alert('获取数据失败！');
-})
-// 获取数据库中的奖项end
-export default {
-  name: 'ApplyPrizePage',
-  components: { 
-    Background
-  },
-  data () {
-    return {
-      // 用于渲染申请dialogue等信息begin
-      prizeId: '',
-      prizeName: '',
-      prizeAccount: '',
-      prizeAccountShow: '',
-      applyCondition: '',
-      applyDeadline: '',
-      // 用于渲染申请dialogue等信息end
+  import Background from '@/components/Background.vue'
+  import axios from 'axios';
+  // 获取数据库中的奖项begin
+  axios({
+    url: '9999',
+    method: 'get',
+  }).then((res) => {
+    this.desserts = res;
+  }).catch(() => {
+    alert('获取数据失败！');
+  })
+  // 获取数据库中的奖项end
+  export default {
+    name: 'ApplyPrizePage',
+    components: {
+      Background
+    },
+    data () {
+      return {
+        // 用于渲染申请dialogue等信息begin
+        prizeId: '',
+        prizeName: '',
+        prizeAccount: '',
+        prizeAccountShow: '',
+        applyCondition: '',
+        applyDeadline: '',
+        // 用于渲染申请dialogue等信息end
 
-      // 用于获取填写的信息begin
-      apply_studentId: '',
-      apply_studentName: '',
-      apply_level: '',  
-      apply_file1: '',
-      apply_file2: '',
-      // 用于获取填写的信息end
-      vote: '',
-      chinesename: '奖项申请',
-      applyPrizeDialog: false,
-      valid: true,
-      checkbox: false,
-      selectdialog: false,
-      adddialog: false,
-      expanded: [],
-      singleExpand: false,
-      singleSelect: false,
-      selected: [],
-      headers: [
-        { text: '奖项编号', value: 'prizeitemid', align: 'center',width: '150px' },
-        { text: '奖项名称', value: 'prizename', align: 'center',width: '150px' },
-        { text: '奖项金额', value: 'prizesum', align: 'center',width: '150px' },
-        { text: '申请条件', value: 'applycondition', align: 'center',width: '150px' },
-        { text: '申请截止日期', value: 'applydeadline', align: 'center',width: '150px' },
-        { text: '操作', value: 'operation', align: 'center', sortable:false, width: '300px' },
-      ],
-      page: 1,
-      pageCount: 0,
-      itemsPerPage: 10,
-      selectitems: [
-        { state: '10条/页', abbr: 10},
-        { state: '20条/页', abbr: 20},
-        { state: '30条/页', abbr: 30},
-      ],
-      desserts: [
-        {
-          prizeitemid: 1,
-          prizename: '励志奖学金',
-          prizesum: 10000,
-          prizeaccount: [
-            {level: '一等奖', money: '1000.0'},
-            {level: '二等奖', money: '500.0'},
-            {level: '三等奖', money: '200.0'},
-          ],
-          applycondition: '成绩单，教师推荐',
-          applydeadline: '2021-06-01',
-          vote: '打分制',
-        },{
-          prizeitemid: 2,
-          prizename: '励志奖学金',
-          prizesum: 20000,
-          prizeaccount: [
-            {level: '一等奖', money: '1000.0'},
-            {level: '二等奖', money: '500.0'},
-            {level: '三等奖', money: '200.0'},
-          ],
-          applycondition: '成绩单，教师推荐',
-          applydeadline: '2021-06-01',
-          vote: '评选制',
-        },{
-          prizeitemid: 3,
-          prizename: '励志奖学金',
-          prizesum: 30000,
-          prizeaccount: [
-            {level: '一等奖', money: '1000.0'},
-            {level: '二等奖', money: '500.0'},
-          ],
-          applycondition: '成绩单，教师推荐',
-          applydeadline: '2021-06-01',
-          vote: '抽签制',
+        // 用于获取填写的信息begin
+        apply_level: '',
+        apply_file1: '',
+        apply_file2: '',
+        // 用于获取填写的信息end
+
+        vote: '',
+        chinesename: '奖项申请',
+        applyPrizeDialog: false,
+        valid: true,
+        checkbox: false,
+        selectdialog: false,
+        adddialog: false,
+        expanded: [],
+        singleExpand: false,
+        singleSelect: false,
+        selected: [],
+        headers: [
+          { text: '奖项编号', value: 'prizeitemid', align: 'center',width: '150px' },
+          { text: '奖项名称', value: 'prizename', align: 'center',width: '150px' },
+          { text: '奖项金额', value: 'prizesum', align: 'center',width: '150px' },
+          { text: '申请条件', value: 'applycondition', align: 'center',width: '150px' },
+          { text: '申请截止日期', value: 'applydeadline', align: 'center',width: '150px' },
+          { text: '操作', value: 'operation', align: 'center', sortable:false, width: '200px' },
+        ],
+        page: 1,
+        pageCount: 0,
+        itemsPerPage: 10,
+        selectitems: [
+          { state: '10条/页', abbr: 10},
+          { state: '20条/页', abbr: 20},
+          { state: '30条/页', abbr: 30},
+        ],
+        desserts: [
+          {
+            prizeitemid: 1,
+            prizename: '励志奖学金',
+            prizesum: 10000,
+            prizeaccount: [
+              {level: '一等奖', money: '1000.0'},
+              {level: '二等奖', money: '500.0'},
+              {level: '三等奖', money: '200.0'},
+            ],
+            applycondition: '成绩单，教师推荐',
+            applydeadline: '2021-06-01',
+            vote: '打分制',
+          },{
+            prizeitemid: 2,
+            prizename: '励志奖学金',
+            prizesum: 20000,
+            prizeaccount: [
+              {level: '一等奖', money: '1000.0'},
+              {level: '二等奖', money: '500.0'},
+              {level: '三等奖', money: '200.0'},
+            ],
+            applycondition: '成绩单，教师推荐',
+            applydeadline: '2021-06-01',
+            vote: '评选制',
+          },{
+            prizeitemid: 3,
+            prizename: '励志奖学金',
+            prizesum: 30000,
+            prizeaccount: [
+              {level: '一等奖', money: '1000.0'},
+              {level: '二等奖', money: '500.0'},
+            ],
+            applycondition: '成绩单，教师推荐',
+            applydeadline: '2021-06-01',
+            vote: '抽签制',
+          }
+        ],
+      }
+    },
+    methods: {
+      // 申请按钮函数begin
+      applyPrice(item) {
+        this.applyPrizeDialog = true;
+        this.prizeId = item.prizeitemid;
+        this.prizeName = item.prizename;
+        this.prizeAccount = item.prizeaccount;
+        this.applyCondition = item.applycondition;
+        this.applyDeadline = item.applydeadline;
+        this.vote = item.vote;
+        this.apply_studentId = '';
+        this.apply_studentName = '';
+        this.apply_level = '';
+        this.apply_file1 = '';
+        this.apply_file2 = '';
+        this.prizeAccountShow = '';
+        for(var i = 0; i < item.prizeaccount.length; i ++) {
+          this.prizeAccountShow += item.prizeaccount[i].level;
+          this.prizeAccountShow += ':&nbsp;&nbsp;';
+          this.prizeAccountShow += item.prizeaccount[i].money;
+          this.prizeAccountShow += '</br>'
         }
-      ],
-    }
-  },
-  methods: {
-    // 申请按钮函数begin
-    applyPrice(item) {
-      this.applyPrizeDialog = true;
-      this.prizeId = item.prizeitemid;
-      this.prizeName = item.prizename;
-      this.prizeAccount = item.prizeaccount;
-      this.applyCondition = item.applycondition;
-      this.applyDeadline = item.applydeadline;
-      this.vote = item.vote;
-      this.apply_studentId = '';
-      this.apply_studentName = '';
-      this.apply_level = '';
-      this.apply_file1 = '';
-      this.apply_file2 = '';
-      this.prizeAccountShow = '';
-      for(var i = 0; i < item.prizeaccount.length; i ++) {
-        this.prizeAccountShow += item.prizeaccount[i].level;
-        this.prizeAccountShow += ':&nbsp;&nbsp;';
-        this.prizeAccountShow += item.prizeaccount[i].money;
-        this.prizeAccountShow += '</br>'
-      }
-    },
-    // 申请按钮函数end
+      },
+      // 申请按钮函数end
 
-    // 提交申请奖项begin
-    applyCommit() {
-      console.log(this.apply_level);
-      var data = {
-        id: this.apply_studentId,
-        name: this.apply_studentName,
-        level: this.apply_level,
-        file1: this.apply_file1,
-        file2: this.apply_file2
-      };
-      if(data.id == '') {
-        alert('请输入学号');
-      } else if(data.name == '') {
-        alert('请输入姓名');
-      } else if(data.level == '') {
-        alert('请输入申请等级');
-      } else if(data.file1 == '') {
-        alert('请上传附件（全面版）');
-      } else if(data.file2 == '') {
-        alert('请上传附件（公示版）');
-      } else {
-        axios({
-          url: '9999',
-          method: 'post',
-          data: data,
-        }).then(() => {
-          alert('上传成功！');
-        }).catch(() => {
-          alert('上传失败!');
-        }) 
+      // 提交申请奖项begin
+      applyCommit() {
+        console.log(this.apply_level);
+        var data = {
+          id: this.apply_studentId,
+          name: this.apply_studentName,
+          level: this.apply_level,
+          file1: this.apply_file1,
+          file2: this.apply_file2
+        };
+        if(data.level == '') {
+          alert('请输入申请等级');
+        } else if(data.file1 == '') {
+          alert('请上传附件（全面版）');
+        } else if(data.file2 == '') {
+          alert('请上传附件（公示版）');
+        } else {
+          axios({
+            url: '9999',
+            method: 'post',
+            data: data,
+          }).then(() => {
+            alert('上传成功！');
+          }).catch(() => {
+            alert('上传失败!');
+          })
+        }
+      },
+      // 提交申请奖项end
+      toapplyprize(){
+        this.$router.push('/applyprize');
       }
-    },
-    // 提交申请奖项end
-    toapplyprize(){
-      this.$router.push('/applyprize');
     }
   }
-}
 </script>
 
 <style scoped>
@@ -441,5 +424,25 @@ export default {
   width:80%;
   margin-left: 50%;
   transform: translate(-50%);
+}
+
+.attribution_name {
+  font-weight: bold;
+  display: inline-block;
+}
+.attr_data {
+  display: inline-block;
+}
+.detail_box {
+  width: 400px;
+  left: 50%;
+  position: relative;
+  transform: translate(-50%, 0);
+
+  margin-top: 30px;
+  margin-bottom: 20px;
+}
+.prize_money {
+  text-align: right;
 }
 </style>
