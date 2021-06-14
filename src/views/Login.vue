@@ -111,17 +111,21 @@ export default {
         }
       }).then(res => {
         var flag = res.data.flag;
-        // console.log("登录成功？", res.data);
         if (flag) {
-          // localStorage.setItem("Authorization", res.data.auth+"-"+res.data.stuNum+"-"+res.data.stuName+"-"+res.data.stuSex);
           localStorage.setItem("Authorization", res.data.auth);
-          if(localStorage.getItem('Authorization').length>=42){
-            //这是教师
-            window.location.href = '/#/basicinfo';
-          }else{
-            window.location.href = '/#/studentpage';
+          var suffix = localStorage.getItem('Authorization').substring(32,42);
+          if(suffix === "Km0oQs7z1P"){
+            //这是学生
+            // window.location.href = '/#/studentpage';
+            this.$router.push('/studentpage');
+          }else if(suffix === "z3DSlUv5a0"){
+            //这是老师
+            this.$router.push('/addprize');
+          }else if(suffix === "aKuL82I3Mq"){
+            //这是管理员
+            this.$router.push('/basicinfo');
           }
-        } else {
+        } else{
           window.location.href = '/#/login';
         }
       })

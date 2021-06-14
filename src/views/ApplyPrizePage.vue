@@ -356,34 +356,54 @@ export default {
 
     // 提交申请奖项begin
     applyCommit() {
-      var data = {
-        id: this.apply_studentId,
-        name: this.apply_studentName,
-        level: this.apply_level,
-        file1: this.apply_file1,
-        file2: this.apply_file2
-      };
-      if (data.id == '') {
-        alert('请输入学号');
-      } else if (data.name == '') {
-        alert('请输入姓名');
-      } else if (data.level == '') {
-        alert('请输入申请等级');
-      } else if (data.file1 == '') {
-        alert('请上传附件（全面版）');
-      } else if (data.file2 == '') {
-        alert('请上传附件（公示版）');
-      } else {
-        axios({
-          url: '9999',
-          method: 'post',
-          data: data,
-        }).then(() => {
-          alert('上传成功！');
-        }).catch(() => {
-          alert('上传失败!');
-        })
-      }
+
+      axios({
+        url: '/api/get',
+        method: 'get',
+        params: {
+          auth: localStorage.getItem("Authorization"), //这是请求头
+          authauth: "2222"
+        },
+        data: {'authauth': "2222"}  //这是请求体
+      }).then(res => {
+        // console.log(res);
+        var flag = res.data.flag;
+        // console.log("校验成功？", res.data);
+        if (flag) {
+          // next();
+          console.log(res.data);
+          this.form = res.data.Stuinfo;
+        }
+      })
+
+      // var data = {
+      //   id: this.apply_studentId,
+      //   name: this.apply_studentName,
+      //   level: this.apply_level,
+      //   file1: this.apply_file1,
+      //   file2: this.apply_file2
+      // };
+      // if (data.id == '') {
+      //   alert('请输入学号');
+      // } else if (data.name == '') {
+      //   alert('请输入姓名');
+      // } else if (data.level == '') {
+      //   alert('请输入申请等级');
+      // } else if (data.file1 == '') {
+      //   alert('请上传附件（全面版）');
+      // } else if (data.file2 == '') {
+      //   alert('请上传附件（公示版）');
+      // } else {
+      //   axios({
+      //     url: '9999',
+      //     method: 'post',
+      //     data: data,
+      //   }).then(() => {
+      //     alert('上传成功！');
+      //   }).catch(() => {
+      //     alert('上传失败!');
+      //   })
+      // }
     },
     // 提交申请奖项end
     toapplyprize() {
@@ -393,7 +413,7 @@ export default {
   mounted() {
     // 获取数据库中的奖项begin
     axios({
-      url: '/api//prize/all',
+      url: '/api/prize/all',
       method: 'get',
     }).then((res) => {
       var flag = res.data.flag;
