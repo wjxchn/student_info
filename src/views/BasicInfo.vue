@@ -907,14 +907,16 @@
                           <v-subheader class="ma-0 pa-0" style="font-size:10px;">特殊问题</v-subheader>
                         </v-col>
                         <v-col cols="8" class="ma-0 pa-0">
-                          <v-text-field
-                            class="ma-0 pa-0"
+                          <v-textarea
                             v-model="addform.specialproblem"
                             required
                             outlined
+                            flat
                             dense
+                            background-color="white"
                             style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
-                          ></v-text-field>
+                            auto-grow
+                          ></v-textarea>
                         </v-col>
                       </v-row>
                     </v-container>
@@ -1866,14 +1868,16 @@
                           <v-subheader class="ma-0 pa-0" style="font-size:10px;">特殊问题</v-subheader>
                         </v-col>
                         <v-col cols="8" class="ma-0 pa-0">
-                          <v-text-field
-                            class="ma-0 pa-0"
+                          <v-textarea
                             v-model="changeform.specialproblem"
                             required
                             outlined
+                            flat
                             dense
+                            background-color="white"
                             style="font-size:15px;width:100%;transform:scale(0.75,0.75);"
-                          ></v-text-field>
+                            auto-grow
+                          ></v-textarea>
                         </v-col>
                       </v-row>
                     </v-container>
@@ -2633,7 +2637,7 @@ export default {
       }).then(res => {
         if (res.data.flag) {
           this.$message.success("添加成功");
-          this.$router.go(0); 
+          this.getdata();
         } else {
           this.$message.error("添加失败");
         }
@@ -2656,7 +2660,7 @@ export default {
         if (res.data.flag) {
           this.$message.success("保存成功");
           this.changedialog = false;
-          this.$router.go(0);  
+          this.getdata();
         } else {
           this.$message.error("保存失败");
           this.changedialog = false;
@@ -2681,7 +2685,7 @@ export default {
       }).then(res => {
         if (res.data.flag) {
           this.$message.success("删除成功");
-          this.$router.go(0); 
+          this.getdata();
         } else {
           this.$message.error("删除失败");
         }
@@ -2810,6 +2814,27 @@ export default {
     changeimg(item){
       this.changeform.imgsrc = window.webkitURL.createObjectURL(item.target.files[0]);
     },
+    getdata(){
+      axios({
+        url: '/api/basic/all',
+        method: 'post',
+        // params: {
+        //   stuNum: this.name,
+        // }
+        // data: this.form
+      }).then(res => {
+        if (res.data.flag) {
+          this.desserts = res.data.data;
+          this.filtereddesserts = this.desserts;
+          console.log(res.data.data);
+          console.log("获取信息成功");
+        } else {
+          console.log("获取信息失败！");
+        }
+      }).catch(err => {
+        console.log(err);
+      })
+    }
   },
   watch:{
     checkbox(val){
@@ -2851,25 +2876,7 @@ export default {
     }
   },
   mounted() {
-    axios({
-      url: '/api/basic/all',
-      method: 'post',
-      // params: {
-      //   stuNum: this.name,
-      // }
-      // data: this.form
-    }).then(res => {
-      if (res.data.flag) {
-        this.desserts = res.data.data;
-        this.filtereddesserts = this.desserts;
-        console.log(res.data.data);
-        console.log("获取信息成功");
-      } else {
-        console.log("获取信息失败！");
-      }
-    }).catch(err => {
-      console.log(err);
-    })
+    this.getdata();
   },
 }
 </script>

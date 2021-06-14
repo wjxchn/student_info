@@ -1243,7 +1243,7 @@ export default {
         if (res.data.flag) {
           this.$message.success("保存成功");          
           this.changedialog = false;
-          this.$router.go(0);  
+          this.getdata();  
         } else {
           this.$message.error("保存失败");
           this.changedialog = false;
@@ -1310,6 +1310,27 @@ export default {
     },
     generateresumefunc(){
       console.log(this.selected);
+    },
+    getdata(){
+      axios({
+        url: '/api/basic/all',
+        method: 'post',
+        // params: {
+        //   stuNum: this.name,
+        // }
+        // data: this.form
+      }).then(res => {
+        if (res.data.flag) {
+          this.desserts = res.data.data;
+          this.filtereddesserts = this.desserts;
+          console.log(res.data.data);
+          console.log("获取信息成功");
+        } else {
+          console.log("获取信息失败！");
+        }
+      }).catch(err => {
+        console.log(err);
+      })
     }
   },
   watch:{
@@ -1352,25 +1373,7 @@ export default {
     }
   },
   mounted() {
-    axios({
-      url: '/api/basic/all',
-      method: 'post',
-      // params: {
-      //   stuNum: this.name,
-      // }
-      // data: this.form
-    }).then(res => {
-      if (res.data.flag) {
-        this.desserts = res.data.data;
-        this.filtereddesserts = this.desserts;
-        console.log(res.data.data);
-        console.log("获取信息成功");
-      } else {
-        console.log("获取信息失败！");
-      }
-    }).catch(err => {
-      console.log(err);
-    })
+    this.getdata();
   }
 }
 </script>
