@@ -2108,7 +2108,7 @@
       <v-data-table
         v-model="selected"
         :headers="headers"
-        :items="desserts"
+        :items="filtereddesserts"
         :single-select="singleSelect"
         :single-expand="singleExpand"
         :expanded.sync="expanded"
@@ -2565,6 +2565,7 @@ export default {
         //   dormitorybed: '2',
         // }
       ],
+      filtereddesserts: [],
       maxdate: (function () {
         var date = new Date();
         var monthstr = '';
@@ -2597,7 +2598,7 @@ export default {
   },
   computed:{
     tablesum(){
-      return this.desserts.length;
+      return this.filtereddesserts.length;
     }
   },
   methods: {
@@ -2769,6 +2770,27 @@ export default {
     },
     confirmfilter(){
       this.filterdialog = false;
+      console.log(this.schoolidfilterstr);
+      console.log(this.schoolstartyearfilterstr);
+      console.log(this.guiderfilterstr);
+      console.log(this.studenttypefilterstr);
+      if(this.schoolidfilterstr==''&&this.schoolstartyearfilterstr==''&&this.guiderfilterstr==''&&this.studenttypefilterstr==''){
+        this.filtereddesserts = this.desserts;
+      }
+      else{
+        if(this.schoolidfilterstr!=''){
+          this.filtereddesserts = this.filtereddesserts.filter((val)=>{return val.schoolid.indexOf(this.schoolidfilterstr)!=-1});
+        }
+        if(this.schoolstartyearfilterstr!=''){
+          this.filtereddesserts = this.filtereddesserts.filter((val)=>{return val.schoolstartyear.indexOf(this.schoolstartyearfilterstr)!=-1});
+        }
+        if(this.guiderfilterstr!=''){
+          this.filtereddesserts = this.filtereddesserts.filter((val)=>{return val.guider.indexOf(this.guiderfilterstr)!=-1});
+        }
+        if(this.studenttypefilterstr!=''){
+          this.filtereddesserts = this.filtereddesserts.filter((val)=>{return val.studenttype.indexOf(this.studenttypefilterstr)!=-1});
+        }  
+      }
     },
     exportfunc(){
       console.log(this.selected);
@@ -2833,6 +2855,7 @@ export default {
     }).then(res => {
       if (res.data.flag) {
         this.desserts = res.data.data;
+        this.filtereddesserts = this.desserts;
         console.log(res.data.data);
         console.log("获取信息成功");
       } else {
