@@ -504,9 +504,7 @@
 
 <script>
 import Background from '@/components/Background.vue'
-
 const axios = require('axios');
-// axios.defaults.withCredentials=true;//让ajax携带cookie
 export default {
   name: 'StudentPage',
   components: {
@@ -659,30 +657,12 @@ export default {
         this.form.isprobationarymember = '否';
         this.form.isactivist = '否';
         this.form.score = '是';
-      } else {
-        // this.form.formaltime = '';
       }
     },
     'form.isprobationarymember'(val) {
       if (val === '是') {
         this.form.isactivist = '否';
         this.form.score = '是';
-      } else {
-        // this.form.preparedtime = '';
-      }
-    },
-    'form.isactivist'(val) {
-      if (val === '是') {
-        // this.form.isprobationarymember = '否';
-      } else {
-        // this.form.activetime = '';
-        //不是积极分子，就意味着没有党务信息，党务信息要设置为''
-        // this.form.score = '';
-        // this.form.branch = '';
-        // this.form.secretaryname = '';
-        // this.form.isatcollege = '';
-        // this.form.ischangedbranch = '';
-        // this.form.changebranchtime = '';
       }
     },
     'form.branch'(val) {
@@ -707,7 +687,6 @@ export default {
   methods: {
     transferClick() {
       document.getElementById("fileExport").click();
-      // document.getElementById("imgmessage").innerText="已选择，再次点击可重新选择图片";
     },
     genfromidnum() {
       if (this.form.idnum.length == 18) {
@@ -722,7 +701,6 @@ export default {
     }
     ,
     handleFileChange() {
-      // console.log(e.size);
       let inputDOM = this.$refs.inputer;
       this.file = inputDOM.files[0];// 通过DOM取文件数据
       let size = Math.floor(this.file.size);//计算文件的大小
@@ -733,7 +711,6 @@ export default {
         this.formData = new FormData();//new一个formData事件
         this.formData.append("file", this.file); //将file属性添加到formData里
         //此时formData就是我们要向后台传的参数了
-
         //下面是预览图片的内容
         console.log("xxx");
         var reader = new FileReader();  //调用FileReader
@@ -746,38 +723,8 @@ export default {
 
 
     },
-
-    // changeimg(item) {
-    //   this.formlist[0].data[0].files = item.target.files;
-    //   this.formlist[0].data[1].src = window.webkitURL.createObjectURL(this.formlist[0].data[0].files[0]);
-    // },
-    // submitImg() {
-    //   axios({
-    //     url: '/api/submitimg',
-    //     method: 'post',
-    //     async: false,
-    //     // params: {
-    //     //   stuNum: this.name,
-    //     // }
-    //     data: this.formData,
-    //     headers: {
-    //       'Content-Type': 'multipart/form-data' //值得注意的是，这个地方一定要把请求头更改一下
-    //     }
-    //   }).then(res => {
-    //     if (res.data.flag) {
-    //       console.log("图片上传成功！");
-    //       console.log(res.data.filename);
-    //       this.form.imgsrc = res.data.filename;
-    //       console.log(this.form.imgsrc);
-    //       console.log("图片上传成功！");
-    //     } else {
-    //       console.log("图片上传失败！");
-    //     }
-    //   })
-    // },
     submit() {
       if (this.formData !== "") {
-        // console.log("有图片");
         //有图片需要先上传图片
         axios({
           url: '/api/submitimg',
@@ -808,19 +755,19 @@ export default {
         })
 
       } else {
-        // console.log("没有图片");
         //没有图片就不用先上传图片了
         this.submitForm();
       }
     }
     ,
     submitForm() {
+      var token = localStorage.getItem('Authorization');
       axios({
         url: '/api/submit',
         method: 'post',
         // params: {
-        //   stuNum: this.name,
-        // }
+        //   auth: token,
+        // },
         data: this.form
       }).then(res => {
         if (res.data.flag) {
@@ -838,13 +785,12 @@ export default {
       url: '/api/getinfo',
       method: 'post',
       params: {
+        // auth: token,
         token: token, //这是请求头
       }
       // data: {'token': token}  //这是请求体
     }).then(res => {
-      // console.log(res);
       var flag = res.data.flag;
-      // console.log("校验成功？", res.data);
       if (flag) {
         // next();
         console.log(res.data);
