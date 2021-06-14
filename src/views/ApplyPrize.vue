@@ -32,8 +32,8 @@
           mobile-breakpoint=0   
         >
           <template v-slot:item.operation="{ item, value }">
-            <v-btn depressed small style="background-color:rgba(71,112,166,1);color:white;" @click="changeItem(item, value)">修改</v-btn>
-            <v-btn depressed small style="background-color:#ec2a30;color:white;margin-left: 10px;" @click="deleteItem(item, value)">删除</v-btn>
+<!--            <v-btn depressed small style="background-color:rgba(71,112,166,1);color:white;" @click="changeItem(item, value)">修改</v-btn>-->
+            <v-btn depressed small style="background-color:#ec2a30;color:white;" @click="deleteItem(item, value)">删除</v-btn>
           </template>
 
           <template v-slot:expanded-item="{ headers, item }">
