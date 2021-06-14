@@ -189,7 +189,7 @@ export default {
         alert('结束时间不能小于今天');
       } else {
         axios({
-          url: '/api/leaveinfo/add',
+          url: '/api/stu/leaveinfo/add',
           method: 'post',
           // params: {
           //   stuNum: this.name,
@@ -208,7 +208,7 @@ export default {
   mounted() {
     var token = localStorage.getItem('Authorization');
     axios({
-      url: '/api/getinfo',
+      url: '/api/stu/getinfo',
       method: 'post',
       params: {
         token: token, //这是请求头

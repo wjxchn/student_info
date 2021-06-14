@@ -505,6 +505,7 @@
 <script>
 import Background from '@/components/Background.vue'
 const axios = require('axios');
+
 export default {
   name: 'StudentPage',
   components: {
@@ -691,7 +692,7 @@ export default {
     genfromidnum() {
       if (this.form.idnum.length == 18) {
         var idnum = this.form.idnum;
-        //440883199707272614
+
         var year = idnum.substring(6, 10);
         var month = idnum.substring(10, 12);
         var day = idnum.substring(12, 14);
@@ -727,7 +728,7 @@ export default {
       if (this.formData !== "") {
         //有图片需要先上传图片
         axios({
-          url: '/api/submitimg',
+          url: '/api/stu/submitimg',
           method: 'post',
           async: false,
           // params: {
@@ -761,9 +762,8 @@ export default {
     }
     ,
     submitForm() {
-      var token = localStorage.getItem('Authorization');
       axios({
-        url: '/api/submit',
+        url: '/api/stu/submit',
         method: 'post',
         // params: {
         //   auth: token,
@@ -782,7 +782,7 @@ export default {
   mounted() {
     var token = localStorage.getItem('Authorization');
     axios({
-      url: '/api/getinfo',
+      url: '/api/stu/getinfo',
       method: 'post',
       params: {
         // auth: token,
@@ -792,8 +792,6 @@ export default {
     }).then(res => {
       var flag = res.data.flag;
       if (flag) {
-        // next();
-        console.log(res.data);
         this.form = res.data.Stuinfo;
       }
     })
