@@ -1,9 +1,11 @@
 <template>
   <div id="cancelLeave">
-    <background :titlevalue="chinesename" iconvalue="timer"></background>
+    <background :titlevalue="chinesename"></background>
     <div class="table">
+      <!-- 批量销假 按钮 begin-->
       <div style="width:100%;height:38px;">
         <v-btn
+          @click="cancelLeaveAll"
           depressed
           small
           style="border:1px solid rgba(71, 112, 166, 0.996); width:100px; height:38px; float:right; color:rgba(71, 112, 166, 0.996); font-size:13px;display:block;"
@@ -13,6 +15,9 @@
       </div>
       <div style="height:15px;width=100%;">
       </div>
+      <!-- 批量销假 按钮 end -->
+
+      <!-- 请假表begin -->
       <div style="min-width:960px;">
         <v-data-table
           v-model="selected"
@@ -20,7 +25,7 @@
           :items="desserts"
           :single-select="singleSelect"
           :single-expand="singleExpand"
-          item-key="name"
+          item-key="leaveId"
           class="elevation-1"
           show-select
           :page.sync="page"
@@ -29,14 +34,17 @@
           @page-count="pageCount = $event"
           mobile-breakpoint=0   
         >
-          <template v-slot:item.operation>
-            <v-btn depressed small style="background-color:rgba(71, 112, 166, 0.996078431372549);color:white;">销假</v-btn>
+          <template v-slot:[`item.operation`]={item}>
+            <v-btn depressed small style="background-color:rgba(71, 112, 166, 0.996078431372549);color:white;" @click="cancelLeave(item)">销假</v-btn>
           </template>
         </v-data-table>
       </div>
+      <!-- 请假表end -->
+
+      <!-- 分页begin -->
       <div class="text-center pt-2">
         <div style="display: inline-block; margin-right:10px; font-weight:700; color:#0D4C7F;">
-          共50条
+          共 {{desserts.length}} 条
         </div>
         <div style="display: inline-block;">
           <v-select
@@ -74,12 +82,14 @@
           页
         </div>
       </div>
+      <!-- 分页end -->
     </div>
   </div>
 </template>
 
 <script>
 import Background from '@/components/Background.vue'
+import axios from 'axios'
 export default {
   name: 'CancelLeave',
   components: { 
@@ -115,7 +125,48 @@ export default {
       ],
       desserts: [
         {
+          leaveId: 1,
           studentid: '18364342',
+          studentname: '张三',
+          leavereason: '事假',
+          leaveto: '鼓楼',
+          leavestarttime: '2021-06-01',
+          leaveendtime: '2021-06-01',
+        },{
+          leaveId: 2,
+          studentid: '28364342',
+          studentname: '张三',
+          leavereason: '事假',
+          leaveto: '鼓楼',
+          leavestarttime: '2021-06-01',
+          leaveendtime: '2021-06-01',
+        },{
+          leaveId: 3,
+          studentid: '38364342',
+          studentname: '张三',
+          leavereason: '事假',
+          leaveto: '鼓楼',
+          leavestarttime: '2021-06-01',
+          leaveendtime: '2021-06-01',
+        },{
+          leaveId: 4,
+          studentid: '48364342',
+          studentname: '张三',
+          leavereason: '事假',
+          leaveto: '鼓楼',
+          leavestarttime: '2021-06-01',
+          leaveendtime: '2021-06-01',
+        },{
+          leaveId: 5,
+          studentid: '58364342',
+          studentname: '张三',
+          leavereason: '事假',
+          leaveto: '鼓楼',
+          leavestarttime: '2021-06-01',
+          leaveendtime: '2021-06-01',
+        },{
+          leaveId: 6,
+          studentid: '68364342',
           studentname: '张三',
           leavereason: '事假',
           leaveto: '鼓楼',
@@ -125,6 +176,58 @@ export default {
       ],
     }
   },
+  methods: {
+    // 单个销假
+    cancelLeave(item) {
+      axios({
+        url: '9999',
+        data: item.leaveId,
+        method: 'post',
+      }).then(() => {
+        // 从本地数组中删除对应请假
+        var len = this.desserts.length;
+        var leaveId = item.leaveId;
+        for(var i = 0; i < len; i ++) {
+          if(this.desserts[i].leaveId == leaveId) {
+            this.desserts.splice(i, 1);
+            break;
+          }
+        }
+        var a = '销假成功\n';
+        a += '学生学号: ';
+        a += item.studentid;  
+        a += '\n学生姓名: ';
+        a += item.studentname;    
+        alert(a)
+      }).catch(() => {
+        alert('销假失败');
+      })
+    },
+    // 批量销假
+    cancelLeaveAll() {
+      var len = this.selected.length;
+      var data = new Array();           // 是选中的请假条的id所组成的数组
+      for(var i = 0; i < len; i ++) {
+        data.push(this.selected[i].leaveId);
+      }
+      axios({
+        url: '9999',
+        method: 'post',
+        data: data,
+      }).then(() => {
+        for(var i = 0; i < len; i ++) {
+          for(var j = 0; j < this.desserts.length; j ++) {
+            if(this.desserts[j].leaveId == this.selected[i].leaveId) {
+              this.desserts.splice(j, 1);
+              break;
+            }
+          }
+        }
+      }).catch(() => {
+        alert('批量删除失败！');
+      })
+    }
+  }
 }
 </script>
 

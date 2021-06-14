@@ -22,7 +22,7 @@
                 </v-row>
                 <v-row>
                   <v-col style="margin-left:100px;font-weight:700;">项目金额：</v-col>
-                  <v-col style="margin-right:200px;">{{ prizeAccount }}</v-col>
+                  <v-col style="margin-right:200px;" v-html="prizeAccountShow"></v-col>
                 </v-row>
                 <v-row>
                   <v-col style="margin-left:100px;font-weight:700;color:skyblue">申请条件：</v-col>
@@ -272,6 +272,7 @@ export default {
       prizeId: '',
       prizeName: '',
       prizeAccount: '',
+      prizeAccountShow: '',
       applyCondition: '',
       applyDeadline: '',
       // 用于渲染申请dialogue等信息end
@@ -351,6 +352,13 @@ export default {
       this.apply_level = '';
       this.apply_file1 = '';
       this.apply_file2 = '';
+      this.prizeAccountShow = '';
+      for(var i = 0; i < item.prizeaccount.length; i ++) {
+        this.prizeAccountShow += item.prizeaccount[i].level;
+        this.prizeAccountShow += ':&nbsp;&nbsp;';
+        this.prizeAccountShow += item.prizeaccount[i].money;
+        this.prizeAccountShow += '</br>'
+      }
     },
     // 申请按钮函数end
 
@@ -433,8 +441,7 @@ export default {
 </script>
 
 <style scoped>
-.table {
-
+.table{
   position: absolute;
   top: 230px;
   width: 80%;

@@ -25,7 +25,7 @@
           <div style="margin-top:50px;">
             <v-row dense no-gutters class="ma-0 pa-0">
               <v-col cols="2"  class="ma-0 pa-0">
-                <v-subheader style="font-size:16px;margin-left:135px;">姓名</v-subheader>
+                <v-subheader style="font-size:16px;margin-left:135px;font-weight:700;">姓名</v-subheader>
               </v-col>
               <v-col cols="3" style="margin">
                 <v-text-field
@@ -38,7 +38,7 @@
                 ></v-text-field>                        
               </v-col>
               <v-col cols="2">
-                <v-subheader style="font-size:16px;margin-left:135px;">学号</v-subheader>
+                <v-subheader style="font-size:16px;margin-left:135px;font-weight:700;">学号</v-subheader>
               </v-col>
               <v-col cols="3">
                 <v-text-field
@@ -53,11 +53,10 @@
             </v-row>
             <v-row dense no-gutters class="ma-0 pa-0">
               <v-col cols="2">
-                <v-subheader style="font-size:16px;margin-left:135px;">标题</v-subheader>
+                <v-subheader style="font-size:16px;margin-left:135px;font-weight:700;">标题</v-subheader>
               </v-col>
-              <v-col cols="3">
+              <v-col cols="8" style="margin:0;">
                 <v-text-field
-                  class="ma-0 pa-0"
                   required
                   outlined
                   dense
@@ -68,17 +67,50 @@
             </v-row>
             <v-row dense no-gutters class="ma-0 pa-0">
               <v-col cols="8">
-                <v-subheader style="font-size:16px;margin-left:135px;">特殊事迹描述</v-subheader>
+                <v-subheader style="font-size:16px;margin-left:135px;font-weight:700;">特殊事迹描述</v-subheader>
               </v-col>
-              <v-container fluid>
-                <v-textarea
-                  v-model="story"
-                  clearable
-                  clear-icon="mdi-close-circle"
-                  label="Text"
-                  style="width:1000px;padding:0 50px;padding-top:20px;margin:0 auto;border:2px solid rgb(215,215,215);border-radius:10px;"
-                ></v-textarea>
-              </v-container>
+              <v-col cols="8">
+                <v-container fluid>
+                  <v-textarea
+                    v-model="story"
+                    clearable
+                    clear-icon="mdi-close-circle"
+                    label="Text"
+                    style="width:650px;padding:0 35px;padding-top:20px;margin-left:90px;border-radius:10px;box-shadow:2px 2px 2px 2px rgba(0,0,0,.3);"
+                  ></v-textarea>
+                </v-container>
+              </v-col>
+              
+              <v-col cols="2">
+                <v-row>
+                  <v-file-input
+                    truncate-length="15"
+                    multiple
+                    placeholder="请选择上传图片"
+                    show-size="true"
+                    v-model="file[0]"
+                  ></v-file-input>
+                </v-row>
+                <v-row>
+                  <v-file-input
+                    truncate-length="15"
+                    multiple
+                    placeholder="请选择上传图片"
+                    show-size="true"
+                    v-model="file[1]"
+                  ></v-file-input>
+                </v-row>
+                <v-row>
+                  <v-file-input
+                    truncate-length="15"
+                    multiple
+                    placeholder="请选择上传图片"
+                    show-size="true"
+                    v-model="file[2]"
+                  ></v-file-input>
+                </v-row>
+              </v-col>
+              
             </v-row>
           </div>
           <v-card-actions>
@@ -211,7 +243,11 @@
         expanded: [],
         singleExpand: false,
         singleSelect: false,
+        page: 1,
+        pageCount: 0,
+        itemsPerPage: 10,
         selected: [],
+        file: ['','',''],
         headers: [
           { text: '学号', value: 'studentid', align: 'center',width: '150px' },
           { text: '姓名', value: 'studentname', align: 'center',width: '150px' },
@@ -219,9 +255,6 @@
           { text: '登记日期', value: 'addtime', align: 'center',width: '150px' },
           { text: '操作', value: 'operation', align: 'center', sortable:false, width: '300px' },
         ],
-        page: 1,
-        pageCount: 0,
-        itemsPerPage: 10,
         selectitems: [
           { state: '10条/页', abbr: 10},
           { state: '20条/页', abbr: 20},
@@ -233,14 +266,14 @@
             studentid: '18362329',
             studentname: '张三',
             storyTitle: '见义勇为',
-            addtime: '2021-06-01',
+            addtime: '2021-06-01 09:22',
             story: '这是一个故事这是一个故事这是一个故事这是一个故事这是一个故事这是一个故事这是一个故事这是一个故事这是一个故事'
           },{
             storyId: 2,
             studentid: '18362330',
             studentname: '张三',
             storyTitle: '见义勇为',
-            addtime: '2021-06-01',
+            addtime: '2021-06-01 09:22',
             story: '这是一个故事这是一个故事这是一个故事这是一个故事这是一个故事这是一个故事这是一个故事这是一个故事这是一个故事'
           },
         ],
@@ -264,6 +297,7 @@
         this.id = item.studentid;
         this.story = item.story;
         this.storyTitle = item.storyTitle;
+        this.file = ['','',''];
       },
       // 删除事迹接口
       deleteStory(id) {
@@ -296,13 +330,22 @@
         var year = today.getFullYear();
         var month = today.getMonth();
         var day = today.getDate();
-        this.time = year + '-' + month + '-' + day;
+        var hour = today.getHours();
+        var minute = today.getMinutes();
+        var files = new Array();
+        for(var i = 0; i < this.file.length; i ++) {
+          if(this.file[i] != '') {
+            files.push(this.file[i]);
+          }
+        }
+        this.time = year + '-' + month + '-' + day + ' ' + hour + ':' + minute;
         var storyInfo = {
           stuId: this.id,
           stuName: this.name,
           stuStory: this.story,
           storyTitle: this.storyTitle,
-          time: this.time
+          time: this.time,
+          files: files
         };
         if(this.name == '') {
           alert('请输入姓名');
@@ -323,7 +366,7 @@
             alert('提交失败');
           })
         }
-      }
+      },
     }
   }
 </script>
