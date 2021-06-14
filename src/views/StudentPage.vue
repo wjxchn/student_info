@@ -835,39 +835,20 @@ export default {
   mounted() {
     var token = localStorage.getItem('Authorization');
     axios({
-      url: '/api/auth',
+      url: '/api/getinfo',
       method: 'post',
       params: {
         token: token, //这是请求头
       }
       // data: {'token': token}  //这是请求体
     }).then(res => {
-      console.log(res);
+      // console.log(res);
       var flag = res.data.flag;
       // console.log("校验成功？", res.data);
-      this.form.name = res.data.stuName;
-      this.form.schoolid = res.data.stuNum;
       if (flag) {
-        axios({
-          url: '/api/getinfo',
-          method: 'post',
-          params: {
-            token: token, //这是请求头
-          }
-          // data: {'token': token}  //这是请求体
-        }).then(res => {
-          // console.log(res);
-          var flag = res.data.flag;
-          // console.log("校验成功？", res.data);
-          if (flag) {
-            // next();
-            console.log(res.data);
-            this.form = res.data.Stuinfo;
-          }
-        })
-
-      } else {
-        window.location.href = '/#/login';
+        // next();
+        console.log(res.data);
+        this.form = res.data.Stuinfo;
       }
     })
 
