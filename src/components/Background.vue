@@ -11,17 +11,17 @@
         学生信息管理系统
       </div>
       <div style="position:absolute;top:0;right:0;">
-        <v-icon v-if="!isteacher" large style="height:80px;width:80px;" dark @click="tostudentpage">mdi-school</v-icon>
-        <v-icon v-if="isteacher" large style="height:80px;width:80px;" dark @click="tobasicinfo">mdi-school</v-icon>
-        <v-icon v-if="isteacher" large style="height:80px;width:80px;" dark @click="topartyaffair">work</v-icon>
-        <v-icon v-if="isteacher" large style="height:80px;width:80px;" dark @click="tostatistics">pie_chart</v-icon>
-        <v-icon v-if="isteacher" large style="height:80px;width:80px;" dark @click="toaddprize">military_tech</v-icon>
-        <v-icon v-if="isteacher" large style="height:80px;width:80px;" dark @click="toprizeevaluation">emoji_events</v-icon>
-        <v-icon v-if="!isteacher" large style="height:80px;width:80px;" dark @click="toapplyprize">inventory</v-icon>
-        <v-icon v-if="isteacher" large style="height:80px;width:80px;" dark @click="toprizecandidate">inventory</v-icon>
-        <v-icon v-if="!isteacher" large style="height:80px;width:80px;" dark @click="toaskforleave">timer</v-icon>
-        <v-icon v-if="isteacher" large style="height:80px;width:80px;" dark @click="tocancelleave">timer</v-icon>
-        <v-icon v-if="isteacher" large style="height:80px;width:80px;" dark @click="tospecialstory">palette</v-icon>
+        <v-icon v-if="userType==='student'" large style="height:80px;width:80px;" dark @click="tostudentpage">mdi-school</v-icon>
+        <v-icon v-if="userType==='admin'" large style="height:80px;width:80px;" dark @click="tobasicinfo">mdi-school</v-icon>
+        <v-icon v-if="userType==='admin'" large style="height:80px;width:80px;" dark @click="topartyaffair">work</v-icon>
+        <v-icon v-if="userType==='admin'" large style="height:80px;width:80px;" dark @click="tostatistics">pie_chart</v-icon>
+        <v-icon v-if="userType==='admin' || userType==='teacher'" large style="height:80px;width:80px;" dark @click="toaddprize">military_tech</v-icon>
+        <v-icon v-if="userType==='admin' || userType==='teacher'" large style="height:80px;width:80px;" dark @click="toprizeevaluation">emoji_events</v-icon>
+        <v-icon v-if="userType==='student'" large style="height:80px;width:80px;" dark @click="toapplyprize">inventory</v-icon>
+        <v-icon v-if="userType==='admin' || userType==='teacher'" large style="height:80px;width:80px;" dark @click="toprizecandidate">inventory</v-icon>
+        <v-icon v-if="userType==='student'" large style="height:80px;width:80px;" dark @click="toaskforleave">timer</v-icon>
+        <v-icon v-if="userType==='admin'" large style="height:80px;width:80px;" dark @click="tocancelleave">timer</v-icon>
+        <v-icon v-if="userType==='admin'" large style="height:80px;width:80px;" dark @click="tospecialstory">palette</v-icon>
       </div>
     </div>
     <div class="basic_info_title">
@@ -38,22 +38,28 @@ export default {
   name: 'BackgroundComponent',
   data(){
     return{
-      isteacher: false,
+      userType: "",
       titlePicSrc:require('../assets/login/bhcslogo.png'),
       basicInfoBackgroundSrc: require('../assets/basicinfo/u15.jpg'),
     }
   },
   mounted() {
     var token = localStorage.getItem('Authorization');
-    //区分是老师还是学生的方式，是在token后加一个商定好的字符串，“aKuL82I3Mq”
+    //区分老师、学生、管理员的方式，是在token后加商定好的字符串，
+    // “Km0oQs7z1P” 学生 student
+    // “z3DSlUv5a0” 老师 teacher
+    // “aKuL82I3Mq” 管理员 admin
     var tokenLength = token.length;
     var suffix = token.substring(tokenLength-10,tokenLength);
-    if(suffix == "aKuL82I3Mq"){
-      //说明是老师
-      this.isteacher = true;
-    }else{
+    if(suffix === "Km0oQs7z1P"){
       //说明是学生
-      this.isteacher = false;
+      this.userType = "student";
+    }else if(suffix === "z3DSlUv5a0"){
+      //说明是老师
+      this.userType = "teacher";
+    }else if(suffix === "aKuL82I3Mq"){
+      //说明是管理员
+      this.userType = "admin";
     }
   },
   props: {
