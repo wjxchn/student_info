@@ -1,6 +1,59 @@
 <template>
   <div id="prizeEvaluation">
     <background :titlevalue="chinesename" iconvalue="emoji_events"></background>
+    <v-dialog
+        v-model="ShowDialog"
+        persistent
+        width="700px"
+    >
+      <div style="background-color: white">
+        <div style="height: 40px;"></div>
+        <div style="width: 480px; margin-left: 110px; height: 380px; position: relative;">
+          <h2 style="text-align: center; color: #0D4C7F; font-weight: bold; margin-bottom: 20px;">填写评审人信息</h2>
+          <v-row dense>
+            <v-col cols="3" style="line-height: 60px;">姓名:</v-col>
+            <v-col cols="7">
+              <v-text-field
+                  v-model="EvaluatorName"
+                  required
+              ></v-text-field>
+            </v-col>
+          </v-row>
+
+          <v-row dense>
+            <v-col cols="3" style="line-height: 60px;">学号/工号:</v-col>
+            <v-col cols="7">
+              <v-text-field
+                  v-model="EvaluatorId"
+                  @change="OnCheckId()"
+                  required
+              ></v-text-field>
+            </v-col>
+          </v-row>
+
+          <v-row dense>
+            <v-col cols="3" style="line-height: 60px;">职务/职称:</v-col>
+            <v-col cols="7">
+                <v-select
+                    :items="JobSelectionArray"
+                    :disabled="JobSelectionDisable"
+                    v-model="EvaluatorJob"
+                    outlined
+                ></v-select>
+            </v-col>
+          </v-row>
+
+          <v-row>
+            <div style="width: 250px; margin-left: 150px;">
+              <v-row>
+                <v-col><v-btn small color="#EEF0F4" @click="Cancel()">取消</v-btn></v-col>
+                <v-col><v-btn small color="#6B8DB8" @click="Evaluate()">评审</v-btn></v-col>
+              </v-row>
+            </div>
+          </v-row>
+        </div>
+      </div>
+    </v-dialog>
     <div class="table">
       <div style="width:100%;height:53px;">
       </div>    
@@ -20,14 +73,14 @@
           @page-count="pageCount = $event"
           mobile-breakpoint=0   
         >
-          <template v-slot:item.operation>
-            <v-btn depressed small style="background-color:rgba(71, 112, 166, 0.996078431372549);color:white;">评审</v-btn>
+          <template v-slot:item.operation="{ item }">
+            <v-btn depressed small style="background-color:rgba(71, 112, 166, 0.996078431372549);color:white;" @click="Dialog_data = item, ShowDialog = true">评审</v-btn>
           </template>
         </v-data-table>
       </div>
       <div class="text-center pt-2">
         <div style="display: inline-block; margin-right:10px; font-weight:700; color:#0D4C7F;">
-          共50条
+          共{{ this.desserts.length }}条
         </div>
         <div style="display: inline-block;">
           <v-select
@@ -78,21 +131,28 @@ export default {
   },
   data () {
     return {
+      ShowDialog: false,
+      Dialog_data: undefined,
+      JobSelectionArray: ["教授", "副教授"],
+      JobSelectionDisable: false,
+
+      EvaluatorName: "",
+      EvaluatorId: "",
+      EvaluatorJob: "",
+
       chinesename: '评审奖项',
       valid: true,
       checkbox: false,
-      selectdialog: false,
-      adddialog: false,
       expanded: [],
       singleExpand: false,
       singleSelect: false,
       selected: [],
       headers: [
-        { text: '奖项编号', value: 'prizeitemid', align: 'center',width: '150px' },
-        { text: '奖项名称', value: 'prizename', align: 'center',width: '150px' },
-        { text: '奖项金额', value: 'prizeaccount', align: 'center',width: '150px' },
-        { text: '申请条件', value: 'applycondition', align: 'center',width: '150px' },
-        { text: '申请截止日期', value: 'applydeadline', align: 'center',width: '150px' },
+        { text: '奖项编号', value: 'prizeId', align: 'center',width: '150px' },
+        { text: '奖项名称', value: 'prizeName', align: 'center',width: '150px' },
+        { text: '奖项金额', value: 'prizeAccount', align: 'center',width: '150px' },
+        { text: '申请条件', value: 'applyCondition', align: 'center',width: '150px' },
+        { text: '申请截止日期', value: 'applyDeadline', align: 'center',width: '150px' },
         { text: '操作', value: 'operation', align: 'center', sortable:false, width: '300px' },
       ],
       page: 1,
@@ -105,15 +165,52 @@ export default {
       ],
       desserts: [
         {
-          prizeitemid: 1,
-          prizename: '励志奖学金',
-          prizeaccount: '1000.00',
-          applycondition: '成绩单，教师推荐',
-          applydeadline: '2021-06-01',
+          prizeId: 1,
+          prizeName: '励志奖学金',
+          prizeAccount: '1000.00',
+          applyCondition: '成绩单，教师推荐',
+          applyDeadline: '2021-06-01',
         }
       ],
     }
   },
+  methods: {
+    OnCheckId() {
+      let reg = new RegExp("^[0-9]")
+      if(reg.test(this.EvaluatorId)) {
+        //这是个学生
+        this.EvaluatorJob = "学生代表";
+        this.JobSelectionDisable = true;
+      }
+      else {
+        this.JobSelectionDisable = false;
+      }
+    },
+    Cancel() {
+      this.ShowDialog = false;
+
+      this.JobSelectionDisable = false;
+      this.EvaluatorName = "";
+      this.EvaluatorId = "";
+      this.EvaluatorJob = "";
+    },
+    Evaluate() {
+      if(this.EvaluatorName == "") {
+        alert("请输入姓名！");
+      }
+      else if(this.EvaluatorId == "") {
+        alert("请输入学号/工号!");
+      }
+      else if(this.EvaluatorJob == "") {
+        alert("请输入职务/职称!");
+      }
+      else {
+        //提交
+
+        this.Cancel();
+      }
+    }
+  }
 }
 </script>
 

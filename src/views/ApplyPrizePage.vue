@@ -132,7 +132,7 @@
           :items="desserts"
           :single-select="singleSelect"
           :single-expand="singleExpand"
-          item-key="prizeitemid"
+          item-key="prizeId"
           class="elevation-1"
           show-select
           show-expand
@@ -309,7 +309,7 @@
         ],
         desserts: [
           // {
-          //   prizeitemid: 1,
+          //   prizeId: 1,
           //   prizename: '励志奖学金',
           //   prizesum: 10000,
           //   prizeaccount: [
@@ -321,7 +321,7 @@
           //   applydeadline: '2021-06-01',
           //   vote: '打分制',
           // },{
-          //   prizeitemid: 2,
+          //   prizeId: 2,
           //   prizename: '励志奖学金',
           //   prizesum: 20000,
           //   prizeaccount: [
@@ -333,7 +333,7 @@
           //   applydeadline: '2021-06-01',
           //   vote: '评选制',
           // },{
-          //   prizeitemid: 3,
+          //   prizeId: 3,
           //   prizename: '励志奖学金',
           //   prizesum: 30000,
           //   prizeaccount: [
