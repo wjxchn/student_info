@@ -11,7 +11,7 @@
           批量同意
         </v-btn>
       </div>
-      <div style="height:15px;width=100%;">
+      <div style="height:15px;width:100%;">
       </div>
       <div style="min-width:960px;">
         <v-data-table
@@ -139,6 +139,11 @@ export default {
       ],
     }
   },
+
+  mounted() {
+    let params = this.$route.params;
+    console.log(params);
+  }
 }
 </script>
 
