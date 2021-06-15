@@ -2,16 +2,115 @@
   <div id="addPrize">
     <background :titlevalue="chinesename" iconvalue="military_tech"></background>
     <div class="table">
+
+      <v-dialog
+          v-model="ShowDialog"
+          persistent
+          width="900px"
+      >
+        <div style="background-color: white">
+          <div style="height: 40px;"></div>
+          <div style="width: 680px; margin-left: 100px;">
+
+          <v-row dense>
+            <v-col cols="3" style="line-height: 60px;">奖项名称：</v-col>
+            <v-col cols="8">
+              <v-text-field
+                  v-model="PrizeName"
+                  required
+              ></v-text-field>
+            </v-col>
+          </v-row>
+
+          <v-row dense>
+            <v-col cols="3" style="line-height: 60px">奖项等级和金额：</v-col>
+            <v-col cols="9">
+<!--              这个是已经添加了的-->
+              <v-row dense class="already_add" v-for="(item,i) in PrizeInfo" :key="i">
+                <v-col cols="4">
+                  <v-text-field
+                      v-model="item.level"
+                      placeholder="在这里输入等级"
+                      required
+                  ></v-text-field>
+                </v-col>
+
+                <v-col cols="3">
+                  <v-text-field
+                      v-model="item.money"
+                      placeholder="在这里输入金额"
+                      required
+                  ></v-text-field>
+                </v-col>
+
+                <v-col cols="5">
+                  <v-btn color="blue"
+                         v-if="PrizeInfo.length != 1"
+                         @click="PrizeInfo.splice(PrizeInfo.indexOf(item), 1)"
+                  >删除</v-btn>
+                  <v-btn v-if="i == PrizeInfo.length - 1"
+                         color="blue" style="margin-left: 10px"
+                         @click="PrizeInfo.push({level: '', money: ''})"
+                  >添加</v-btn>
+                </v-col>
+              </v-row>
+
+            </v-col>
+          </v-row>
+
+            <v-row dense>
+              <v-col cols="3" style="line-height: 60px;">申请截止日期：</v-col>
+              <v-col cols="4">
+                <v-menu
+                    ref="menu"
+                    v-model="menu"
+                    :close-on-content-click="false"
+                    :return-value.sync="applyDeadline"
+                    transition="scale-transition"
+                    offset-y
+                    min-width="290px"
+                >
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-text-field
+                        v-model="applyDeadline"
+                        placeholder="选择一个日期"
+                        prepend-icon="event"
+                        readonly
+                        v-bind="attrs"
+                        v-on="on"
+                    ></v-text-field>
+                  </template>
+                  <v-date-picker v-model="applyDeadline" no-title scrollable>
+                    <v-spacer></v-spacer>
+                    <v-btn text color="primary" @click="menu = false">Cancel</v-btn>
+                    <v-btn text color="primary" @click="$refs.menu.save(applyDeadline)">OK</v-btn>
+                  </v-date-picker>
+                </v-menu>
+              </v-col>
+            </v-row>
+
+          </div>
+
+          <div style="width: 100%; text-align: center;">
+            <v-btn width="40px" color="blue" @click="CancelAdd()">取消</v-btn>
+            <v-btn width="40px" style="margin-left: 20px" color="red" @click="CommitAdd()">发布</v-btn>
+          </div>
+
+          <div style="height: 20px;"></div>
+        </div>
+      </v-dialog>
+
       <div style="width:100%;height:38px;">
         <v-btn
           depressed
           small
           style="border:1px solid rgba(71, 112, 166, 0.996); width:100px; height:38px; float:right; color:rgba(71, 112, 166, 0.996); font-size:13px;display:block;"
+          @click="AddPrize()"
         >
           添加奖项
         </v-btn>
       </div>
-      <div style="height:15px;width=100%;">
+      <div style="height:15px;width:100%;">
       </div>
       <div style="min-width:960px;">
         <v-data-table
@@ -88,11 +187,18 @@ export default {
   },
   data () {
     return {
+      //以下为弹窗表单的值
+      PrizeName: "",
+      PrizeInfo: [{level: "", money: ""}],
+      LevelNum: 0,
+      applyDeadline: "",
+
       chinesename: '奖项管理',
       valid: true,
       checkbox: false,
       selectdialog: false,
-      adddialog: false,
+      ShowDialog: false,
+
       expanded: [],
       singleExpand: false,
       singleSelect: false,
@@ -124,6 +230,29 @@ export default {
       ],
     }
   },
+  methods: {
+    CancelAdd() {
+      this.PrizeName = "";
+      this.PrizeInfo = [{level: "", money: ""}];
+      this.LevelNum = 0;
+      this.applyDeadline = "";
+
+      this.ShowDialog = false;
+    },
+    CommitAdd() {
+      //TO_DO: 发送信息
+
+      this.PrizeName = "";
+      this.PrizeInfo = [{level: "", money: ""}];
+      this.LevelNum = 0;
+      this.applyDeadline = "";
+
+      this.ShowDialog = false;
+    },
+    AddPrize() {
+      this.ShowDialog = true;
+    }
+  }
 }
 </script>
 
