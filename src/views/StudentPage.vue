@@ -740,11 +740,12 @@ export default {
           }
         }).then(res => {
           if (res.data.flag) {
-            console.log("图片上传成功！");
-            console.log(res.data.filename);
+            this.formData = "";
+            // console.log("图片上传成功！");
+            // console.log(res.data.filename);
             this.form.imgsrc = res.data.filename;
-            console.log(this.form.imgsrc);
-            console.log("图片上传成功！");
+            // console.log(this.form.imgsrc);
+            // console.log("图片上传成功！");
             // // 注意上面的这个函数和下面是异步执行的；submitImg未执行完时，下面就开始执行了，
             //分开写时，两个请求是同时发的
             // console.log("图片路径");
@@ -771,9 +772,12 @@ export default {
         data: this.form
       }).then(res => {
         if (res.data.flag) {
-          alert("保存成功！");
+          this.$message({
+            message: '保存成功!',
+            type: 'success'
+          });
         } else {
-          alert("保存失败！");
+          this.$message.error('保存失败！');
         }
       })
     }
@@ -793,6 +797,15 @@ export default {
       var flag = res.data.flag;
       if (flag) {
         this.form = res.data.Stuinfo;
+        if (this.form.idnum.length == 18) {
+          var idnum = this.form.idnum;
+
+          var year = idnum.substring(6, 10);
+          var month = idnum.substring(10, 12);
+          var day = idnum.substring(12, 14);
+          this.form.birthdate = year + "-" + month + "-" + day;
+          this.form.age = new Date().getYear() + 1900 - year;
+        }
       }
     })
 
