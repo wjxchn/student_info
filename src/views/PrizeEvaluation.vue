@@ -74,7 +74,7 @@
           mobile-breakpoint=0   
         >
           <template v-slot:item.operation="{ item }">
-            <v-btn depressed small style="background-color:rgba(71, 112, 166, 0.996078431372549);color:white;" @click="Dialog_data = item, ShowDialog = true">评审</v-btn>
+            <v-btn depressed small style="background-color:rgba(71, 112, 166, 0.996078431372549);color:white;" @click="PrizeInfo = item, ShowDialog = true">评审</v-btn>
           </template>
         </v-data-table>
       </div>
@@ -139,6 +139,8 @@ export default {
       EvaluatorName: "",
       EvaluatorId: "",
       EvaluatorJob: "",
+
+      PrizeInfo: undefined,
 
       chinesename: '评审奖项',
       valid: true,
@@ -206,6 +208,18 @@ export default {
       }
       else {
         //提交
+        let that = this;
+        this.$router.push({
+          path: "/prizeCandidate",
+          name: "PrizeCandidate",
+          params: {
+            EvaluatorName: that.EvaluatorName,
+            EvaluatorId: that.EvaluatorId,
+            EvaluatorJob: that.EvaluatorJob,
+
+            PrizeInfo: that.PrizeInfo,
+          }
+        });
 
         this.Cancel();
       }
