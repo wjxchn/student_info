@@ -112,6 +112,7 @@ export default {
       }).then(res => {
         var flag = res.data.flag;
         if (flag) {
+          // 将auth存入到localStorage的一个名叫Authorization的item中
           localStorage.setItem("Authorization", res.data.auth);
           var suffix = localStorage.getItem('Authorization').substring(32,42);
           if(suffix === "Km0oQs7z1P"){
