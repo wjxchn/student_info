@@ -1525,48 +1525,20 @@ export default {
         },
       })
     },
-<<<<<<< HEAD
     
     // 所选择的团支部改变时，发送请求获取改团支部的信息
     changeFlag(value) {
       // 确定 lineAll, columnAll, cakeAll 是否展示
-      console.log(value[0] + '   ' + value[1]);
       if(value[0] == 'team' && value[1] != 'team1') {
         this.team = '';
       } else {
         this.team = 'team1';
-=======
-    handleChange(value) {
-      console.log(value);
-    },
-
-    // 所选择的党支部改变时，发送请求获取改党支部的信息
-    changeTeam() {
-      var teamName;                       // 要获取的党支部名字
-      // 获取teamName begin
-      var len = this.teamoptions.length;
-      for (var i = 0; i < len; i++) {
-        if (this.teamoptions[i].value == this.team) {
-          teamName = this.teamoptions[i].label;
-          break;
-        }
->>>>>>> b38e43de3d2a6cd40f26451a49984381062b6498
       }
       axios({
-<<<<<<< HEAD
-        url: '9999',
-        method: 'get',
-        data: value,
-      }).then((res) => {
-        this.data = res.data;
-        this.drawLine();
-      }).catch(() => {
-        alert('获取信息失败！');
-=======
         url: '/api/graph/team',
         method: 'post',
         params: {
-          teamName: teamName,
+          value: value,
         }
       }).then(res => {
         if (res.data.flag) {
@@ -1578,9 +1550,7 @@ export default {
         }
       }).catch(err => {
         console.log(err);
->>>>>>> b38e43de3d2a6cd40f26451a49984381062b6498
       })
-
     }
   }
 }
