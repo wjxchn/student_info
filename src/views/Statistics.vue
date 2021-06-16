@@ -77,6 +77,17 @@
 <script>
 import Background from '@/components/Background.vue'
 import axios from 'axios';
+
+axios({
+  url: '9999',
+  method: 'get',
+  data: '全部',
+}).then((res) => {
+  this.data = res.data;
+  this.drawLine();
+}).catch(() => {
+  alert('获取信息失败！');
+})
 export default {
   name: 'Statistics',
   components: { 
