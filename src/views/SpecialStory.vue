@@ -251,6 +251,8 @@
         headers: [
           { text: '学号', value: 'studentid', align: 'center',width: '150px' },
           { text: '姓名', value: 'studentname', align: 'center',width: '150px' },
+          { text: '导师', value: 'teacher', align: 'center', width: '150px'},
+          { text: '电话', value: 'phone', align: 'center', width: '150px'},
           { text: '特殊事迹', value: 'storyTitle', align: 'center',width: '150px' },
           { text: '登记日期', value: 'addtime', align: 'center',width: '150px' },
           { text: '操作', value: 'operation', align: 'center', sortable:false, width: '300px' },
@@ -266,6 +268,8 @@
             studentid: '18362329',
             studentname: '张三',
             storyTitle: '见义勇为',
+            teacher: '张四',
+            phone: '18883553999',
             addtime: '2021-06-01 09:22',
             story: '这是一个故事这是一个故事这是一个故事这是一个故事这是一个故事这是一个故事这是一个故事这是一个故事这是一个故事'
           },{
@@ -273,6 +277,8 @@
             studentid: '18362330',
             studentname: '张三',
             storyTitle: '见义勇为',
+            teacher: '张五',
+            phone: '18883553999',
             addtime: '2021-06-01 09:22',
             story: '这是一个故事这是一个故事这是一个故事这是一个故事这是一个故事这是一个故事这是一个故事这是一个故事这是一个故事'
           },
