@@ -2865,13 +2865,17 @@ export default {
       }
     },
     exportfunc() {
+      if(this.selected.length === 0){
+        return ;
+      }
+
       var cat = "";
       for (var i = 0; i < this.selected.length; i++) {
         console.log(this.selected[i].autoid);
         cat = cat + this.selected[i].schoolid + "-";
       }
 
-      window.location.href = "http://127.0.0.1:9999/api/excel/" + cat
+      window.location.href = "http://127.0.0.1:9999/api/excel/" + cat+"?auth="+localStorage.getItem('Authorization');
       // axios({
       //   url: '/api/excel',
       //   method: 'post',
@@ -2885,9 +2889,6 @@ export default {
       //     console.log("export succeed!");
       //   }
       // })
-
-
-      // console.log(this.selected);
     },
     generateresumefunc() {
       for (var i = 0; i < this.selected.length; i++) {
