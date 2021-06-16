@@ -4,20 +4,12 @@
     <div style="position:absolute;top:230px;left:50%;transform:translate(-50%);width:90%;">
       <v-card>
         <div style="padding-top:15px;margin-left:30px;margin-bottom:30px;">
-          <!-- <el-cascader
+          <el-cascader
             v-model="value"
             :options="options"
             :props="{ expandTrigger: 'hover' }"
-            @change="handleChange">
-          </el-cascader> -->
-          <el-select v-model="team" @change="changeTeam" placeholder="请选择">
-            <el-option
-              v-for="item in teamoptions"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value">
-            </el-option>
-          </el-select>
+            @change="changeFlag">
+          </el-cascader>
           <el-select v-model="secondvalue" placeholder="请选择">
             <el-option
               v-for="item in secondoptions"
@@ -28,7 +20,7 @@
           </el-select>
         </div>
         <div style="margin-bottom:10px;margin-left:30px;margin-right:30px;">
-          <div id="lineAll" :style="{width: '300px', height: '300px'}" v-show="(secondvalue+team)=='lineteam1'" style="display:inline-block;"></div>
+          <div id="lineAll" :style="{width: '1500px', height: '300px'}" v-show="(secondvalue+team)=='lineteam1'" style="display:inline-block;"></div>
           <div id="line1" :style="{width: '300px', height: '300px'}" v-show="secondvalue=='line'" style="display:inline-block;"></div>
           <div id="line2" :style="{width: '300px', height: '300px'}" v-show="secondvalue=='line'" style="display:inline-block;"></div>
           <div id="line3" :style="{width: '300px', height: '300px'}" v-show="secondvalue=='line'" style="display:inline-block;"></div>
@@ -218,7 +210,42 @@ export default {
             {value: '2018',label: '18级',},
             {value: '2019',label: '19级',},
           ]
-        }, 
+        },{
+          value: 'team',
+          label: '党支部',
+          children: [
+            {value: 'team1', label: '全部'},
+            {value: 'team2', label: '1706-1党支部'},
+            {value: 'team3', label: '1706-2党支部'},
+            {value: 'team4', label: '1806党支部'},
+            {value: 'team5', label: '1906党支部'},
+            {value: 'team6', label: '硕18061党支部'},
+            {value: 'team7', label: '硕18062党支部'},
+            {value: 'team8', label: '硕18063党支部'},
+            {value: 'team9', label: '硕19061党支部'},
+            {value: 'team10', label: '硕19062党支部'},
+            {value: 'team11', label: '硕19063党支部'},
+            {value: 'team12', label: '硕19064党支部'},
+            {value: 'team13', label: '硕19065党支部'},
+            {value: 'team14', label: '硕19066党支部'},
+            {value: 'team15', label: '硕19067党支部'},
+            {value: 'team16', label: '硕20061党支部'},
+            {value: 'team17', label: '硕20062党支部'},
+            {value: 'team18', label: '硕20063党支部'},
+            {value: 'team19', label: '硕20064党支部'},
+            {value: 'team20', label: '硕20065党支部'},
+            {value: 'team21', label: '硕20066党支部'},
+            {value: 'team22', label: 'BYACT1党支部'},
+            {value: 'team23', label: 'BYACT2党支部'},
+            {value: 'team24', label: 'BY软国重党支部'},
+            {value: 'team25', label: 'BY软件所党支部'},
+            {value: 'team26', label: 'BY系统结构党支部'},
+            {value: 'team27', label: 'BY虚拟现实党支部'},
+            {value: 'team28', label: 'BY应用1党支部'},
+            {value: 'team29', label: 'BY应用2党支部'},
+            {value: 'team30', label: 'BY应用3党支部'},
+          ]
+        }
       ],
       secondoptions: [
         {value: 'line', label: '折线图'}, 
@@ -289,7 +316,11 @@ export default {
       }
       // 绘制图表
       columnslist[0].setOption({
-        title: { text: '各团支部人数' },
+        title: {
+          text: '各团支部人数',
+          top: 'top',
+          left: 'center',
+        },
         tooltip: {},
         xAxis: {
           data: [
@@ -362,7 +393,10 @@ export default {
         }]
       });
       columnslist[1].setOption({
-        title: { text: '男女人数' },
+        title: { 
+          text: '男女人数',
+          top: 'top',
+          left: 'center', },
         tooltip: {},
         xAxis: {
           data: ["男","女"]
@@ -375,7 +409,10 @@ export default {
         }]
       });
       columnslist[2].setOption({
-        title: { text: '党支部成员组成' },
+        title: { 
+          text: '党支部成员组成',
+          top: 'top',
+          left: 'center', },
         tooltip: {},
         xAxis: {
           data: ['积极分子', '预备党员', '正式党员']
@@ -388,7 +425,10 @@ export default {
         }]
       })
       columnslist[3].setOption({
-        title: { text: '近3年党支部新增人数' },
+        title: { 
+          text: '近3年党支部新增人数',
+          top: 'top',
+          left: 'center', },
         tooltip: {},
         xAxis: {
           data: ['新增积极分子', '新增预备党员', '新增正式党员']
@@ -401,7 +441,10 @@ export default {
         }]
       })
       columnslist[4].setOption({
-        title: { text: '积极分子各年龄段人数' },
+        title: { 
+          text: '积极分子各年龄段人数',
+          top: 'top',
+          left: 'center', },
         tooltip: {},
         xAxis: {
           data: ['18-30', '31-40', '41-50', '51-60', '61-70']
@@ -419,7 +462,10 @@ export default {
         }]
       })
       columnslist[5].setOption({
-        title: { text: '预备党员各年龄段人数' },
+        title: { 
+          text: '预备党员各年龄段人数',
+          top: 'top',
+          left: 'center', },
         tooltip: {},
         xAxis: {
           data: ['18-30', '31-40', '41-50', '51-60', '61-70']
@@ -437,7 +483,10 @@ export default {
         }]
       })
       columnslist[6].setOption({
-        title: { text: '正式党员各年龄段人数' },
+        title: { 
+          text: '正式党员各年龄段人数',
+          top: 'top',
+          left: 'center', },
         tooltip: {},
         xAxis: {
           data: ['18-30', '31-40', '41-50', '51-60', '61-70']
@@ -455,7 +504,10 @@ export default {
         }]
       })
       columnslist[7].setOption({
-        title: { text: '近3年新增积极分子各年龄段人数' },
+        title: { 
+          text: '近3年新增积极分子各年龄段人数',
+          top: 'top',
+          left: 'center', },
         tooltip: {},
         xAxis: {
           data: ['18-30', '31-40', '41-50', '51-60', '61-70']
@@ -473,7 +525,10 @@ export default {
         }]
       })
       columnslist[8].setOption({
-        title: { text: '近3年新增预备党员各年龄段人数' },
+        title: { 
+          text: '近3年新增预备党员各年龄段人数',
+          top: 'top',
+          left: 'center', },
         tooltip: {},
         xAxis: {
           data: ['18-30', '31-40', '41-50', '51-60', '61-70']
@@ -491,7 +546,10 @@ export default {
         }]
       })
       columnslist[9].setOption({
-        title: { text: '近3年新增正式党员各年龄段人数' },
+        title: { 
+          text: '近3年新增正式党员各年龄段人数',
+          top: 'top',
+          left: 'center', },
         tooltip: {},
         xAxis: {
           data: ['18-30', '31-40', '41-50', '51-60', '61-70']
@@ -509,7 +567,10 @@ export default {
         }]
       })
       columnslist[10].setOption({
-        title: { text: '各宿舍区域人数' },
+        title: { 
+          text: '各宿舍区域人数',
+          top: 'top',
+          left: 'center', },
         tooltip: {},
         xAxis: {
           data: ['学院路大运村', '学院路校内', '沙河']
@@ -525,7 +586,10 @@ export default {
         }]
       })
       columnslist[11].setOption({
-        title: { text: '各校区人数' },
+        title: { 
+          text: '各校区人数',
+          top: 'top',
+          left: 'center', },
         tooltip: {},
         xAxis: {
           data: ['学院路校区', '沙河校区', '杭州研究所','青岛研究所','苏州研究所','深圳研究所','云南研究所','其他']
@@ -546,7 +610,10 @@ export default {
         }]
       })
       columnslist[12].setOption({
-        title: { text: '各民族人数' },
+        title: { 
+          text: '各民族人数',
+          top: 'top',
+          left: 'center', },
         tooltip: {},
         xAxis: {
           data: ['汉族', '少数民族']
@@ -1409,26 +1476,20 @@ export default {
         },
       })
     },
-    handleChange(value) {
-      console.log(value);
-    },
     
     // 所选择的团支部改变时，发送请求获取改团支部的信息
-    changeTeam() {
-      var teamName;                       // 要获取的团支部名字
-      // 获取teamName begin
-      var len = this.teamoptions.length;
-      for(var i = 0; i < len; i ++) {
-        if(this.teamoptions[i].value == this.team) {
-          teamName = this.teamoptions[i].label;
-          break;
-        }
+    changeFlag(value) {
+      // 确定 lineAll, columnAll, cakeAll 是否展示
+      console.log(value[0] + '   ' + value[1]);
+      if(value[0] == 'team' && value[1] != 'team1') {
+        this.team = '';
+      } else {
+        this.team = 'team1';
       }
-      // 获取teamName end
       axios({
         url: '9999',
         method: 'get',
-        data: teamName,
+        data: value,
       }).then((res) => {
         this.data = res.data;
         this.drawLine();
