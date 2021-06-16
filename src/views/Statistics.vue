@@ -12,84 +12,125 @@
           </el-cascader> -->
           <el-select v-model="team" @change="changeTeam" placeholder="请选择">
             <el-option
-              v-for="item in teamoptions"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value">
+                v-for="item in teamoptions"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value">
             </el-option>
           </el-select>
           <el-select v-model="secondvalue" placeholder="请选择">
             <el-option
-              v-for="item in secondoptions"
-              :key="item.value"
-              :label="item.label" 
-              :value="item.value">
+                v-for="item in secondoptions"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value">
             </el-option>
           </el-select>
         </div>
         <div style="margin-bottom:10px;margin-left:30px;margin-right:30px;">
-          <div id="lineAll" :style="{width: '300px', height: '300px'}" v-show="(secondvalue+team)=='lineteam1'" style="display:inline-block;"></div>
-          <div id="line1" :style="{width: '300px', height: '300px'}" v-show="secondvalue=='line'" style="display:inline-block;"></div>
-          <div id="line2" :style="{width: '300px', height: '300px'}" v-show="secondvalue=='line'" style="display:inline-block;"></div>
-          <div id="line3" :style="{width: '300px', height: '300px'}" v-show="secondvalue=='line'" style="display:inline-block;"></div>
-          <div id="line4" :style="{width: '300px', height: '300px'}" v-show="secondvalue=='line'" style="display:inline-block;"></div>
-          <div id="line5" :style="{width: '300px', height: '300px'}" v-show="secondvalue=='line'" style="display:inline-block;"></div>
-          <div id="line6" :style="{width: '300px', height: '300px'}" v-show="secondvalue=='line'" style="display:inline-block;"></div>
-          <div id="line7" :style="{width: '300px', height: '300px'}" v-show="secondvalue=='line'" style="display:inline-block;"></div>
-          <div id="line8" :style="{width: '300px', height: '300px'}" v-show="secondvalue=='line'" style="display:inline-block;"></div>
-          <div id="line9" :style="{width: '300px', height: '300px'}" v-show="secondvalue=='line'" style="display:inline-block;"></div>
-          <div id="line10" :style="{width: '300px', height: '300px'}" v-show="secondvalue=='line'" style="display:inline-block;"></div>
-          <div id="line11" :style="{width: '300px', height: '300px'}" v-show="secondvalue=='line'" style="display:inline-block;"></div>
-          <div id="line12" :style="{width: '300px', height: '300px'}" v-show="secondvalue=='line'" style="display:inline-block;"></div>
-          <div id="columnAll" :style="{width: '1500px', height: '300px'}" v-show="(secondvalue+team)=='columnteam1'" style="display:inline-block;"></div>
-          <div id="column1" :style="{width: '300px', height: '300px'}" v-show="secondvalue=='column'" style="display:inline-block;"></div>
-          <div id="column2" :style="{width: '300px', height: '300px'}" v-show="secondvalue=='column'" style="display:inline-block;"></div>
-          <div id="column3" :style="{width: '300px', height: '300px'}" v-show="secondvalue=='column'" style="display:inline-block;"></div>
-          <div id="column4" :style="{width: '300px', height: '300px'}" v-show="secondvalue=='column'" style="display:inline-block;"></div>
-          <div id="column5" :style="{width: '300px', height: '300px'}" v-show="secondvalue=='column'" style="display:inline-block;"></div>
-          <div id="column6" :style="{width: '300px', height: '300px'}" v-show="secondvalue=='column'" style="display:inline-block;"></div>
-          <div id="column7" :style="{width: '300px', height: '300px'}" v-show="secondvalue=='column'" style="display:inline-block;"></div>
-          <div id="column8" :style="{width: '300px', height: '300px'}" v-show="secondvalue=='column'" style="display:inline-block;"></div>
-          <div id="column9" :style="{width: '300px', height: '300px'}" v-show="secondvalue=='column'" style="display:inline-block;"></div>
-          <div id="column10" :style="{width: '300px', height: '300px'}" v-show="secondvalue=='column'" style="display:inline-block;"></div>
-          <div id="column11" :style="{width: '300px', height: '300px'}" v-show="secondvalue=='column'" style="display:inline-block;"></div>
-          <div id="column12" :style="{width: '300px', height: '300px'}" v-show="secondvalue=='column'" style="display:inline-block;"></div>
-          <div id="column13" :style="{width: '300px', height: '300px'}" v-show="secondvalue=='column'" style="display:inline-block;"></div>
-          <div id="cakeAll" :style="{width: '400px', height: '400px'}" v-show="(secondvalue+team)=='caketeam1'" style="display:inline-block;"></div>
-          <div id="cake1" :style="{width: '400px', height: '400px'}" v-show="secondvalue=='cake'" style="display:inline-block;"></div>
-          <div id="cake2" :style="{width: '400px', height: '400px'}" v-show="secondvalue=='cake'" style="display:inline-block;"></div>
-          <div id="cake3" :style="{width: '400px', height: '400px'}" v-show="secondvalue=='cake'" style="display:inline-block;"></div>
-          <div id="cake4" :style="{width: '400px', height: '400px'}" v-show="secondvalue=='cake'" style="display:inline-block;"></div>
-          <div id="cake5" :style="{width: '400px', height: '400px'}" v-show="secondvalue=='cake'" style="display:inline-block;"></div>
-          <div id="cake6" :style="{width: '400px', height: '400px'}" v-show="secondvalue=='cake'" style="display:inline-block;"></div>
-          <div id="cake7" :style="{width: '400px', height: '400px'}" v-show="secondvalue=='cake'" style="display:inline-block;"></div>
-          <div id="cake8" :style="{width: '400px', height: '400px'}" v-show="secondvalue=='cake'" style="display:inline-block;"></div>
-          <div id="cake9" :style="{width: '400px', height: '400px'}" v-show="secondvalue=='cake'" style="display:inline-block;"></div>
-          <div id="cake10" :style="{width: '400px', height: '400px'}" v-show="secondvalue=='cake'" style="display:inline-block;"></div>
-          <div id="cake11" :style="{width: '400px', height: '400px'}" v-show="secondvalue=='cake'" style="display:inline-block;"></div>
-          <div id="cake12" :style="{width: '400px', height: '400px'}" v-show="secondvalue=='cake'" style="display:inline-block;"></div>
+          <div id="lineAll" :style="{width: '300px', height: '300px'}" v-show="(secondvalue+team)=='lineteam1'"
+               style="display:inline-block;"></div>
+          <div id="line1" :style="{width: '300px', height: '300px'}" v-show="secondvalue=='line'"
+               style="display:inline-block;"></div>
+          <div id="line2" :style="{width: '300px', height: '300px'}" v-show="secondvalue=='line'"
+               style="display:inline-block;"></div>
+          <div id="line3" :style="{width: '300px', height: '300px'}" v-show="secondvalue=='line'"
+               style="display:inline-block;"></div>
+          <div id="line4" :style="{width: '300px', height: '300px'}" v-show="secondvalue=='line'"
+               style="display:inline-block;"></div>
+          <div id="line5" :style="{width: '300px', height: '300px'}" v-show="secondvalue=='line'"
+               style="display:inline-block;"></div>
+          <div id="line6" :style="{width: '300px', height: '300px'}" v-show="secondvalue=='line'"
+               style="display:inline-block;"></div>
+          <div id="line7" :style="{width: '300px', height: '300px'}" v-show="secondvalue=='line'"
+               style="display:inline-block;"></div>
+          <div id="line8" :style="{width: '300px', height: '300px'}" v-show="secondvalue=='line'"
+               style="display:inline-block;"></div>
+          <div id="line9" :style="{width: '300px', height: '300px'}" v-show="secondvalue=='line'"
+               style="display:inline-block;"></div>
+          <div id="line10" :style="{width: '300px', height: '300px'}" v-show="secondvalue=='line'"
+               style="display:inline-block;"></div>
+          <div id="line11" :style="{width: '300px', height: '300px'}" v-show="secondvalue=='line'"
+               style="display:inline-block;"></div>
+          <div id="line12" :style="{width: '300px', height: '300px'}" v-show="secondvalue=='line'"
+               style="display:inline-block;"></div>
+          <div id="columnAll" :style="{width: '1500px', height: '300px'}" v-show="(secondvalue+team)=='columnteam1'"
+               style="display:inline-block;"></div>
+          <div id="column1" :style="{width: '300px', height: '300px'}" v-show="secondvalue=='column'"
+               style="display:inline-block;"></div>
+          <div id="column2" :style="{width: '300px', height: '300px'}" v-show="secondvalue=='column'"
+               style="display:inline-block;"></div>
+          <div id="column3" :style="{width: '300px', height: '300px'}" v-show="secondvalue=='column'"
+               style="display:inline-block;"></div>
+          <div id="column4" :style="{width: '300px', height: '300px'}" v-show="secondvalue=='column'"
+               style="display:inline-block;"></div>
+          <div id="column5" :style="{width: '300px', height: '300px'}" v-show="secondvalue=='column'"
+               style="display:inline-block;"></div>
+          <div id="column6" :style="{width: '300px', height: '300px'}" v-show="secondvalue=='column'"
+               style="display:inline-block;"></div>
+          <div id="column7" :style="{width: '300px', height: '300px'}" v-show="secondvalue=='column'"
+               style="display:inline-block;"></div>
+          <div id="column8" :style="{width: '300px', height: '300px'}" v-show="secondvalue=='column'"
+               style="display:inline-block;"></div>
+          <div id="column9" :style="{width: '300px', height: '300px'}" v-show="secondvalue=='column'"
+               style="display:inline-block;"></div>
+          <div id="column10" :style="{width: '300px', height: '300px'}" v-show="secondvalue=='column'"
+               style="display:inline-block;"></div>
+          <div id="column11" :style="{width: '300px', height: '300px'}" v-show="secondvalue=='column'"
+               style="display:inline-block;"></div>
+          <div id="column12" :style="{width: '300px', height: '300px'}" v-show="secondvalue=='column'"
+               style="display:inline-block;"></div>
+          <div id="column13" :style="{width: '300px', height: '300px'}" v-show="secondvalue=='column'"
+               style="display:inline-block;"></div>
+          <div id="cakeAll" :style="{width: '400px', height: '400px'}" v-show="(secondvalue+team)=='caketeam1'"
+               style="display:inline-block;"></div>
+          <div id="cake1" :style="{width: '400px', height: '400px'}" v-show="secondvalue=='cake'"
+               style="display:inline-block;"></div>
+          <div id="cake2" :style="{width: '400px', height: '400px'}" v-show="secondvalue=='cake'"
+               style="display:inline-block;"></div>
+          <div id="cake3" :style="{width: '400px', height: '400px'}" v-show="secondvalue=='cake'"
+               style="display:inline-block;"></div>
+          <div id="cake4" :style="{width: '400px', height: '400px'}" v-show="secondvalue=='cake'"
+               style="display:inline-block;"></div>
+          <div id="cake5" :style="{width: '400px', height: '400px'}" v-show="secondvalue=='cake'"
+               style="display:inline-block;"></div>
+          <div id="cake6" :style="{width: '400px', height: '400px'}" v-show="secondvalue=='cake'"
+               style="display:inline-block;"></div>
+          <div id="cake7" :style="{width: '400px', height: '400px'}" v-show="secondvalue=='cake'"
+               style="display:inline-block;"></div>
+          <div id="cake8" :style="{width: '400px', height: '400px'}" v-show="secondvalue=='cake'"
+               style="display:inline-block;"></div>
+          <div id="cake9" :style="{width: '400px', height: '400px'}" v-show="secondvalue=='cake'"
+               style="display:inline-block;"></div>
+          <div id="cake10" :style="{width: '400px', height: '400px'}" v-show="secondvalue=='cake'"
+               style="display:inline-block;"></div>
+          <div id="cake11" :style="{width: '400px', height: '400px'}" v-show="secondvalue=='cake'"
+               style="display:inline-block;"></div>
+          <div id="cake12" :style="{width: '400px', height: '400px'}" v-show="secondvalue=='cake'"
+               style="display:inline-block;"></div>
         </div>
       </v-card>
     </div>
-  </div>  
+  </div>
 </template>
 
 <script>
 import Background from '@/components/Background.vue'
 import axios from 'axios';
+
 export default {
   name: 'Statistics',
-  components: { 
+  components: {
     Background
   },
-  data(){
-    return{
+  data() {
+    return {
       chinesename: '统计分析',
       secondvalue: 'line',
       team: 'team1',
       value: [],
       data: {
-        male: 100,          // 男性
+        male: 400,          // 男性
         female: 80,         // 女性
 
         activist: 50,       // 积极分子
@@ -139,14 +180,14 @@ export default {
         dormPlace1: 50,             // 大运村人数
         dormPlace2: 40,             // 学院路校内
         dormPlace3: 60,             // 沙河
-                                    
+
         campusPlace1: 60,           // '学院路校区',
         campusPlace2: 50,           // '沙河校区',
-        campusPlace3: 40,           // '杭州研究所',
-        campusPlace4: 30,           // '青岛研究所',
-        campusPlace5: 20,           // '苏州研究所',
-        campusPlace6: 10,           // '深圳研究所',
-        campusPlace7: 50,           // '云南研究所',
+        campusPlace3: 40,           // '杭州研究院',
+        campusPlace4: 30,           // '青岛研究院',
+        campusPlace5: 20,           // '苏州研究院',
+        campusPlace6: 10,           // '深圳研究院',
+        campusPlace7: 50,           // '云南研究院',
         campusPlace8: 5,            // '其他'
 
         ethnicHan: 50,              // 汉族人数
@@ -192,26 +233,26 @@ export default {
             {value: '2018', label: '18级',},
             {value: '2019', label: '19级',},
           ]
-        },{
+        }, {
           value: 'postgraduate',
           label: '研究生',
           children: [
-            {value: 'all',label: '全部',},
-            {value: '2018',label: '18级',},
+            {value: 'all', label: '全部',},
+            {value: '2018', label: '18级',},
           ]
-        },{
+        }, {
           value: 'doctor',
           label: '博士生',
           children: [
-            {value: 'all',label: '全部',},
-            {value: '2018',label: '18级',},
-            {value: '2019',label: '19级',},
+            {value: 'all', label: '全部',},
+            {value: '2018', label: '18级',},
+            {value: '2019', label: '19级',},
           ]
-        }, 
+        },
       ],
       secondoptions: [
-        {value: 'line', label: '折线图'}, 
-        {value: 'column',label: '柱状图'}, 
+        {value: 'line', label: '折线图'},
+        {value: 'column', label: '柱状图'},
         {value: 'cake', label: '饼图'}
       ],
       teamoptions: [
@@ -248,37 +289,57 @@ export default {
       ]
     }
   },
-  mounted(){
-    this.drawLine();
+  mounted() {
+    axios({
+      url: '/api/graph/all',
+      method: 'post',
+      // params: {
+      //   stuNum: this.name,
+      // }
+      // data: this.form
+    }).then(res => {
+      if (res.data.flag) {
+        this.data = res.data.data;
+        console.log("获取信息成功");
+
+        this.drawLine();
+      } else {
+        console.log("获取信息失败！");
+      }
+    }).catch(err => {
+      console.log(err);
+    })
+
   },
   methods: {
-    drawLine(){
+    drawLine() {
+      console.log("xxxxxxx");
       // 基于准备好的dom，初始化echarts实例
       var data = this.data;
       let lineslist = [];
       let columnslist = [];
       let cakeslist = [];
       let idlinelist = [
-        'lineAll','line1','line2','line3','line4','line5','line6',
-        'line7','line8','line9','line10','line11','line12']
+        'lineAll', 'line1', 'line2', 'line3', 'line4', 'line5', 'line6',
+        'line7', 'line8', 'line9', 'line10', 'line11', 'line12']
       let idcolumnlist = [
-        'columnAll','column1','column2','column3','column4','column5','column6',
-        'column7','column8','column9','column10','column11','column12']
+        'columnAll', 'column1', 'column2', 'column3', 'column4', 'column5', 'column6',
+        'column7', 'column8', 'column9', 'column10', 'column11', 'column12']
       let idcakeslist = [
-        'cakeAll','cake1','cake2','cake3','cake4','cake5','cake6',
-        'cake7','cake8','cake9','cake10','cake11','cake12']
-      for(let i in idlinelist){
-        lineslist[i] = this.$echarts.init(document.getElementById(idlinelist[i]))    
+        'cakeAll', 'cake1', 'cake2', 'cake3', 'cake4', 'cake5', 'cake6',
+        'cake7', 'cake8', 'cake9', 'cake10', 'cake11', 'cake12']
+      for (let i in idlinelist) {
+        lineslist[i] = this.$echarts.init(document.getElementById(idlinelist[i]))
       }
-      for(let i in idcolumnlist){
-        columnslist[i] = this.$echarts.init(document.getElementById(idcolumnlist[i]))    
+      for (let i in idcolumnlist) {
+        columnslist[i] = this.$echarts.init(document.getElementById(idcolumnlist[i]))
       }
-      for(let i in idcakeslist){
-        cakeslist[i] = this.$echarts.init(document.getElementById(idcakeslist[i]))    
+      for (let i in idcakeslist) {
+        cakeslist[i] = this.$echarts.init(document.getElementById(idcakeslist[i]))
       }
       // 绘制图表
       columnslist[0].setOption({
-        title: { text: '各团支部人数' },
+        title: {text: '各党支部人数'},
         tooltip: {},
         xAxis: {
           data: [
@@ -317,44 +378,44 @@ export default {
         series: [{
           name: '人数',
           type: 'bar',
-          data:[
-              {value:data.team2, name:'1706-1党支部'},
-              {value:data.team3, name:'1706-2党支部'},
-              {value:data.team4, name:'1806党支部'},
-              {value:data.team5, name:'1906党支部'},
-              {value:data.team6, name:'硕18061党支部'},
-              {value:data.team7, name:'硕18062党支部'},
-              {value:data.team8, name:'硕18063党支部'},
-              {value:data.team9, name:'硕19061党支部'},
-              {value:data.team10, name:'硕19062党支部'},
-              {value:data.team11, name:'硕19063党支部'},
-              {value:data.team12, name:'硕19064党支部'},
-              {value:data.team13, name:'硕19065党支部'},
-              {value:data.team14, name:'硕19066党支部'},
-              {value:data.team15, name:'硕19067党支部'},
-              {value:data.team16, name:'硕20061党支部'},
-              {value:data.team17, name:'硕20062党支部'},
-              {value:data.team18, name:'硕20063党支部'},
-              {value:data.team19, name:'硕20064党支部'},
-              {value:data.team20, name:'硕20065党支部'},
-              {value:data.team21, name:'硕20066党支部'},
-              {value:data.team22, name:'BYACT1党支部'},
-              {value:data.team23, name:'BYACT2党支部'},
-              {value:data.team24, name:'BY软国重党支部'},
-              {value:data.team25, name:'BY软件所党支部'},
-              {value:data.team26, name:'BY系统结构党支部'},
-              {value:data.team27, name:'BY虚拟现实党支部'},
-              {value:data.team28, name:'BY应用1党支部'},
-              {value:data.team29, name:'BY应用2党支部'},
-              {value:data.team30, name:'BY应用3党支部'},
+          data: [
+            {value: data.team2, name: '1706-1党支部'},
+            {value: data.team3, name: '1706-2党支部'},
+            {value: data.team4, name: '1806党支部'},
+            {value: data.team5, name: '1906党支部'},
+            {value: data.team6, name: '硕18061党支部'},
+            {value: data.team7, name: '硕18062党支部'},
+            {value: data.team8, name: '硕18063党支部'},
+            {value: data.team9, name: '硕19061党支部'},
+            {value: data.team10, name: '硕19062党支部'},
+            {value: data.team11, name: '硕19063党支部'},
+            {value: data.team12, name: '硕19064党支部'},
+            {value: data.team13, name: '硕19065党支部'},
+            {value: data.team14, name: '硕19066党支部'},
+            {value: data.team15, name: '硕19067党支部'},
+            {value: data.team16, name: '硕20061党支部'},
+            {value: data.team17, name: '硕20062党支部'},
+            {value: data.team18, name: '硕20063党支部'},
+            {value: data.team19, name: '硕20064党支部'},
+            {value: data.team20, name: '硕20065党支部'},
+            {value: data.team21, name: '硕20066党支部'},
+            {value: data.team22, name: 'BYACT1党支部'},
+            {value: data.team23, name: 'BYACT2党支部'},
+            {value: data.team24, name: 'BY软国重党支部'},
+            {value: data.team25, name: 'BY软件所党支部'},
+            {value: data.team26, name: 'BY系统结构党支部'},
+            {value: data.team27, name: 'BY虚拟现实党支部'},
+            {value: data.team28, name: 'BY应用1党支部'},
+            {value: data.team29, name: 'BY应用2党支部'},
+            {value: data.team30, name: 'BY应用3党支部'},
           ],
         }]
       });
       columnslist[1].setOption({
-        title: { text: '男女人数' },
+        title: {text: '男女人数'},
         tooltip: {},
         xAxis: {
-          data: ["男","女"]
+          data: ["男", "女"]
         },
         yAxis: {},
         series: [{
@@ -364,7 +425,7 @@ export default {
         }]
       });
       columnslist[2].setOption({
-        title: { text: '党支部成员组成' },
+        title: {text: '党支部成员组成'},
         tooltip: {},
         xAxis: {
           data: ['积极分子', '预备党员', '正式党员']
@@ -377,7 +438,7 @@ export default {
         }]
       })
       columnslist[3].setOption({
-        title: { text: '近3年党支部新增人数' },
+        title: {text: '近3年党支部新增人数'},
         tooltip: {},
         xAxis: {
           data: ['新增积极分子', '新增预备党员', '新增正式党员']
@@ -390,7 +451,7 @@ export default {
         }]
       })
       columnslist[4].setOption({
-        title: { text: '积极分子各年龄段人数' },
+        title: {text: '积极分子各年龄段人数'},
         tooltip: {},
         xAxis: {
           data: ['18-30', '31-40', '41-50', '51-60', '61-70']
@@ -408,7 +469,7 @@ export default {
         }]
       })
       columnslist[5].setOption({
-        title: { text: '预备党员各年龄段人数' },
+        title: {text: '预备党员各年龄段人数'},
         tooltip: {},
         xAxis: {
           data: ['18-30', '31-40', '41-50', '51-60', '61-70']
@@ -426,7 +487,7 @@ export default {
         }]
       })
       columnslist[6].setOption({
-        title: { text: '正式党员各年龄段人数' },
+        title: {text: '正式党员各年龄段人数'},
         tooltip: {},
         xAxis: {
           data: ['18-30', '31-40', '41-50', '51-60', '61-70']
@@ -444,7 +505,7 @@ export default {
         }]
       })
       columnslist[7].setOption({
-        title: { text: '近3年新增积极分子各年龄段人数' },
+        title: {text: '近3年新增积极分子各年龄段人数'},
         tooltip: {},
         xAxis: {
           data: ['18-30', '31-40', '41-50', '51-60', '61-70']
@@ -462,7 +523,7 @@ export default {
         }]
       })
       columnslist[8].setOption({
-        title: { text: '近3年新增预备党员各年龄段人数' },
+        title: {text: '近3年新增预备党员各年龄段人数'},
         tooltip: {},
         xAxis: {
           data: ['18-30', '31-40', '41-50', '51-60', '61-70']
@@ -480,7 +541,7 @@ export default {
         }]
       })
       columnslist[9].setOption({
-        title: { text: '近3年新增正式党员各年龄段人数' },
+        title: {text: '近3年新增正式党员各年龄段人数'},
         tooltip: {},
         xAxis: {
           data: ['18-30', '31-40', '41-50', '51-60', '61-70']
@@ -498,7 +559,7 @@ export default {
         }]
       })
       columnslist[10].setOption({
-        title: { text: '各宿舍区域人数' },
+        title: {text: '各宿舍区域人数'},
         tooltip: {},
         xAxis: {
           data: ['学院路大运村', '学院路校内', '沙河']
@@ -514,10 +575,10 @@ export default {
         }]
       })
       columnslist[11].setOption({
-        title: { text: '各校区人数' },
+        title: {text: '各校区人数'},
         tooltip: {},
         xAxis: {
-          data: ['学院路校区', '沙河校区', '杭州研究所','青岛研究所','苏州研究所','深圳研究所','云南研究所','其他']
+          data: ['学院路校区', '沙河校区', '杭州研究所', '青岛研究所', '苏州研究所', '深圳研究所', '云南研究所', '其他']
         },
         yAxis: {},
         series: [{
@@ -535,7 +596,7 @@ export default {
         }]
       })
       columnslist[12].setOption({
-        title: { text: '各民族人数' },
+        title: {text: '各民族人数'},
         tooltip: {},
         xAxis: {
           data: ['汉族', '少数民族']
@@ -547,516 +608,516 @@ export default {
           data: [data.ethnicHan, data.ethnicOthers],
         }]
       })
-      
+
       cakeslist[0].setOption({
-          title:{
-              text:'各团支部人数',
-              top:'top',
-              left:'center',
-              textStyle:{fontSize: 27,},
-          },
-          tooltip: {
-            trigger: 'item',
-            formatter: "{b} : {c} ({d}%)",
-            backgroundColor: 'skyblue',
-            textStyle: {
-              color: 'pink',
-              fontSize: '18px',
-            }
-          },
-          series: [
-              {
-                  title: { text: '各团支部人数' },
-                  type: 'pie',
-                  radius: '55%',
-                  data:[
-                      {value:data.team2, name:'1706-1党支部'},
-                      {value:data.team3, name:'1706-2党支部'},
-                      {value:data.team4, name:'1806党支部'},
-                      {value:data.team5, name:'1906党支部'},
-                      {value:data.team6, name:'硕18061党支部'},
-                      {value:data.team7, name:'硕18062党支部'},
-                      {value:data.team8, name:'硕18063党支部'},
-                      {value:data.team9, name:'硕19061党支部'},
-                      {value:data.team10, name:'硕19062党支部'},
-                      {value:data.team11, name:'硕19063党支部'},
-                      {value:data.team12, name:'硕19064党支部'},
-                      {value:data.team13, name:'硕19065党支部'},
-                      {value:data.team14, name:'硕19066党支部'},
-                      {value:data.team15, name:'硕19067党支部'},
-                      {value:data.team16, name:'硕20061党支部'},
-                      {value:data.team17, name:'硕20062党支部'},
-                      {value:data.team18, name:'硕20063党支部'},
-                      {value:data.team19, name:'硕20064党支部'},
-                      {value:data.team20, name:'硕20065党支部'},
-                      {value:data.team21, name:'硕20066党支部'},
-                      {value:data.team22, name:'BYACT1党支部'},
-                      {value:data.team23, name:'BYACT2党支部'},
-                      {value:data.team24, name:'BY软国重党支部'},
-                      {value:data.team25, name:'BY软件所党支部'},
-                      {value:data.team26, name:'BY系统结构党支部'},
-                      {value:data.team27, name:'BY虚拟现实党支部'},
-                      {value:data.team28, name:'BY应用1党支部'},
-                      {value:data.team29, name:'BY应用2党支部'},
-                      {value:data.team30, name:'BY应用3党支部'},
-                  ],
-                  itemStyle: {
-                    shadowBlur: 20,
-                    shadowColor: 'rgba(0,0,0,0.5)',
-                  },
-              }
-          ]
+        title: {
+          text: '各党支部人数',
+          top: 'top',
+          left: 'center',
+          textStyle: {fontSize: 27,},
+        },
+        tooltip: {
+          trigger: 'item',
+          formatter: "{b} : {c} ({d}%)",
+          backgroundColor: 'skyblue',
+          textStyle: {
+            color: 'pink',
+            fontSize: '18px',
+          }
+        },
+        series: [
+          {
+            title: {text: '各党支部人数'},
+            type: 'pie',
+            radius: '55%',
+            data: [
+              {value: data.team2, name: '1706-1党支部'},
+              {value: data.team3, name: '1706-2党支部'},
+              {value: data.team4, name: '1806党支部'},
+              {value: data.team5, name: '1906党支部'},
+              {value: data.team6, name: '硕18061党支部'},
+              {value: data.team7, name: '硕18062党支部'},
+              {value: data.team8, name: '硕18063党支部'},
+              {value: data.team9, name: '硕19061党支部'},
+              {value: data.team10, name: '硕19062党支部'},
+              {value: data.team11, name: '硕19063党支部'},
+              {value: data.team12, name: '硕19064党支部'},
+              {value: data.team13, name: '硕19065党支部'},
+              {value: data.team14, name: '硕19066党支部'},
+              {value: data.team15, name: '硕19067党支部'},
+              {value: data.team16, name: '硕20061党支部'},
+              {value: data.team17, name: '硕20062党支部'},
+              {value: data.team18, name: '硕20063党支部'},
+              {value: data.team19, name: '硕20064党支部'},
+              {value: data.team20, name: '硕20065党支部'},
+              {value: data.team21, name: '硕20066党支部'},
+              {value: data.team22, name: 'BYACT1党支部'},
+              {value: data.team23, name: 'BYACT2党支部'},
+              {value: data.team24, name: 'BY软国重党支部'},
+              {value: data.team25, name: 'BY软件所党支部'},
+              {value: data.team26, name: 'BY系统结构党支部'},
+              {value: data.team27, name: 'BY虚拟现实党支部'},
+              {value: data.team28, name: 'BY应用1党支部'},
+              {value: data.team29, name: 'BY应用2党支部'},
+              {value: data.team30, name: 'BY应用3党支部'},
+            ],
+            itemStyle: {
+              shadowBlur: 20,
+              shadowColor: 'rgba(0,0,0,0.5)',
+            },
+          }
+        ]
       })
       cakeslist[1].setOption({
-          title:{
-              text:'男女人数',
-              top:'top',
-              left:'center',
-              textStyle:{fontSize: 27,},
-          },
-          tooltip: {
-            trigger: 'item',
-            formatter: "{b} : {c} ({d}%)",
-            backgroundColor: 'skyblue',
-            textStyle: {
-              color: 'pink',
-              fontSize: '18px',
-            }
-          },
-          series: [
-              {
-                  title: { text: '男女人数' },
-                  type: 'pie',
-                  radius: '55%',
-                  data:[
-                      {value:data.male, name:'男性'},
-                      {value:data.female, name:'女性'},
-                  ],
-                  itemStyle: {
-                    shadowBlur: 20,
-                    shadowColor: 'rgba(0,0,0,0.5)',
-                  },
-              }
-          ]
+        title: {
+          text: '男女人数',
+          top: 'top',
+          left: 'center',
+          textStyle: {fontSize: 27,},
+        },
+        tooltip: {
+          trigger: 'item',
+          formatter: "{b} : {c} ({d}%)",
+          backgroundColor: 'skyblue',
+          textStyle: {
+            color: 'pink',
+            fontSize: '18px',
+          }
+        },
+        series: [
+          {
+            title: {text: '男女人数'},
+            type: 'pie',
+            radius: '55%',
+            data: [
+              {value: data.male, name: '男性'},
+              {value: data.female, name: '女性'},
+            ],
+            itemStyle: {
+              shadowBlur: 20,
+              shadowColor: 'rgba(0,0,0,0.5)',
+            },
+          }
+        ]
       })
       cakeslist[2].setOption({
-          title:{
-              text:'党支部成员组成',
-              top:'top',
-              left:'center',
-              textStyle:{fontSize: 27,},
-          },
-          tooltip: {
-            trigger: 'item',
-            formatter: "{b} : {c} ({d}%)",
-            backgroundColor: 'skyblue',
-            textStyle: {
-              color: 'pink',
-              fontSize: '18px',
-            }
-          },
-          series: [
-              {
-                  title: { text: '男女人数' },
-                  type: 'pie',
-                  radius: '55%',
-                  data:[
-                      {value:data.activist, name:'积极分子'},
-                      {value:data.proMember, name:'预备党员'},
-                      {value:data.realMember, name:'正式党员'},
-                  ],
-                  itemStyle: {
-                    shadowBlur: 20,
-                    shadowColor: 'rgba(0,0,0,0.5)',
-                  },
-              }
-          ]
+        title: {
+          text: '党支部成员组成',
+          top: 'top',
+          left: 'center',
+          textStyle: {fontSize: 27,},
+        },
+        tooltip: {
+          trigger: 'item',
+          formatter: "{b} : {c} ({d}%)",
+          backgroundColor: 'skyblue',
+          textStyle: {
+            color: 'pink',
+            fontSize: '18px',
+          }
+        },
+        series: [
+          {
+            title: {text: '男女人数'},
+            type: 'pie',
+            radius: '55%',
+            data: [
+              {value: data.activist, name: '积极分子'},
+              {value: data.proMember, name: '预备党员'},
+              {value: data.realMember, name: '正式党员'},
+            ],
+            itemStyle: {
+              shadowBlur: 20,
+              shadowColor: 'rgba(0,0,0,0.5)',
+            },
+          }
+        ]
       })
       cakeslist[3].setOption({
-          title:{
-              text:'近3年党支部新增人数',
-              top:'top',
-              left:'center',
-              textStyle:{fontSize: 27,},
-          },
-          tooltip: {
-            trigger: 'item',
-            formatter: "{b} : {c} ({d}%)",
-            backgroundColor: 'skyblue',
-            textStyle: {
-              color: 'pink',
-              fontSize: '18px',
-            }
-          },
-          series: [
-              {
-                  title: { text: '男女人数' },
-                  type: 'pie',
-                  radius: '55%',
-                  data:[
-                      {value:data.newActivist, name:'新增积极分子'},
-                      {value:data.newProMember, name:'新增预备党员'},
-                      {value:data.newRealMember, name:'新增正式党员'},
-                  ],
-                  itemStyle: {
-                    shadowBlur: 20,
-                    shadowColor: 'rgba(0,0,0,0.5)',
-                  },
-              }
-          ]
+        title: {
+          text: '近3年党支部新增人数',
+          top: 'top',
+          left: 'center',
+          textStyle: {fontSize: 27,},
+        },
+        tooltip: {
+          trigger: 'item',
+          formatter: "{b} : {c} ({d}%)",
+          backgroundColor: 'skyblue',
+          textStyle: {
+            color: 'pink',
+            fontSize: '18px',
+          }
+        },
+        series: [
+          {
+            title: {text: '男女人数'},
+            type: 'pie',
+            radius: '55%',
+            data: [
+              {value: data.newActivist, name: '新增积极分子'},
+              {value: data.newProMember, name: '新增预备党员'},
+              {value: data.newRealMember, name: '新增正式党员'},
+            ],
+            itemStyle: {
+              shadowBlur: 20,
+              shadowColor: 'rgba(0,0,0,0.5)',
+            },
+          }
+        ]
       })
       cakeslist[4].setOption({
-          title:{
-              text:'积极分子各年龄段人数',
-              top:'top',
-              left:'center',
-              textStyle:{fontSize: 27,},
-          },
-          tooltip: {
-            trigger: 'item',
-            formatter: "{b} : {c} ({d}%)",
-            backgroundColor: 'skyblue',
-            textStyle: {
-              color: 'pink',
-              fontSize: '18px',
-            }
-          },
-          series: [
-              {
-                  title: { text: '男女人数' },
-                  type: 'pie',
-                  radius: '55%',
-                  data:[
-                      {value:data.activistAge_18_30, name:'18-30'},
-                      {value:data.activistAge_31_40, name:'31-40'},
-                      {value:data.activistAge_41_50, name:'41-50'},
-                      {value:data.activistAge_51_60, name:'51-60'},
-                      {value:data.activistAge_61_70, name:'61-70'},
-                  ],
-                  itemStyle: {
-                    shadowBlur: 20,
-                    shadowColor: 'rgba(0,0,0,0.5)',
-                  },
-              }
-          ]
+        title: {
+          text: '积极分子各年龄段人数',
+          top: 'top',
+          left: 'center',
+          textStyle: {fontSize: 27,},
+        },
+        tooltip: {
+          trigger: 'item',
+          formatter: "{b} : {c} ({d}%)",
+          backgroundColor: 'skyblue',
+          textStyle: {
+            color: 'pink',
+            fontSize: '18px',
+          }
+        },
+        series: [
+          {
+            title: {text: '男女人数'},
+            type: 'pie',
+            radius: '55%',
+            data: [
+              {value: data.activistAge_18_30, name: '18-30'},
+              {value: data.activistAge_31_40, name: '31-40'},
+              {value: data.activistAge_41_50, name: '41-50'},
+              {value: data.activistAge_51_60, name: '51-60'},
+              {value: data.activistAge_61_70, name: '61-70'},
+            ],
+            itemStyle: {
+              shadowBlur: 20,
+              shadowColor: 'rgba(0,0,0,0.5)',
+            },
+          }
+        ]
       })
       cakeslist[5].setOption({
-          title:{
-              text:'预备党员各年龄段人数',
-              top:'top',
-              left:'center',
-              textStyle:{fontSize: 27,},
-          },
-          tooltip: {
-            trigger: 'item',
-            formatter: "{b} : {c} ({d}%)",
-            backgroundColor: 'skyblue',
-            textStyle: {
-              color: 'pink',
-              fontSize: '18px',
-            }
-          },
-          series: [
-              {
-                  title: { text: '男女人数' },
-                  type: 'pie',
-                  radius: '55%',
-                  data:[
-                      {value:data.proMemberAge_18_30, name:'18-30'},
-                      {value:data.proMemberAge_31_40, name:'31-40'},
-                      {value:data.proMemberAge_41_50, name:'41-50'},
-                      {value:data.proMemberAge_51_60, name:'51-60'},
-                      {value:data.proMemberAge_61_70, name:'61-70'},
-                  ],
-                  itemStyle: {
-                    shadowBlur: 20,
-                    shadowColor: 'rgba(0,0,0,0.5)',
-                  },
-              }
-          ]
+        title: {
+          text: '预备党员各年龄段人数',
+          top: 'top',
+          left: 'center',
+          textStyle: {fontSize: 27,},
+        },
+        tooltip: {
+          trigger: 'item',
+          formatter: "{b} : {c} ({d}%)",
+          backgroundColor: 'skyblue',
+          textStyle: {
+            color: 'pink',
+            fontSize: '18px',
+          }
+        },
+        series: [
+          {
+            title: {text: '男女人数'},
+            type: 'pie',
+            radius: '55%',
+            data: [
+              {value: data.proMemberAge_18_30, name: '18-30'},
+              {value: data.proMemberAge_31_40, name: '31-40'},
+              {value: data.proMemberAge_41_50, name: '41-50'},
+              {value: data.proMemberAge_51_60, name: '51-60'},
+              {value: data.proMemberAge_61_70, name: '61-70'},
+            ],
+            itemStyle: {
+              shadowBlur: 20,
+              shadowColor: 'rgba(0,0,0,0.5)',
+            },
+          }
+        ]
       })
       cakeslist[6].setOption({
-          title:{
-              text:'正式党员各年龄段人数',
-              top:'top',
-              left:'center',
-              textStyle:{fontSize: 27,},
-          },
-          tooltip: {
-            trigger: 'item',
-            formatter: "{b} : {c} ({d}%)",
-            backgroundColor: 'skyblue',
-            textStyle: {
-              color: 'pink',
-              fontSize: '18px',
-            }
-          },
-          series: [
-              {
-                  title: { text: '男女人数' },
-                  type: 'pie',
-                  radius: '55%',
-                  data:[
-                      {value:data.realMemberAge_18_30, name:'18岁-30岁'},
-                      {value:data.realMemberAge_31_40, name:'31岁-40岁'},
-                      {value:data.realMemberAge_41_50, name:'41岁-50岁'},
-                      {value:data.realMemberAge_51_60, name:'51岁-60岁'},
-                      {value:data.realMemberAge_61_70, name:'61岁-70岁'},
-                  ],
-                  itemStyle: {
-                    shadowBlur: 20,
-                    shadowColor: 'rgba(0,0,0,0.5)',
-                  },
-              }
-          ]
+        title: {
+          text: '正式党员各年龄段人数',
+          top: 'top',
+          left: 'center',
+          textStyle: {fontSize: 27,},
+        },
+        tooltip: {
+          trigger: 'item',
+          formatter: "{b} : {c} ({d}%)",
+          backgroundColor: 'skyblue',
+          textStyle: {
+            color: 'pink',
+            fontSize: '18px',
+          }
+        },
+        series: [
+          {
+            title: {text: '男女人数'},
+            type: 'pie',
+            radius: '55%',
+            data: [
+              {value: data.realMemberAge_18_30, name: '18岁-30岁'},
+              {value: data.realMemberAge_31_40, name: '31岁-40岁'},
+              {value: data.realMemberAge_41_50, name: '41岁-50岁'},
+              {value: data.realMemberAge_51_60, name: '51岁-60岁'},
+              {value: data.realMemberAge_61_70, name: '61岁-70岁'},
+            ],
+            itemStyle: {
+              shadowBlur: 20,
+              shadowColor: 'rgba(0,0,0,0.5)',
+            },
+          }
+        ]
       })
       cakeslist[7].setOption({
-          title:{
-              text:'近3年新增积极分子各年龄段人数',
-              top:'top',
-              left:'center',
-              textStyle:{fontSize: 27,},
-          },
-          tooltip: {
-            trigger: 'item',
-            formatter: "{b} : {c} ({d}%)",
-            backgroundColor: 'skyblue',
-            textStyle: {
-              color: 'pink',
-              fontSize: '18px',
-            }
-          },
-          series: [
-              {
-                  title: { text: '男女人数' },
-                  type: 'pie',
-                  radius: '55%',
-                  data:[
-                      {value:data.newActivistAge_18_30, name:'18岁-30岁'},
-                      {value:data.newActivistAge_31_40, name:'31岁-40岁'},
-                      {value:data.newActivistAge_41_50, name:'41岁-50岁'},
-                      {value:data.newActivistAge_51_60, name:'51岁-60岁'},
-                      {value:data.newActivistAge_61_70, name:'61岁-70岁'},
-                  ],
-                  itemStyle: {
-                    shadowBlur: 20,
-                    shadowColor: 'rgba(0,0,0,0.5)',
-                  },
-              }
-          ]
+        title: {
+          text: '近3年新增积极分子各年龄段人数',
+          top: 'top',
+          left: 'center',
+          textStyle: {fontSize: 27,},
+        },
+        tooltip: {
+          trigger: 'item',
+          formatter: "{b} : {c} ({d}%)",
+          backgroundColor: 'skyblue',
+          textStyle: {
+            color: 'pink',
+            fontSize: '18px',
+          }
+        },
+        series: [
+          {
+            title: {text: '男女人数'},
+            type: 'pie',
+            radius: '55%',
+            data: [
+              {value: data.newActivistAge_18_30, name: '18岁-30岁'},
+              {value: data.newActivistAge_31_40, name: '31岁-40岁'},
+              {value: data.newActivistAge_41_50, name: '41岁-50岁'},
+              {value: data.newActivistAge_51_60, name: '51岁-60岁'},
+              {value: data.newActivistAge_61_70, name: '61岁-70岁'},
+            ],
+            itemStyle: {
+              shadowBlur: 20,
+              shadowColor: 'rgba(0,0,0,0.5)',
+            },
+          }
+        ]
       })
       cakeslist[8].setOption({
-          title:{
-              text:'近3年新增预备党员各年龄段人数',
-              top:'top',
-              left:'center',
-              textStyle:{fontSize: 27,},
-          },
-          tooltip: {
-            trigger: 'item',
-            formatter: "{b} : {c} ({d}%)",
-            backgroundColor: 'skyblue',
-            textStyle: {
-              color: 'pink',
-              fontSize: '18px',
-            }
-          },
-          series: [
-              {
-                  title: { text: '男女人数' },
-                  type: 'pie',
-                  radius: '55%',
-                  data:[
-                      {value:data.newProMemberAge_18_30, name:'18岁-30岁'},
-                      {value:data.newProMemberAge_31_40, name:'31岁-40岁'},
-                      {value:data.newProMemberAge_41_50, name:'41岁-50岁'},
-                      {value:data.newProMemberAge_51_60, name:'51岁-60岁'},
-                      {value:data.newProMemberAge_61_70, name:'61岁-70岁'},
-                  ],
-                  itemStyle: {
-                    shadowBlur: 20,
-                    shadowColor: 'rgba(0,0,0,0.5)',
-                  },
-              }
-          ]
+        title: {
+          text: '近3年新增预备党员各年龄段人数',
+          top: 'top',
+          left: 'center',
+          textStyle: {fontSize: 27,},
+        },
+        tooltip: {
+          trigger: 'item',
+          formatter: "{b} : {c} ({d}%)",
+          backgroundColor: 'skyblue',
+          textStyle: {
+            color: 'pink',
+            fontSize: '18px',
+          }
+        },
+        series: [
+          {
+            title: {text: '男女人数'},
+            type: 'pie',
+            radius: '55%',
+            data: [
+              {value: data.newProMemberAge_18_30, name: '18岁-30岁'},
+              {value: data.newProMemberAge_31_40, name: '31岁-40岁'},
+              {value: data.newProMemberAge_41_50, name: '41岁-50岁'},
+              {value: data.newProMemberAge_51_60, name: '51岁-60岁'},
+              {value: data.newProMemberAge_61_70, name: '61岁-70岁'},
+            ],
+            itemStyle: {
+              shadowBlur: 20,
+              shadowColor: 'rgba(0,0,0,0.5)',
+            },
+          }
+        ]
       })
       cakeslist[9].setOption({
-          title:{
-              text:'近3年新增正式党员各年龄段人数',
-              top:'top',
-              left:'center',
-              textStyle:{fontSize: 27,},
-          },
-          tooltip: {
-            trigger: 'item',
-            formatter: "{b} : {c} ({d}%)",
-            backgroundColor: 'skyblue',
-            textStyle: {
-              color: 'pink',
-              fontSize: '18px',
-            }
-          },
-          series: [
-              {
-                  title: { text: '男女人数' },
-                  type: 'pie',
-                  radius: '55%',
-                  data:[
-                      {value:data.newRealMemberAge_18_30, name:'18岁-30岁'},
-                      {value:data.newRealMemberAge_31_40, name:'31岁-40岁'},
-                      {value:data.newRealMemberAge_41_50, name:'41岁-50岁'},
-                      {value:data.newRealMemberAge_51_60, name:'51岁-60岁'},
-                      {value:data.newRealMemberAge_61_70, name:'61岁-70岁'},
-                  ],
-                  itemStyle: {
-                    shadowBlur: 20,
-                    shadowColor: 'rgba(0,0,0,0.5)',
-                  },
-              }
-          ]
+        title: {
+          text: '近3年新增正式党员各年龄段人数',
+          top: 'top',
+          left: 'center',
+          textStyle: {fontSize: 27,},
+        },
+        tooltip: {
+          trigger: 'item',
+          formatter: "{b} : {c} ({d}%)",
+          backgroundColor: 'skyblue',
+          textStyle: {
+            color: 'pink',
+            fontSize: '18px',
+          }
+        },
+        series: [
+          {
+            title: {text: '男女人数'},
+            type: 'pie',
+            radius: '55%',
+            data: [
+              {value: data.newRealMemberAge_18_30, name: '18岁-30岁'},
+              {value: data.newRealMemberAge_31_40, name: '31岁-40岁'},
+              {value: data.newRealMemberAge_41_50, name: '41岁-50岁'},
+              {value: data.newRealMemberAge_51_60, name: '51岁-60岁'},
+              {value: data.newRealMemberAge_61_70, name: '61岁-70岁'},
+            ],
+            itemStyle: {
+              shadowBlur: 20,
+              shadowColor: 'rgba(0,0,0,0.5)',
+            },
+          }
+        ]
       })
       cakeslist[10].setOption({
-          title:{
-              text:'各宿舍区域人数',
-              top:'top',
-              left:'center',
-              textStyle:{fontSize: 27,},
-          },
-          tooltip: {
-            trigger: 'item',
-            formatter: "{b} : {c} ({d}%)",
-            backgroundColor: 'skyblue',
-            textStyle: {
-              color: 'pink',
-              fontSize: '18px',
-            }
-          },
-          series: [
-              {
-                  title: { text: '男女人数' },
-                  type: 'pie',
-                  radius: '55%',
-                  data:[
-                      {value:data.dormPlace1, name:'学院路大运村'},
-                      {value:data.dormPlace2, name:'学院路校内'},
-                      {value:data.dormPlace3, name:'沙河'},
-                  ],
-                  itemStyle: {
-                    shadowBlur: 20,
-                    shadowColor: 'rgba(0,0,0,0.5)',
-                  },
-              }
-          ]
+        title: {
+          text: '各宿舍区域人数',
+          top: 'top',
+          left: 'center',
+          textStyle: {fontSize: 27,},
+        },
+        tooltip: {
+          trigger: 'item',
+          formatter: "{b} : {c} ({d}%)",
+          backgroundColor: 'skyblue',
+          textStyle: {
+            color: 'pink',
+            fontSize: '18px',
+          }
+        },
+        series: [
+          {
+            title: {text: '男女人数'},
+            type: 'pie',
+            radius: '55%',
+            data: [
+              {value: data.dormPlace1, name: '学院路大运村'},
+              {value: data.dormPlace2, name: '学院路校内'},
+              {value: data.dormPlace3, name: '沙河'},
+            ],
+            itemStyle: {
+              shadowBlur: 20,
+              shadowColor: 'rgba(0,0,0,0.5)',
+            },
+          }
+        ]
       })
       cakeslist[11].setOption({
-          title:{
-              text:'各校区人数',
-              top:'top',
-              left:'center',
-              textStyle:{fontSize: 27,},
-          },
-          tooltip: {
-            trigger: 'item',
-            formatter: "{b} : {c} ({d}%)",
-            backgroundColor: 'skyblue',
-            textStyle: {
-              color: 'pink',
-              fontSize: '18px',
-            }
-          },
-          series: [
-              {
-                  title: { text: '男女人数' },
-                  type: 'pie',
-                  radius: '55%',
-                  data:[
-                      {value:data.campusPlace1, name:'学院路校区'},
-                      {value:data.campusPlace2, name:'沙河校区'},
-                      {value:data.campusPlace3, name:'杭州研究所'},
-                      {value:data.campusPlace4, name:'青岛研究所'},
-                      {value:data.campusPlace5, name:'苏州研究所'},
-                      {value:data.campusPlace6, name:'深圳研究所'},
-                      {value:data.campusPlace7, name:'杭州研究所'},
-                      {value:data.campusPlace8, name:'其他'},
-                  ],
-                  itemStyle: {
-                    shadowBlur: 20,
-                    shadowColor: 'rgba(0,0,0,0.5)',
-                  },
-              }
-          ]
+        title: {
+          text: '各校区人数',
+          top: 'top',
+          left: 'center',
+          textStyle: {fontSize: 27,},
+        },
+        tooltip: {
+          trigger: 'item',
+          formatter: "{b} : {c} ({d}%)",
+          backgroundColor: 'skyblue',
+          textStyle: {
+            color: 'pink',
+            fontSize: '18px',
+          }
+        },
+        series: [
+          {
+            title: {text: '男女人数'},
+            type: 'pie',
+            radius: '55%',
+            data: [
+              {value: data.campusPlace1, name: '学院路校区'},
+              {value: data.campusPlace2, name: '沙河校区'},
+              {value: data.campusPlace3, name: '杭州研究所'},
+              {value: data.campusPlace4, name: '青岛研究所'},
+              {value: data.campusPlace5, name: '苏州研究所'},
+              {value: data.campusPlace6, name: '深圳研究所'},
+              {value: data.campusPlace7, name: '杭州研究所'},
+              {value: data.campusPlace8, name: '其他'},
+            ],
+            itemStyle: {
+              shadowBlur: 20,
+              shadowColor: 'rgba(0,0,0,0.5)',
+            },
+          }
+        ]
       })
       cakeslist[12].setOption({
-          title:{
-              text:'各民族人数',
-              top:'top',
-              left:'center',
-              textStyle:{fontSize: 27,},
-          },
-          tooltip: {
-            trigger: 'item',
-            formatter: "{b} : {c} ({d}%)",
-            backgroundColor: 'skyblue',
-            textStyle: {
-              color: 'pink',
-              fontSize: '18px',
-            }
-          },
-          series: [
-              {
-                  title: { text: '男女人数' },
-                  type: 'pie',
-                  radius: '55%',
-                  data:[
-                      {value:data.ethnicHan, name:'汉族'},
-                      {value:data.ethnicOthers, name:'少数民族'},
-                  ],
-                  itemStyle: {
-                    shadowBlur: 20,
-                    shadowColor: 'rgba(0,0,0,0.5)',
-                  },
-              }
-          ]
+        title: {
+          text: '各民族人数',
+          top: 'top',
+          left: 'center',
+          textStyle: {fontSize: 27,},
+        },
+        tooltip: {
+          trigger: 'item',
+          formatter: "{b} : {c} ({d}%)",
+          backgroundColor: 'skyblue',
+          textStyle: {
+            color: 'pink',
+            fontSize: '18px',
+          }
+        },
+        series: [
+          {
+            title: {text: '男女人数'},
+            type: 'pie',
+            radius: '55%',
+            data: [
+              {value: data.ethnicHan, name: '汉族'},
+              {value: data.ethnicOthers, name: '少数民族'},
+            ],
+            itemStyle: {
+              shadowBlur: 20,
+              shadowColor: 'rgba(0,0,0,0.5)',
+            },
+          }
+        ]
       })
-      
+
       lineslist[0].setOption({
         title: {
-          text: '各团支部人数',
+          text: '各党支部人数',
           x: 'center',
         },
         xAxis: {
-            data: [
-              '1706-1党支部',
-              '1706-2党支部',
-              '1806党支部',
-              '1906党支部',
-              '硕18061党支部',
-              '硕18062党支部',
-              '硕18063党支部',
-              '硕19061党支部',
-              '硕19062党支部',
-              '硕19063党支部',
-              '硕19064党支部',
-              '硕19065党支部',
-              '硕19066党支部',
-              '硕19067党支部',
-              '硕20061党支部',
-              '硕20062党支部',
-              '硕20063党支部',
-              '硕20064党支部',
-              '硕20065党支部',
-              '硕20066党支部',
-              'BYACT1党支部',
-              'BYACT2党支部',
-              'BY软国重党支部',
-              'BY软件所党支部',
-              'BY系统结构党支部',
-              'BY虚拟现实党支部',
-              'BY应用1党支部',
-              'BY应用2党支部',
-              'BY应用3党支部',
-            ],
-          },
+          data: [
+            '1706-1党支部',
+            '1706-2党支部',
+            '1806党支部',
+            '1906党支部',
+            '硕18061党支部',
+            '硕18062党支部',
+            '硕18063党支部',
+            '硕19061党支部',
+            '硕19062党支部',
+            '硕19063党支部',
+            '硕19064党支部',
+            '硕19065党支部',
+            '硕19066党支部',
+            '硕19067党支部',
+            '硕20061党支部',
+            '硕20062党支部',
+            '硕20063党支部',
+            '硕20064党支部',
+            '硕20065党支部',
+            '硕20066党支部',
+            'BYACT1党支部',
+            'BYACT2党支部',
+            'BY软国重党支部',
+            'BY软件所党支部',
+            'BY系统结构党支部',
+            'BY虚拟现实党支部',
+            'BY应用1党支部',
+            'BY应用2党支部',
+            'BY应用3党支部',
+          ],
+        },
         yAxis: {
           name: '人数',
           type: 'value',
@@ -1065,13 +1126,13 @@ export default {
           {
             name: '人数',
             data: [
-              data.team2,data.team3,data.team4,data.team5,
-              data.team6,data.team7,data.team8,data.team9,
-              data.team10,data.team11,data.team12,data.team13,
-              data.team14,data.team15,data.team16,data.team17,
-              data.team18,data.team19,data.team20,data.team21,
-              data.team22,data.team23,data.team24,data.team25,
-              data.team26,data.team27,data.team28,data.team29,
+              data.team2, data.team3, data.team4, data.team5,
+              data.team6, data.team7, data.team8, data.team9,
+              data.team10, data.team11, data.team12, data.team13,
+              data.team14, data.team15, data.team16, data.team17,
+              data.team18, data.team19, data.team20, data.team21,
+              data.team22, data.team23, data.team24, data.team25,
+              data.team26, data.team27, data.team28, data.team29,
               data.team30,],
             type: 'line',
           }
@@ -1086,8 +1147,8 @@ export default {
           x: 'center',
         },
         xAxis: {
-            data: ['男', '女'],
-          },
+          data: ['男', '女'],
+        },
         yAxis: {
           name: '人数',
           type: 'value',
@@ -1109,8 +1170,8 @@ export default {
           x: 'center',
         },
         xAxis: {
-            data: ['积极分子', '预备党员','正式党员'],
-          },
+          data: ['积极分子', '预备党员', '正式党员'],
+        },
         yAxis: {
           name: '人数',
           type: 'value',
@@ -1132,8 +1193,8 @@ export default {
           x: 'center',
         },
         xAxis: {
-            data: ['新增积极分子', '新增预备党员', '新增正式党员']
-          },
+          data: ['新增积极分子', '新增预备党员', '新增正式党员']
+        },
         yAxis: {
           name: '人数',
           type: 'value',
@@ -1155,7 +1216,7 @@ export default {
           x: 'center',
         },
         xAxis: {
-            data: ['18-30', '31-40', '41-50', '51-60', '61-70']
+          data: ['18-30', '31-40', '41-50', '51-60', '61-70']
         },
         yAxis: {
           name: '人数',
@@ -1183,8 +1244,8 @@ export default {
           x: 'center',
         },
         xAxis: {
-            data: ['18-30', '31-40', '41-50', '51-60', '61-70']
-          },
+          data: ['18-30', '31-40', '41-50', '51-60', '61-70']
+        },
         yAxis: {
           name: '人数',
           type: 'value',
@@ -1211,8 +1272,8 @@ export default {
           x: 'center',
         },
         xAxis: {
-            data: ['18-30', '31-40', '41-50', '51-60', '61-70']
-          },
+          data: ['18-30', '31-40', '41-50', '51-60', '61-70']
+        },
         yAxis: {
           name: '人数',
           type: 'value',
@@ -1239,8 +1300,8 @@ export default {
           x: 'center',
         },
         xAxis: {
-            data: ['18-30', '31-40', '41-50', '51-60', '61-70']
-          },
+          data: ['18-30', '31-40', '41-50', '51-60', '61-70']
+        },
         yAxis: {
           name: '人数',
           type: 'value',
@@ -1267,8 +1328,8 @@ export default {
           x: 'center',
         },
         xAxis: {
-            data: ['18-30', '31-40', '41-50', '51-60', '61-70']
-          },
+          data: ['18-30', '31-40', '41-50', '51-60', '61-70']
+        },
         yAxis: {
           name: '人数',
           type: 'value',
@@ -1295,8 +1356,8 @@ export default {
           x: 'center',
         },
         xAxis: {
-            data: ['18-30', '31-40', '41-50', '51-60', '61-70']
-          },
+          data: ['18-30', '31-40', '41-50', '51-60', '61-70']
+        },
         yAxis: {
           name: '人数',
           type: 'value',
@@ -1323,8 +1384,8 @@ export default {
           x: 'center',
         },
         xAxis: {
-            data: ['学院路大运村', '学院路校内', '沙河']
-          },
+          data: ['学院路大运村', '学院路校内', '沙河']
+        },
         yAxis: {
           name: '人数',
           type: 'value',
@@ -1349,8 +1410,8 @@ export default {
           x: 'center',
         },
         xAxis: {
-            data: ['学院路校区', '沙河校区', '杭州研究所','青岛研究所','苏州研究所','深圳研究所','云南研究所','其他']
-          },
+          data: ['学院路校区', '沙河校区', '杭州研究所', '青岛研究所', '苏州研究所', '深圳研究所', '云南研究所', '其他']
+        },
         yAxis: {
           name: '人数',
           type: 'value',
@@ -1380,8 +1441,8 @@ export default {
           x: 'center',
         },
         xAxis: {
-            data: ['汉族', '少数民族']
-          },
+          data: ['汉族', '少数民族']
+        },
         yAxis: {
           name: '人数',
           type: 'value',
@@ -1401,29 +1462,37 @@ export default {
     handleChange(value) {
       console.log(value);
     },
-    
-    // 所选择的团支部改变时，发送请求获取改团支部的信息
+
+    // 所选择的党支部改变时，发送请求获取改党支部的信息
     changeTeam() {
-      var teamName;                       // 要获取的团支部名字
+      var teamName;                       // 要获取的党支部名字
       // 获取teamName begin
       var len = this.teamoptions.length;
-      for(var i = 0; i < len; i ++) {
-        if(this.teamoptions[i].value == this.team) {
+      for (var i = 0; i < len; i++) {
+        if (this.teamoptions[i].value == this.team) {
           teamName = this.teamoptions[i].label;
           break;
         }
       }
       // 获取teamName end
       axios({
-        url: '9999',
-        method: 'get',
-        data: teamName,
-      }).then((res) => {
-        this.data = res.data;
-        this.drawLine();
-      }).catch(() => {
-        alert('获取信息失败！');
+        url: '/api/graph/team',
+        method: 'post',
+        params: {
+          teamName: teamName,
+        }
+      }).then(res => {
+        if (res.data.flag) {
+          this.data = res.data.data;
+          console.log("获取信息成功");
+          this.drawLine();
+        } else {
+          console.log("获取信息失败！");
+        }
+      }).catch(err => {
+        console.log(err);
       })
+
     }
   }
 }
