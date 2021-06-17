@@ -1538,7 +1538,8 @@ export default {
         url: '/api/graph/team',
         method: 'post',
         params: {
-          value: value,
+          type: value[0],
+          gradeOrTeamName: value[1]
         }
       }).then(res => {
         if (res.data.flag) {
