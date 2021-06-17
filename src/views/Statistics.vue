@@ -366,7 +366,7 @@ export default {
       // 绘制图表
       columnslist[0].setOption({
         title: {
-          text: '各团支部人数',
+          text: '各党支部人数',
           top: 'top',
           left: 'center',
         },
@@ -442,7 +442,7 @@ export default {
         }]
       });
       columnslist[1].setOption({
-        title: { 
+        title: {
           text: '男女人数',
           top: 'top',
           left: 'center', },
@@ -458,7 +458,7 @@ export default {
         }]
       });
       columnslist[2].setOption({
-        title: { 
+        title: {
           text: '党支部成员组成',
           top: 'top',
           left: 'center', },
@@ -474,7 +474,7 @@ export default {
         }]
       })
       columnslist[3].setOption({
-        title: { 
+        title: {
           text: '近3年党支部新增人数',
           top: 'top',
           left: 'center', },
@@ -490,7 +490,7 @@ export default {
         }]
       })
       columnslist[4].setOption({
-        title: { 
+        title: {
           text: '积极分子各年龄段人数',
           top: 'top',
           left: 'center', },
@@ -511,7 +511,7 @@ export default {
         }]
       })
       columnslist[5].setOption({
-        title: { 
+        title: {
           text: '预备党员各年龄段人数',
           top: 'top',
           left: 'center', },
@@ -532,7 +532,7 @@ export default {
         }]
       })
       columnslist[6].setOption({
-        title: { 
+        title: {
           text: '正式党员各年龄段人数',
           top: 'top',
           left: 'center', },
@@ -553,7 +553,7 @@ export default {
         }]
       })
       columnslist[7].setOption({
-        title: { 
+        title: {
           text: '近3年新增积极分子各年龄段人数',
           top: 'top',
           left: 'center', },
@@ -574,7 +574,7 @@ export default {
         }]
       })
       columnslist[8].setOption({
-        title: { 
+        title: {
           text: '近3年新增预备党员各年龄段人数',
           top: 'top',
           left: 'center', },
@@ -595,7 +595,7 @@ export default {
         }]
       })
       columnslist[9].setOption({
-        title: { 
+        title: {
           text: '近3年新增正式党员各年龄段人数',
           top: 'top',
           left: 'center', },
@@ -616,7 +616,7 @@ export default {
         }]
       })
       columnslist[10].setOption({
-        title: { 
+        title: {
           text: '各宿舍区域人数',
           top: 'top',
           left: 'center', },
@@ -635,7 +635,7 @@ export default {
         }]
       })
       columnslist[11].setOption({
-        title: { 
+        title: {
           text: '各校区人数',
           top: 'top',
           left: 'center', },
@@ -659,7 +659,7 @@ export default {
         }]
       })
       columnslist[12].setOption({
-        title: { 
+        title: {
           text: '各民族人数',
           top: 'top',
           left: 'center', },
@@ -1525,8 +1525,8 @@ export default {
         },
       })
     },
-    
-    // 所选择的团支部改变时，发送请求获取改团支部的信息
+
+    // 所选择的党支部改变时，发送请求获取改党支部的信息
     changeFlag(value) {
       // 确定 lineAll, columnAll, cakeAll 是否展示
       if(value[0] == 'team' && value[1] != 'team1') {
