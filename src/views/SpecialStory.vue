@@ -183,27 +183,31 @@
           ></v-select>
         </div>
         <div style="display: inline-block; position: relative; top: 5px;">
-          <v-pagination v-model="page" :length="pageCount"></v-pagination>
+          <v-container class="max-width">
+            <v-pagination :total-visible="10" v-model="page" :length="pageCount"></v-pagination>
+          </v-container>
         </div>
         <div style="display: inline-block; margin-right:10px; font-weight:700; color:#0D4C7F;">
           跳至
         </div>
         <div style="display: inline-block;">
           <v-text-field
-            :value="page"
-            type="number"
-            min="1"
-            style="width: 100px;"
-            :max="pageCount"
-            single-line
-            required
-            outlined
-            dense
+              v-model="yourpage"
+              type="number"
+              min="1"
+              style="width: 100px;"
+              :max="pageCount"
+              single-line
+              required
+              outlined
+              dense
           ></v-text-field>
         </div>
         <div style="display: inline-block; margin-left:10px; font-weight:700; color:#0D4C7F;">
           页
         </div>
+        <v-btn depressed large style="margin-left:10px;background-color:rgba(71, 112, 166, 0.996078431372549);color:white;" @click="pageTo()">跳转</v-btn>
+
       </div>
     </div>
   </div>
@@ -230,6 +234,7 @@
     data () {
       return {
         chinesename: '特殊事迹管理',
+        yourpage: 1,
         name: '',
         id: '',
         story: '',
@@ -287,6 +292,10 @@
     },
     
     methods: {
+      pageTo(){
+        console.log(this.yourpage);
+        this.page = parseInt(this.yourpage);
+      },
       newStory() {
           this.id = '';
           this.name = '';
