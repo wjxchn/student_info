@@ -22,6 +22,7 @@
         <v-icon v-if="userType==='student'" large style="height:80px;width:80px;" dark @click="toaskforleave">timer</v-icon>
         <v-icon v-if="userType==='admin'" large style="height:80px;width:80px;" dark @click="tocancelleave">timer</v-icon>
         <v-icon v-if="userType==='admin'" large style="height:80px;width:80px;" dark @click="tospecialstory">palette</v-icon>
+        <v-icon small style="height:80px;width:80px;" dark @click="logout">退出登录</v-icon>
       </div>
     </div>
     <div class="basic_info_title">
@@ -73,6 +74,10 @@ export default {
     }
   },
   methods: {
+    logout(){
+      localStorage.setItem("Authorization", "");
+      this.$router.push('/login');
+    },
     tostudentpage(){
       this.$router.push('/studentpage');
     },

@@ -2287,14 +2287,16 @@
           ></v-select>
         </div>
         <div style="display: inline-block; position: relative; top: 5px;">
-          <v-pagination v-model="page" :length="pageCount"></v-pagination>
+          <v-container class="max-width">
+            <v-pagination :total-visible="10" v-model="page" :length="pageCount"></v-pagination>
+          </v-container>
         </div>
         <div style="display: inline-block; margin-right:10px; font-weight:700; color:#0D4C7F;">
           跳至
         </div>
         <div style="display: inline-block;">
           <v-text-field
-              :value="page"
+              v-model="yourpage"
               type="number"
               min="1"
               style="width: 100px;"
@@ -2308,6 +2310,8 @@
         <div style="display: inline-block; margin-left:10px; font-weight:700; color:#0D4C7F;">
           页
         </div>
+        <v-btn depressed large style="margin-left:10px;background-color:rgba(71, 112, 166, 0.996078431372549);color:white;" @click="pageTo()">跳转</v-btn>
+
       </div>
     </div>
   </div>
@@ -2326,6 +2330,7 @@ export default {
     return {
       chinesename: '基本信息管理',
       valid: true,
+      yourpage: 1,
       addform: {
         imgsrc: require('../assets/basicinfo/u264.svg'),
         name: '',
@@ -2657,10 +2662,13 @@ export default {
     }
   },
   methods: {
+    pageTo(){
+      console.log(this.yourpage);
+      this.page = parseInt(this.yourpage);
+    },
     genfromidnum() {
       if (this.addform.idnum.length == 18) {
         var idnum = this.addform.idnum;
-        //440883199707272614
         var year = idnum.substring(6, 10);
         var month = idnum.substring(10, 12);
         var day = idnum.substring(12, 14);
@@ -2865,8 +2873,8 @@ export default {
       }
     },
     exportfunc() {
-      if(this.selected.length === 0){
-        return ;
+      if (this.selected.length === 0) {
+        return;
       }
 
       var cat = "";
@@ -2875,7 +2883,7 @@ export default {
         cat = cat + this.selected[i].schoolid + "-";
       }
 
-      window.location.href = "http://127.0.0.1:9999/api/excel/" + cat+"?auth="+localStorage.getItem('Authorization');
+      window.location.href = "http://127.0.0.1:9999/api/excel/" + cat + "?auth=" + localStorage.getItem('Authorization');
       // axios({
       //   url: '/api/excel',
       //   method: 'post',
