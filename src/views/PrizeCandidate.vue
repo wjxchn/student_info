@@ -48,7 +48,7 @@
       </div>
       <div class="text-center pt-2">
         <div style="display: inline-block; margin-right:10px; font-weight:700; color:#0D4C7F;">
-          共50条
+          共{{ desserts.length }}条
         </div>
         <div style="display: inline-block;">
           <v-select
