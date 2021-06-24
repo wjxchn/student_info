@@ -495,7 +495,7 @@
         <!--        <v-btn color="success" width="100px" style="margin-top:20px;margin-bottom:40px;" @click="submit"-->
         <!--               :disabled="!valid">确定-->
         <!--        </v-btn>-->
-        <v-btn color="success" width="100px" style="margin-top:20px;margin-bottom:40px;" @click="submit">提交信息</v-btn>
+        <v-btn color="success" width="100px" style="margin-top:20px;margin-bottom:40px;" @click="open" :disabled="form.submited === 999 || form.submited === '999'">提交信息</v-btn>
       </div>
     </div>
 
@@ -521,11 +521,11 @@ export default {
         '硕18063党支部', '硕19061党支部', '硕19062党支部', '硕19063党支部', '硕19064党支部', '硕19065党支部',
         '硕19066党支部', '硕19067党支部', '硕20061党支部', '硕20062党支部', '硕20063党支部', '硕20064党支部',
         '硕20065党支部', '硕20066党支部', 'BYACT1党支部', 'BYACT2党支部', 'BY软国重党支部', 'BY软件所党支部',
-        'BY系统结构党支部', 'BY虚拟现实党支部', 'BY应用1党支部', 'BY应用2党支部', 'BY应用3党支部'],
+        'BY系统结构党支部', 'BY虚拟现实党支部', 'BY应用1党支部', 'BY应用2党支部', 'BY应用3党支部','辅导员党支部'],
       branchsecretarynamearr: ['程添红', '罗钧宇', '李何贝子', '张凯宁', '王欣',
         '张松', '张瑞', '汪凌风', '孙培林', '张梦泽', '张一帆', '王亚', '王雅卉'
         , '王柳迪', '郑健', '魏淑越', '刘晟', '吕澳辉', '郭桐', '高小博', '乔同',
-        '马广辉', '刘琳', '冯惠妍', '张琪', '牛钰浩', '王思哲', '侯璞玥', '牛广林'],
+        '马广辉', '刘琳', '冯惠妍', '张琪', '牛钰浩', '王思哲', '侯璞玥', '牛广林','冯维成'],
       form: {
         name: "",
         schoolid: "",
@@ -581,7 +581,8 @@ export default {
         changebranchold: "",
         changebranchtnew: "",
         registerdtime: "",
-        imgsrc: ""
+        imgsrc: "",
+        submited: "0"
       },
 
       formaltime: {
@@ -721,8 +722,25 @@ export default {
           document.getElementById("imgpreshow").style.display = "block";
         };
       }
-
-
+    },
+    open() {
+      this.$confirm('是否提交？注意：您只有1次提交机会！', '提示', {
+        confirmButtonText: '确定提交',
+        cancelButtonText: '取消',
+      }).then(() => {
+        this.submit();
+        this.form.submited = 999;
+        // this.$router.push("/studentpage");
+        this.$message({
+          type: 'success',
+          message: '成功提交'
+        });
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '取消提交'
+        });
+      });
     },
     submit() {
       if (this.formData !== "") {
@@ -740,11 +758,12 @@ export default {
           }
         }).then(res => {
           if (res.data.flag) {
-            console.log("图片上传成功！");
-            console.log(res.data.filename);
+            this.formData = "";
+            // console.log("图片上传成功！");
+            // console.log(res.data.filename);
             this.form.imgsrc = res.data.filename;
-            console.log(this.form.imgsrc);
-            console.log("图片上传成功！");
+            // console.log(this.form.imgsrc);
+            // console.log("图片上传成功！");
             // // 注意上面的这个函数和下面是异步执行的；submitImg未执行完时，下面就开始执行了，
             //分开写时，两个请求是同时发的
             // console.log("图片路径");
@@ -771,9 +790,12 @@ export default {
         data: this.form
       }).then(res => {
         if (res.data.flag) {
-          alert("保存成功！");
+          this.$message({
+            message: '保存成功!',
+            type: 'success'
+          });
         } else {
-          alert("保存失败！");
+          this.$message.error('保存失败！');
         }
       })
     }
@@ -793,6 +815,15 @@ export default {
       var flag = res.data.flag;
       if (flag) {
         this.form = res.data.Stuinfo;
+        if (this.form.idnum.length == 18) {
+          var idnum = this.form.idnum;
+
+          var year = idnum.substring(6, 10);
+          var month = idnum.substring(10, 12);
+          var day = idnum.substring(12, 14);
+          this.form.birthdate = year + "-" + month + "-" + day;
+          this.form.age = new Date().getYear() + 1900 - year;
+        }
       }
     })
 

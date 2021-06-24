@@ -37,9 +37,9 @@ axios.interceptors.response.use((response) => {
         }
     },
     function (error) {
-        if (666 === error.response.status || 555 === error.response.status || error.response.status == "UNKNOWN") {
+        if (666 === error.response.status || 555 === error.response.status ) {
             window.location.href = '/#/login';
-        } else if (444 === error.response.status || error.response.status == "UNKNOWN") {
+        } else if (444 === error.response.status) {
             window.location.href = '/#/studentpage';
         } else {
             return Promise.reject(error);

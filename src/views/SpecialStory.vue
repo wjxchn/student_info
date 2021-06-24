@@ -183,27 +183,30 @@
           ></v-select>
         </div>
         <div style="display: inline-block; position: relative; top: 5px;">
-          <v-pagination v-model="page" :length="pageCount"></v-pagination>
+          <v-container class="max-width">
+            <v-pagination :total-visible="10" v-model="page" :length="pageCount"></v-pagination>
+          </v-container>
         </div>
         <div style="display: inline-block; margin-right:10px; font-weight:700; color:#0D4C7F;">
           跳至
         </div>
         <div style="display: inline-block;">
           <v-text-field
-            :value="page"
-            type="number"
-            min="1"
-            style="width: 100px;"
-            :max="pageCount"
-            single-line
-            required
-            outlined
-            dense
+              v-model="yourpage"
+              type="number"
+              min="1"
+              style="width: 100px;"
+              :max="pageCount"
+              single-line
+              required
+              outlined
+              dense
           ></v-text-field>
         </div>
         <div style="display: inline-block; margin-left:10px; font-weight:700; color:#0D4C7F;">
           页
         </div>
+        <v-btn depressed large style="margin-left:10px;background-color:rgba(71, 112, 166, 0.996078431372549);color:white;" @click="pageTo()">跳转</v-btn>
       </div>
     </div>
   </div>
@@ -230,6 +233,7 @@
     data () {
       return {
         chinesename: '特殊事迹管理',
+        yourpage: 1,
         name: '',
         id: '',
         story: '',
@@ -251,6 +255,8 @@
         headers: [
           { text: '学号', value: 'studentid', align: 'center',width: '150px' },
           { text: '姓名', value: 'studentname', align: 'center',width: '150px' },
+          { text: '导师', value: 'teacher', align: 'center', width: '150px'},
+          { text: '电话', value: 'phone', align: 'center', width: '150px'},
           { text: '特殊事迹', value: 'storyTitle', align: 'center',width: '150px' },
           { text: '登记日期', value: 'addtime', align: 'center',width: '150px' },
           { text: '操作', value: 'operation', align: 'center', sortable:false, width: '300px' },
@@ -266,6 +272,8 @@
             studentid: '18362329',
             studentname: '张三',
             storyTitle: '见义勇为',
+            teacher: '张四',
+            phone: '18883553999',
             addtime: '2021-06-01 09:22',
             story: '这是一个故事这是一个故事这是一个故事这是一个故事这是一个故事这是一个故事这是一个故事这是一个故事这是一个故事'
           },{
@@ -273,6 +281,8 @@
             studentid: '18362330',
             studentname: '张三',
             storyTitle: '见义勇为',
+            teacher: '张五',
+            phone: '18883553999',
             addtime: '2021-06-01 09:22',
             story: '这是一个故事这是一个故事这是一个故事这是一个故事这是一个故事这是一个故事这是一个故事这是一个故事这是一个故事'
           },
@@ -281,6 +291,10 @@
     },
     
     methods: {
+      pageTo(){
+        console.log(this.yourpage);
+        this.page = parseInt(this.yourpage);
+      },
       newStory() {
           this.id = '';
           this.name = '';
