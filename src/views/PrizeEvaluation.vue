@@ -67,6 +67,7 @@
           item-key="name"
           class="elevation-1"
           show-select
+          show-expand
           :page.sync="page"
           :items-per-page="itemsPerPage"
           hide-default-footer
@@ -75,6 +76,50 @@
         >
           <template v-slot:item.operation="{ item }">
             <v-btn depressed small style="background-color:rgba(71, 112, 166, 0.996078431372549);color:white;" @click="PrizeInfo = item, ShowDialog = true">评审</v-btn>
+          </template>
+
+          <template v-slot:expanded-item="{ headers, item }">
+            <!--            点击表项展开后显示的内容-->
+            <!--            学生应该看到该奖的一些信息-->
+            <td :colspan="headers.length">
+              <div class="detail_box">
+                <v-row dense>
+                  <v-col><p class="attribution_name">奖项编号：</p></v-col> <v-col><p class="attr_data">{{ item.prizeId }}</p></v-col>
+                </v-row>
+
+                <v-row dense>
+                  <v-col><p class="attribution_name">奖项名称：</p></v-col> <v-col><p class="attr_data">{{ item.prizeName }}</p></v-col>
+                </v-row>
+
+                <v-row dense>
+                  <v-col><p class="attribution_name">奖项金额：</p></v-col>
+
+                  <v-col>
+                    <div style="width: 200px;">
+                      <v-row dense v-for="prize in item.prizeAccount" :key="prize.level">
+                        <v-col>{{ prize.level }}</v-col>
+                        <v-col class="prize_money">{{ prize.money }}元</v-col>
+                      </v-row>
+                    </div>
+
+                    <div style="height: 15px;"></div>
+                  </v-col>
+                </v-row>
+
+                <v-row dense>
+                  <v-col><p class="attribution_name">申请条件：</p></v-col> <v-col><p class="attr_data">{{ item.applyCondition }}</p></v-col>
+                </v-row>
+
+                <v-row dense>
+                  <v-col><p class="attribution_name">申请截止时间：</p></v-col> <v-col><p class="attr_data">{{ item.applyDeadline }}</p></v-col>
+                </v-row>
+
+                <v-row dense>
+                  <v-col><p class="attribution_name">投票方式：</p></v-col> <v-col><p class="attr_data">{{ item.vote }}</p></v-col>
+                </v-row>
+              </div>
+            </td>
+
           </template>
         </v-data-table>
       </div>
@@ -157,7 +202,7 @@ export default {
       headers: [
         { text: '奖项编号', value: 'prizeId', align: 'center',width: '150px' },
         { text: '奖项名称', value: 'prizeName', align: 'center',width: '150px' },
-        { text: '奖项金额', value: 'prizeAccount', align: 'center',width: '150px' },
+        { text: '奖项金额', value: 'prizeAccount[0].money', align: 'center',width: '150px' },
         { text: '申请条件', value: 'applyCondition', align: 'center',width: '150px' },
         { text: '申请截止日期', value: 'applyDeadline', align: 'center',width: '150px' },
         { text: '操作', value: 'operation', align: 'center', sortable:false, width: '300px' },
@@ -174,9 +219,14 @@ export default {
         {
           prizeId: 1,
           prizeName: '励志奖学金',
-          prizeAccount: '1000.00',
+          prizeAccount: [
+            {level: '一等奖', money: '1000.0'},
+            {level: '二等奖', money: '500.0'},
+            {level: '三等奖', money: '200.0'},
+          ],
           applyCondition: '成绩单，教师推荐',
           applyDeadline: '2021-06-01',
+          vote: "评分制",
         }
       ],
     }
@@ -244,5 +294,25 @@ export default {
   width:80%;
   margin-left: 50%;
   transform: translate(-50%);
+}
+
+.attribution_name {
+  font-weight: bold;
+  display: inline-block;
+}
+.attr_data {
+  display: inline-block;
+}
+.detail_box {
+  width: 400px;
+  left: 50%;
+  position: relative;
+  transform: translate(-50%, 0);
+
+  margin-top: 30px;
+  margin-bottom: 20px;
+}
+.prize_money {
+  text-align: right;
 }
 </style>

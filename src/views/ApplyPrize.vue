@@ -33,7 +33,17 @@
         >
           <template v-slot:item.operation="{ item, value }">
 <!--            <v-btn depressed small style="background-color:rgba(71,112,166,1);color:white;" @click="changeItem(item, value)">修改</v-btn>-->
-            <v-btn depressed small style="background-color:#ec2a30;color:white;" @click="deleteItem(item, value)">删除</v-btn>
+            <v-btn depressed small style="background-color:#ec2a30;color:white;"
+                   v-if="item.state==2 || item.state == 4"
+                   @click="deleteItem(item, value)">删除</v-btn>
+            <v-btn depressed small color="blue" style="color: white"
+                   v-if="item.state==3"
+                   @click="checkReason()"
+            >查看原因</v-btn>
+            <v-btn depressed small color="blue" style="color: white"
+                   v-if="item.state==5"
+                   @click="checkResult()"
+            >查看结果</v-btn>
           </template>
 
           <template v-slot:expanded-item="{ headers, item }">
@@ -42,11 +52,11 @@
             <td :colspan="headers.length">
               <div class="detail_box">
                 <v-row dense>
-                  <v-col><p class="attribution_name">奖项编号：</p></v-col> <v-col><p class="attr_data">1</p></v-col>
+                  <v-col><p class="attribution_name">奖项编号：</p></v-col> <v-col><p class="attr_data">{{ item.prizeId }}</p></v-col>
                 </v-row>
   
                 <v-row dense>
-                  <v-col><p class="attribution_name">奖项名称：</p></v-col> <v-col><p class="attr_data">{{ item.prizename }}</p></v-col>
+                  <v-col><p class="attribution_name">奖项名称：</p></v-col> <v-col><p class="attr_data">{{ item.prizeName }}</p></v-col>
                 </v-row>
   
                 <v-row dense>
@@ -54,19 +64,9 @@
 
                   <v-col>
                     <div style="width: 200px;">
-                      <v-row dense>
-                        <v-col>一等奖</v-col>
-                        <v-col class="prize_money">300.00元</v-col>
-                      </v-row>
-
-                      <v-row dense>
-                        <v-col>二等奖</v-col>
-                        <v-col class="prize_money">30.00元</v-col>
-                      </v-row>
-
-                      <v-row dense>
-                        <v-col>三等奖</v-col>
-                        <v-col class="prize_money">3.00元</v-col>
+                      <v-row dense v-for="prize in item.prizeAccount" :key="prize.level">
+                        <v-col>{{ prize.level }}</v-col>
+                        <v-col class="prize_money">{{ prize.money }}元</v-col>
                       </v-row>
                     </div>
 
@@ -75,15 +75,15 @@
                 </v-row>
   
                 <v-row dense>
-                  <v-col><p class="attribution_name">申请条件：</p></v-col> <v-col><p class="attr_data">成绩单</p></v-col>
+                  <v-col><p class="attribution_name">申请条件：</p></v-col> <v-col><p class="attr_data">{{ item.applyCondition }}</p></v-col>
                 </v-row>
   
                 <v-row dense>
-                  <v-col><p class="attribution_name">申请截止时间：</p></v-col> <v-col><p class="attr_data">2020-01-01</p></v-col>
+                  <v-col><p class="attribution_name">申请截止时间：</p></v-col> <v-col><p class="attr_data">{{ item.applyDeadline }}</p></v-col>
                 </v-row>
   
                 <v-row dense>
-                  <v-col><p class="attribution_name">投票方式：</p></v-col> <v-col><p class="attr_data">打分制</p></v-col>
+                  <v-col><p class="attribution_name">投票方式：</p></v-col> <v-col><p class="attr_data">{{ item.vote }}</p></v-col>
                 </v-row>
               </div>
             </td>
@@ -154,15 +154,16 @@ export default {
       singleSelect: false,
       selected: [],
       headers: [
-        { text: '奖项编号', value: 'prizeid', align: 'center',width: '100px' },
-        { text: '奖项名称', value: 'prizename', align: 'center',width: '140px' },
-        { text: '奖项金额', value: 'prizeaccount', align: 'center',width: '100px' },
-        { text: '申请人学号', value: 'applystudentid', align: 'center',width: '130px' },
-        { text: '申请人姓名', value: 'applystudentname', align: 'center',width: '130px' },
+        { text: '奖项编号', value: 'prizeId', align: 'center',width: '100px' },
+        { text: '奖项名称', value: 'prizeName', align: 'center',width: '140px' },
+        { text: '奖项金额', value: 'prizeAccount[0].money', align: 'center', width: '100px' },
+        { text: '申请人学号', value: 'applyStudentId', align: 'center',width: '130px' },
+        { text: '申请人姓名', value: 'applyStudentName', align: 'center',width: '130px' },
         { text: '申请附件', value: 'appendix', align: 'center',width: '150px' },
-        { text: '申请日期', value: 'applytime', align: 'center',width: '120px' },
-        { text: '申请截止日期', value: 'applydeadline', align: 'center',width: '130px' },
-        { text: '操作', value: 'operation', align: 'center', sortable:false, width: '150px' },
+        { text: '申请日期', value: 'applyTime', align: 'center',width: '120px' },
+        { text: '申请截止日期', value: 'applyDeadline', align: 'center',width: '130px' },
+        { text: '状态', value: 'state_str', align: 'center',width: '130px' },
+        { text: '操作', value: 'operation', align: 'center', sortable:false, width: '120px' },
       ],
       page: 1,
       pageCount: 0,
@@ -174,15 +175,29 @@ export default {
       ],
       list: [
         {
-          prizeid: 1,
-          prizename: '励志奖学金',
-          prizeaccount: '1000.00',
-          applystudentid: '18393728',
-          applystudentname: '张三',
+          prizeId: 1,
+          prizeName: '励志奖学金',
+          prizeAccount: [
+            {level: "一等奖", money: "2000"},
+            {level: "二等奖", money: "1000"},
+            {level: "三等奖", money: "500"},
+          ],
+          applyStudentId: '18393728',
+          applyStudentName: '张三',
           appendix: '张三成绩单.pdf',
-          applytime: '2019-12-13',
-          applydeadline: '2020-01-01',
+          applyTime: '2019-12-13',
+          applyDeadline: '2020-01-01',
+          applyCondition: "成绩单",
+          vote: "打分制",
+          state: 3,
+
+          rejectReason: "",
+          evaluateResult: "",//评审结果
         }
+      ],
+
+      stateString: [
+          "", "未申请", "已申请，待审核", "审核不通过", "审核成功，待评审", "评审完毕"
       ],
     }
   },
@@ -199,6 +214,14 @@ export default {
       const index = this.list.indexOf(item);
       confirm("你是否想要取消此项申报？") && this.list.splice(index, 1);
       console.log(item, value);
+    }
+  },
+  mounted() {
+    //TO_DO: 通过接口获取登录学生已申报的奖项信息
+    //保存到list中
+
+    for(let i = 0; i < this.list.length; i++) {
+      this.list[i].state_str = this.stateString[this.list[i].state];
     }
   }
 }
