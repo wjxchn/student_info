@@ -321,6 +321,7 @@
             applyCondition: '成绩单，教师推荐',
             applyDeadline: '2021-06-01',
             vote: '打分制',
+            voteLimit: "",
           }
         ],
       }

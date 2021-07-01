@@ -189,6 +189,7 @@ export default {
           applyDeadline: '2020-01-01',
           applyCondition: "成绩单",
           vote: "打分制",
+          voteLimit: "",
           state: 3,
 
           rejectReason: "",

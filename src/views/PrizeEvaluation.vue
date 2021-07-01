@@ -227,6 +227,7 @@ export default {
           applyCondition: '成绩单，教师推荐',
           applyDeadline: '2021-06-01',
           vote: "评分制",
+          voteLimit: "",
         }
       ],
     }

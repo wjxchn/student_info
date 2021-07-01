@@ -114,13 +114,13 @@ export default {
       singleSelect: false,
       selected: [],
       headers: [
-        { text: '申报人学号', value: 'applystudentid', align: 'center',width: '150px' },
-        { text: '申报人姓名', value: 'applystudentname', align: 'center',width: '150px' },
-        { text: '申请等级', value: 'applyprizelevel', align: 'center',width: '150px' },
-        { text: '评审方式', value: 'evaluateway', align: 'center',width: '150px' },
-        { text: '申请附件', value: 'applyappendix', align: 'center',width: '150px' },
-        { text: '申请日期', value: 'applytime', align: 'center',width: '150px' },
-        { text: '评审结果', value: 'applyresult', align: 'center', sortable:false, width: '300px' },
+        { text: '申报人学号', value: 'applyStudentId', align: 'center',width: '150px' },
+        { text: '申报人姓名', value: 'applyStudentName', align: 'center',width: '150px' },
+        { text: '申请等级', value: 'applyPrizeLevel', align: 'center',width: '150px' },
+        { text: '评审方式', value: 'vote', align: 'center',width: '150px' },
+        { text: '申请附件', value: 'appendix', align: 'center',width: '150px' },
+        { text: '申请日期', value: 'applyTime', align: 'center',width: '150px' },
+        { text: '评审结果', value: 'applyResult', align: 'center', sortable:false, width: '300px' },
         { text: '操作', value: 'operation', align: 'center', sortable:false, width: '100px' },
       ],
       page: 1,
@@ -133,13 +133,13 @@ export default {
       ],
       desserts: [
         {
-          applystudentid: '18382378',
-          applystudentname: '张三',
-          applyprizelevel: '一等奖',
-          evaluateway: '多人投票制（上限5人）',
-          applyappendix: '张三成绩单.pdf',
-          applytime: '2021-06-01',
-          applyresult: '',
+          applyStudentId: '18382378',
+          applyStudentName: '张三',
+          applyPrizeLevel: '一等奖',
+          vote: '多人投票制',
+          voteLimit: 5,
+          appendix: '张三成绩单.pdf',
+          applyTime: '2021-06-01',
         }
       ],
     }
@@ -151,6 +151,8 @@ export default {
     }
   },
   mounted() {
+    //获取到PrizeEvaluate页面传输来的数据
+    //包括评估者的姓名、学工号、职务。。。
     let params = this.$route.params;
     console.log(params);
   }

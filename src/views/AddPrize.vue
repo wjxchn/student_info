@@ -108,6 +108,16 @@
               </v-col>
             </v-row>
 
+            <v-row dense v-if="vote=='多人投票制'">
+              <v-col cols="3" style="line-height: 60px;">投票人数上限：</v-col>
+              <v-col cols="6">
+                <v-text-field
+                    v-model="voteLimit"
+                    required
+                ></v-text-field>
+              </v-col>
+            </v-row>
+
           </div>
 
           <div style="width: 100%; text-align: center;">
@@ -262,6 +272,7 @@ export default {
       applyCondition: "",
       applyDeadline: "",
       vote: "",
+      voteLimit: "",
       //表单截止
 
       //弹窗的配置
@@ -308,6 +319,7 @@ export default {
           applyCondition: '成绩单，教师推荐',
           applyDeadline: '2021-06-01',
           vote: "多人投票制",
+          voteLimit: 5,
         }
       ],
     }
@@ -327,6 +339,13 @@ export default {
       this.applyDeadline = "";
       this.applyCondition = "";
       this.vote = "";
+      this.voteLimit = "";
+    },
+    isPositiveNum(str) {
+      if(Number.isInteger(str) && parseInt(str) > 0) {
+        return true;
+      }
+      else return false;
     },
     CommitAdd() {
       let dateString = this.applyDeadline + " 23:59:59";
@@ -363,6 +382,9 @@ export default {
       else if(this.vote == "") {
         alert("评审方式不能为空！");
       }
+      else if(this.vote == "多人投票制" && !this.isPositiveNum(this.voteLimit)) {
+        alert("投票上限人数只能是一个大于0的整数！");
+      }
       else {
         //TO_DO: 发送信息
         if(this.DialogType == 0) {
@@ -375,6 +397,8 @@ export default {
           NewItem.applyDeadline = this.applyDeadline;
           NewItem.applyCondition = this.applyCondition;
           NewItem.vote = this.vote;
+          NewItem.voteLimit = this.voteLimit;
+
           //提示：奖项的编号由接口返回，是一个动态的值
 
           this.desserts.push(NewItem);
@@ -388,6 +412,7 @@ export default {
           this.NowTableItem.applyDeadline = this.applyDeadline;
           this.NowTableItem.applyCondition = this.applyCondition;
           this.NowTableItem.vote = this.vote;
+          this.NowTableItem.voteLimit = this.voteLimit;
         }
 
         this.ClearFormData();
@@ -406,12 +431,16 @@ export default {
       this.applyDeadline = item.applyDeadline;
       this.applyCondition = item.applyCondition;
       this.vote = item.vote;
+      this.voteLimit = item.voteLimit;
 
       this.DialogType = 1;
       this.ShowDialog = true;
     },
     DeleteItem(item) {
-      confirm("你确定要删除这个奖项吗？") && this.desserts.splice(this.desserts.indexOf(item), 1);
+      if(confirm("你确定要删除这个奖项吗？")) {
+        //这里写接口的相关代码
+        this.desserts.splice(this.desserts.indexOf(item), 1);
+      }
     }
   }
 }
