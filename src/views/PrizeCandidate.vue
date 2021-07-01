@@ -7,8 +7,9 @@
           depressed
           small
           style="border:1px solid rgba(71, 112, 166, 0.996); width:100px; height:38px; float:right; color:rgba(71, 112, 166, 0.996); font-size:13px;display:block;"
+          @click="submitVote()"
         >
-          批量同意
+          提交
         </v-btn>
       </div>
       <div style="height:15px;width:100%;">
@@ -22,28 +23,33 @@
           :single-expand="singleExpand"
           item-key="name"
           class="elevation-1"
-          show-select
+          :show-select="showSelect"
           :page.sync="page"
           :items-per-page="itemsPerPage"
           hide-default-footer
           @page-count="pageCount = $event"
           mobile-breakpoint=0   
         >
-          <template v-slot:item.applyresult = "{ item }">
+          <template v-slot:item.operation = "{ item }">
             <div style="width:100%;height:100%;position:relative;">
               <v-text-field
                 class="ma-0 pa-0"
-                v-model="item.applyresult"
+                v-model="item.applyResult"
+                placeholder="输入0-10之间的数字"
                 required
                 outlined
                 dense
-                style="font-size:15px;width:100%;transform:scale(0.75,0.75);position:absolute;top:0%;"
+                style="font-size:20px;width:100%;transform:scale(0.75,0.75);position:absolute;top:0%;"
               ></v-text-field>
             </div>
           </template>
-          <template v-slot:item.operation>
-            <v-btn depressed small style="background-color:rgba(71, 112, 166, 0.996078431372549);color:white;">提交</v-btn>
+
+          <template v-slot:item.appendix_display = "{ item }">
+            <div style="width:100%;height:100%;position:relative;">
+              <a style="line-height: 45px" href="item.appendix_link">{{ item.appendix }}</a>
+            </div>
           </template>
+
         </v-data-table>
       </div>
       <div class="text-center pt-2">
@@ -110,18 +116,18 @@ export default {
       selectdialog: false,
       adddialog: false,
       expanded: [],
+
       singleExpand: false,
       singleSelect: false,
+      showSelect: true,
       selected: [],
       headers: [
         { text: '申报人学号', value: 'applyStudentId', align: 'center',width: '150px' },
         { text: '申报人姓名', value: 'applyStudentName', align: 'center',width: '150px' },
         { text: '申请等级', value: 'applyPrizeLevel', align: 'center',width: '150px' },
-        { text: '评审方式', value: 'vote', align: 'center',width: '150px' },
-        { text: '申请附件', value: 'appendix', align: 'center',width: '150px' },
+        { text: '评审方式', value: 'vote_str', align: 'center',width: '180px' },
+        { text: '申请附件', value: 'appendix_display', align: 'center',width: '150px' },
         { text: '申请日期', value: 'applyTime', align: 'center',width: '150px' },
-        { text: '评审结果', value: 'applyResult', align: 'center', sortable:false, width: '300px' },
-        { text: '操作', value: 'operation', align: 'center', sortable:false, width: '100px' },
       ],
       page: 1,
       pageCount: 0,
@@ -139,15 +145,20 @@ export default {
           vote: '多人投票制',
           voteLimit: 5,
           appendix: '张三成绩单.pdf',
+          appendix_link: "",
           applyTime: '2021-06-01',
+          applyResult: '',
         }
       ],
     }
   },
-  method: {
-    pageTo(){
+  methods: {
+    pageTo() {
       console.log(this.yourpage);
       this.page = parseInt(this.yourpage);
+    },
+    submitVote() {
+      console.log(this.selected);
     }
   },
   mounted() {
@@ -155,6 +166,25 @@ export default {
     //包括评估者的姓名、学工号、职务。。。
     let params = this.$route.params;
     console.log(params);
+
+    //获取数据
+    for(let i = 0; i < this.desserts.length; i++) {
+      this.desserts[i].vote_str = (this.desserts[i].vote == "多人投票制") ?
+          this.desserts[i].vote + `(上限${this.desserts[i].voteLimit}人)` :
+          this.desserts[i].vote;
+    }
+    if(params.PrizeInfo.vote == "打分制") {
+      this.headers.push({ text: '评审', value: 'operation', align: 'center', sortable:false, width: '240px' });
+      this.showSelect = false;
+    }
+    else if(params.PrizeInfo.vote == "单人投票制") {
+      this.showSelect = true;
+      this.singleSelect = true;
+    }
+    else if(params.PrizeInfo.vote == "多人投票制") {
+      this.showSelect = true;
+      this.singleSelect = false;
+    }
   }
 }
 </script>
