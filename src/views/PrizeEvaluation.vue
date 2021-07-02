@@ -66,7 +66,6 @@
           :single-expand="singleExpand"
           item-key="name"
           class="elevation-1"
-          show-select
           show-expand
           :page.sync="page"
           :items-per-page="itemsPerPage"
@@ -173,6 +172,7 @@
 
 <script>
 import Background from '@/components/Background.vue'
+import axios from "axios"
 export default {
   name: 'PrizeEvaluation',
   components: { 
@@ -226,7 +226,7 @@ export default {
           ],
           applyCondition: '成绩单，教师推荐',
           applyDeadline: '2021-06-01',
-          vote: "评分制",
+          vote: "打分制",
           voteLimit: "",
         }
       ],
@@ -284,6 +284,19 @@ export default {
         this.Cancel();
       }
     }
+  },
+  mounted() {
+    axios("/api/teacher/evaluateprize")
+    .then(res => {
+      if(res.flag == true) {
+        this.desserts = res.data;
+      }
+      else {
+        alert(`从服务器获取失败! ${res.exc}`);
+      }
+    }).catch(err => {
+      alert(`错误! ${err}`);
+    })
   }
 }
 </script>
