@@ -258,6 +258,7 @@
 
 <script>
 import Background from '@/components/Background.vue'
+import axios from "axios"
 export default {
   name: 'AddPrize',
   components: { 
@@ -388,9 +389,6 @@ export default {
       else {
         //TO_DO: 发送信息
         if(this.DialogType == 0) {
-          //新增一个奖项
-          console.log();
-
           let NewItem = {};
           NewItem.prizeName = this.prizeName;
           NewItem.prizeAccount = this.prizeAccount;
@@ -399,20 +397,39 @@ export default {
           NewItem.vote = this.vote;
           NewItem.voteLimit = this.voteLimit;
 
-          //提示：奖项的编号由接口返回，是一个动态的值
+          //新增一个奖项
+          axios.post("/api/admin/addprize", NewItem)
+            .then(res => {
+              if(res.flag == true) {
+                NewItem.prizeId = res.prizeId;
 
-          this.desserts.push(NewItem);
+                //提示：奖项的编号由接口返回，是一个动态的值
+                this.desserts.push(NewItem);
+              }
+              else {
+                alert(`新增奖项失败! ${res.exc}`);
+              }
+            }).catch(err => {
+              alert(`错误! ${err}`);
+            });
         }
         else {
           //修改NowTableItem标识的奖项
-          console.log();
-
           this.NowTableItem.prizeName = this.prizeName;
           this.NowTableItem.prizeAccount = this.prizeAccount;
           this.NowTableItem.applyDeadline = this.applyDeadline;
           this.NowTableItem.applyCondition = this.applyCondition;
           this.NowTableItem.vote = this.vote;
           this.NowTableItem.voteLimit = this.voteLimit;
+
+          axios.post("/api/admin/changeprize", this.NowTableItem)
+            .then(res => {
+              if(res.flag != true) {
+                alert(`修改奖项失败! ${res.exc}`);
+              }
+            }).catch(err => {
+              alert(`错误! ${err}`);
+            });
         }
 
         this.ClearFormData();
@@ -438,10 +455,32 @@ export default {
     },
     DeleteItem(item) {
       if(confirm("你确定要删除这个奖项吗？")) {
-        //这里写接口的相关代码
-        this.desserts.splice(this.desserts.indexOf(item), 1);
+        axios.post("/api/admin/deleteprize", {prizeId: item.prizeId})
+            .then(res => {
+              if(res.flag != true) {
+                alert(`删除奖项失败! ${res.exc}`);
+              }
+              else {
+                this.desserts.splice(this.desserts.indexOf(item), 1);
+              }
+            }).catch(err => {
+          alert(`错误! ${err}`);
+        });
       }
     }
+  },
+  mounted() {
+    axios.get("/api/admin/allprize")
+    .then(res => {
+      if(res.flag == true) {
+        this.desserts = res.data;
+      }
+      else {
+        alert(`从服务器获取失败! ${res.exc}`);
+      }
+    }).catch(err => {
+      alert(`错误! ${err}`);
+    })
   }
 }
 </script>

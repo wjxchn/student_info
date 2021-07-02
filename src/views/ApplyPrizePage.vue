@@ -352,26 +352,27 @@
       // 提交申请奖项begin
       applyCommit() {
         console.log(this.apply_level);
-        var data = {
-          level: this.apply_level,
-          file1: this.apply_file1,
-          file2: this.apply_file2
+        let data = {
+          applyLevel: this.apply_level,
+          fullFile: this.apply_file1,
+          showFile: this.apply_file2,
         };
-        if(data.level == '') {
+        if(data.applyLevel == '') {
           alert('请输入申请等级');
-        } else if(data.file1 == '') {
+        } else if(data.fullFile == '') {
           alert('请上传附件（全面版）');
-        } else if(data.file2 == '') {
+        } else if(data.showFile == '') {
           alert('请上传附件（公示版）');
         } else {
-          axios({
-            url: '9999',
-            method: 'post',
-            data: data,
-          }).then(() => {
-            alert('上传成功！');
-          }).catch(() => {
-            alert('上传失败!');
+          axios.post("/api/student/applyprize", data).then(res => {
+            if(res.flag == true) {
+              alert('上传成功！');
+            }
+            else {
+              alert(`上传失败! ${res.exc}`);
+            }
+          }).catch(err => {
+            alert(`上传失败! ${err}`);
           })
         }
       },
@@ -380,26 +381,19 @@
         this.$router.push('/applyprize');
       }
     },
-    //接口未实现，先隐藏掉
-    // mounted() {
-    //   // 获取数据库中的奖项begin
-    //   axios({
-    //     url: '/api/prize/all',
-    //     method: 'get',
-    //   }).then((res) => {
-    //     var flag = res.data.flag;
-    //     console.log("校验成功？", res.data);
-    //     if (flag) {
-    //       // next();
-    //       console.log(res.data);
-    //       this.desserts = res.data.data;
-    //       // alert('成功获取奖项！');
-    //     }
-    //   }).catch(() => {
-    //     alert('获取数据失败！');
-    //   })
-    //   // 获取数据库中的奖项end
-    // }
+    mounted() {
+      axios.get("/api/student/otherprize")
+          .then(res => {
+            if(res.flag == true) {
+              this.desserts = res.data;
+            }
+            else {
+              alert(`从服务器获取失败! ${res.exc}`);
+            }
+          }).catch(err => {
+        alert(`错误! ${err}`);
+      });
+    }
   }
 </script>
 

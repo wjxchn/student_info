@@ -137,6 +137,7 @@
 
 <script>
 import Background from '@/components/Background.vue'
+import axios from "axios";
 export default {
   name: 'ApplyPrize',
   components: { 
@@ -218,8 +219,18 @@ export default {
     }
   },
   mounted() {
-    //TO_DO: 通过接口获取登录学生已申报的奖项信息
-    //保存到list中
+    //从服务器获取数据
+    axios.get("/api/student/currentprize")
+        .then(res => {
+          if(res.flag == true) {
+            this.list = res.data;
+          }
+          else {
+            alert(`从服务器获取失败! ${res.exc}`);
+          }
+        }).catch(err => {
+      alert(`错误! ${err}`);
+    });
 
     for(let i = 0; i < this.list.length; i++) {
       this.list[i].state_str = this.stateString[this.list[i].state];

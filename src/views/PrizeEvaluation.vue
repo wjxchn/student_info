@@ -286,7 +286,7 @@ export default {
     }
   },
   mounted() {
-    axios("/api/teacher/evaluateprize")
+    axios.get("/api/teacher/evaluateprize")
     .then(res => {
       if(res.flag == true) {
         this.desserts = res.data;
@@ -296,7 +296,7 @@ export default {
       }
     }).catch(err => {
       alert(`错误! ${err}`);
-    })
+    });
   }
 }
 </script>
