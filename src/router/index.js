@@ -87,32 +87,13 @@ router.beforeEach((to, from, next) => {
     if (to.path === '/login') {
         next();
     } else {
-        var token = localStorage.getItem('Authorization');
-        if (token === null || token === '') {
-            next('/login');
-        } else {
-            // axios({
-            //     url: '/api/auth',
-            //     method: 'post',
-            //     params: {
-            //         token: token, //这是请求头
-            //     }
-            //     // data: {'token': token}  //这是请求体
-            // }).then(res => {
-            //     var flag = res.data.flag;
-            //     console.log("校验成功？", res.data);
-            //     if (flag) {
-            //         next();
-            //     } else {
-            //         next('/login');
-            //     }
-            // }).catch(
-            //     next('/login')
-            // )
-
-            next();
-        }
-        // next();
+        // var token = localStorage.getItem('Authorization');
+        // if (token === null || token === '') {
+        //     next('/login');
+        // } else {
+        //     next();
+        // }
+        next();
     }
 });
 
