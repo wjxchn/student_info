@@ -16,7 +16,7 @@
             <v-col cols="3" style="line-height: 60px;">奖项名称：</v-col>
             <v-col cols="8">
               <v-text-field
-                  v-model="PrizeName"
+                  v-model="prizeName"
                   required
               ></v-text-field>
             </v-col>
@@ -26,7 +26,7 @@
             <v-col cols="3" style="line-height: 60px">奖项等级和金额：</v-col>
             <v-col cols="9">
 <!--              这个是已经添加了的-->
-              <v-row dense class="already_add" v-for="(item,i) in PrizeInfo" :key="i">
+              <v-row dense class="already_add" v-for="(item,i) in prizeAccount" :key="i">
                 <v-col cols="4">
                   <v-text-field
                       v-model="item.level"
@@ -45,12 +45,12 @@
 
                 <v-col cols="5">
                   <v-btn color="blue"
-                         v-if="PrizeInfo.length != 1"
+                         v-if="prizeAccount.length != 1"
                          @click="PrizeInfo.splice(PrizeInfo.indexOf(item), 1)"
                   >删除</v-btn>
-                  <v-btn v-if="i == PrizeInfo.length - 1"
+                  <v-btn v-if="i == prizeAccount.length - 1"
                          color="blue" style="margin-left: 10px"
-                         @click="PrizeInfo.push({level: '', money: ''})"
+                         @click="prizeAccount.push({level: '', money: ''})"
                   >添加</v-btn>
                 </v-col>
               </v-row>
@@ -100,11 +100,21 @@
               <v-col cols="3" style="line-height: 60px;">评审方式：</v-col>
               <v-col cols="9">
                 <v-radio-group
-                    v-model="AssessMethod"
+                    v-model="vote"
                     row
                 >
                   <v-radio v-for="item in AssessMethodArray" :label="item" :value="item" :key="item"></v-radio>
                 </v-radio-group>
+              </v-col>
+            </v-row>
+
+            <v-row dense v-if="vote=='多人投票制'">
+              <v-col cols="3" style="line-height: 60px;">投票人数上限：</v-col>
+              <v-col cols="6">
+                <v-text-field
+                    v-model="voteLimit"
+                    required
+                ></v-text-field>
               </v-col>
             </v-row>
 
@@ -141,6 +151,7 @@
           item-key="name"
           class="elevation-1"
           show-select
+          show-expand
           :page.sync="page"
           :items-per-page="itemsPerPage"
           hide-default-footer
@@ -150,6 +161,50 @@
           <template v-slot:item.operation="{ item }">
             <v-btn depressed small style="background-color:white;border:1px solid grey;" @click="ChangeItem(item)">编辑</v-btn>
             <v-btn depressed small style="margin-left:30px;background-color:rgba(71, 112, 166, 0.996078431372549);color:white;" @click="DeleteItem(item)">删除</v-btn>
+          </template>
+
+          <template v-slot:expanded-item="{ headers, item }">
+            <!--            点击表项展开后显示的内容-->
+            <!--            学生应该看到该奖的一些信息-->
+            <td :colspan="headers.length">
+              <div class="detail_box">
+                <v-row dense>
+                  <v-col><p class="attribution_name">奖项编号：</p></v-col> <v-col><p class="attr_data">{{ item.prizeId }}</p></v-col>
+                </v-row>
+
+                <v-row dense>
+                  <v-col><p class="attribution_name">奖项名称：</p></v-col> <v-col><p class="attr_data">{{ item.prizeName }}</p></v-col>
+                </v-row>
+
+                <v-row dense>
+                  <v-col><p class="attribution_name">奖项金额：</p></v-col>
+
+                  <v-col>
+                    <div style="width: 200px;">
+                      <v-row dense v-for="prize in item.prizeAccount" :key="prize.level">
+                        <v-col>{{ prize.level }}</v-col>
+                        <v-col class="prize_money">{{ prize.money }}元</v-col>
+                      </v-row>
+                    </div>
+
+                    <div style="height: 15px;"></div>
+                  </v-col>
+                </v-row>
+
+                <v-row dense>
+                  <v-col><p class="attribution_name">申请条件：</p></v-col> <v-col><p class="attr_data">{{ item.applyCondition }}</p></v-col>
+                </v-row>
+
+                <v-row dense>
+                  <v-col><p class="attribution_name">申请截止时间：</p></v-col> <v-col><p class="attr_data">{{ item.applyDeadline }}</p></v-col>
+                </v-row>
+
+                <v-row dense>
+                  <v-col><p class="attribution_name">投票方式：</p></v-col> <v-col><p class="attr_data">{{ item.vote }}</p></v-col>
+                </v-row>
+              </div>
+            </td>
+
           </template>
         </v-data-table>
       </div>
@@ -171,27 +226,31 @@
           ></v-select>
         </div>
         <div style="display: inline-block; position: relative; top: 5px;">
-          <v-pagination v-model="page" :length="pageCount"></v-pagination>
+          <v-container class="max-width">
+            <v-pagination :total-visible="10" v-model="page" :length="pageCount"></v-pagination>
+          </v-container>
         </div>
         <div style="display: inline-block; margin-right:10px; font-weight:700; color:#0D4C7F;">
           跳至
         </div>
         <div style="display: inline-block;">
           <v-text-field
-            :value="page"
-            type="number"
-            min="1"
-            style="width: 100px;"
-            :max="pageCount"
-            single-line
-            required
-            outlined
-            dense
+              v-model="yourpage"
+              type="number"
+              min="1"
+              style="width: 100px;"
+              :max="pageCount"
+              single-line
+              required
+              outlined
+              dense
           ></v-text-field>
         </div>
         <div style="display: inline-block; margin-left:10px; font-weight:700; color:#0D4C7F;">
           页
         </div>
+        <v-btn depressed large style="margin-left:10px;background-color:rgba(71, 112, 166, 0.996078431372549);color:white;" @click="pageTo()">跳转</v-btn>
+
       </div>
     </div>
   </div>
@@ -199,6 +258,7 @@
 
 <script>
 import Background from '@/components/Background.vue'
+import axios from "axios"
 export default {
   name: 'AddPrize',
   components: { 
@@ -206,17 +266,21 @@ export default {
   },
   data () {
     return {
+      yourpage: 1,
       //以下为弹窗表单的值
-      PrizeName: "",
-      PrizeInfo: [{level: "", money: ""}],
+      prizeName: "",
+      prizeAccount: [{level: "", money: ""}],
       applyCondition: "",
       applyDeadline: "",
-      AssessMethod: "",
+      vote: "",
+      voteLimit: "",
       //表单截止
 
       //弹窗的配置
       ShowDialog: false,
       DialogType: 0,
+      NowTableItem: {},
+      //说明：0为新增模式，1为修改模式
 
       AssessMethodArray: ["打分制", "单人投票制","多人投票制"],
 
@@ -231,7 +295,7 @@ export default {
       headers: [
         { text: '奖项编号', value: 'prizeId', align: 'center',width: '150px' },
         { text: '奖项名称', value: 'prizeName', align: 'center',width: '150px' },
-        { text: '奖项金额', value: 'prizeAccount', align: 'center',width: '150px' },
+        { text: '奖项金额', value: 'prizeAccount[0].money', align: 'center',width: '150px' },
         { text: '申请条件', value: 'applyCondition', align: 'center',width: '150px' },
         { text: '申请截止日期', value: 'applyDeadline', align: 'center',width: '150px' },
         { text: '操作', value: 'operation', align: 'center', sortable:false, width: '300px' },
@@ -248,37 +312,61 @@ export default {
         {
           prizeId: 1,
           prizeName: '励志奖学金',
-          prizeAccount: '1000.00',
+          prizeAccount: [
+            {level: "一等奖", money: "2000"},
+            {level: "二等奖", money: "1000"},
+            {level: "三等奖", money: "500"},
+          ],
           applyCondition: '成绩单，教师推荐',
           applyDeadline: '2021-06-01',
+          vote: "多人投票制",
+          voteLimit: 5,
         }
       ],
     }
   },
   methods: {
+    pageTo(){
+      console.log(this.yourpage);
+      this.page = parseInt(this.yourpage);
+    },
     CancelAdd() {
       this.ClearFormData();
       this.ShowDialog = false;
     },
     ClearFormData() {
-      this.PrizeName = "";
-      this.PrizeInfo = [{level: "", money: ""}];
+      this.prizeName = "";
+      this.prizeAccount = [{level: "", money: ""}];
       this.applyDeadline = "";
       this.applyCondition = "";
-      this.AssessMethod = "";
+      this.vote = "";
+      this.voteLimit = "";
+    },
+    isPositiveNum(str) {
+      if(Number.isInteger(str) && parseInt(str) > 0) {
+        return true;
+      }
+      else return false;
     },
     CommitAdd() {
       let dateString = this.applyDeadline + " 23:59:59";
       let ddl = new Date(dateString);
       let current = new Date();
 
-      if(this.PrizeName == "") {
+      if(this.prizeName == "") {
         alert("请输入奖项名称！");
         return;
       }
-      for(let i = 0; i < this.PrizeInfo.length; i++) {
-        if(this.PrizeInfo[i].level == "" || this.PrizeInfo[i].money == "") {
+      for(let i = 0; i < this.prizeAccount.length; i++) {
+        if(this.prizeAccount[i].level == "" || this.prizeAccount[i].money == "") {
           alert("奖项的等级和金额不能为空！");
+          return;
+        }
+
+        //检验输入的money是否是一个数字（包含小数）
+        let reg = /^[0-9]+\.?[0-9]*$/;
+        if (!reg.test(this.prizeAccount[i].money)) {
+          alert("奖项的金额必须是一个数字！");
           return;
         }
       }
@@ -292,16 +380,56 @@ export default {
       else if(this.applyCondition == "") {
         alert("奖项的申请条件不能为空！");
       }
-      else if(this.AssessMethod == "") {
+      else if(this.vote == "") {
         alert("评审方式不能为空！");
+      }
+      else if(this.vote == "多人投票制" && !this.isPositiveNum(this.voteLimit)) {
+        alert("投票上限人数只能是一个大于0的整数！");
       }
       else {
         //TO_DO: 发送信息
         if(this.DialogType == 0) {
-          console.log();
+          let NewItem = {};
+          NewItem.prizeName = this.prizeName;
+          NewItem.prizeAccount = this.prizeAccount;
+          NewItem.applyDeadline = this.applyDeadline;
+          NewItem.applyCondition = this.applyCondition;
+          NewItem.vote = this.vote;
+          NewItem.voteLimit = this.voteLimit;
+
+          //新增一个奖项
+          axios.post("/api/admin/addprize", NewItem)
+            .then(res => {
+              if(res.flag == true) {
+                NewItem.prizeId = res.prizeId;
+
+                //提示：奖项的编号由接口返回，是一个动态的值
+                this.desserts.push(NewItem);
+              }
+              else {
+                alert(`新增奖项失败! ${res.exc}`);
+              }
+            }).catch(err => {
+              alert(`错误! ${err}`);
+            });
         }
         else {
-          console.log();
+          //修改NowTableItem标识的奖项
+          this.NowTableItem.prizeName = this.prizeName;
+          this.NowTableItem.prizeAccount = this.prizeAccount;
+          this.NowTableItem.applyDeadline = this.applyDeadline;
+          this.NowTableItem.applyCondition = this.applyCondition;
+          this.NowTableItem.vote = this.vote;
+          this.NowTableItem.voteLimit = this.voteLimit;
+
+          axios.post("/api/admin/changeprize", this.NowTableItem)
+            .then(res => {
+              if(res.flag != true) {
+                alert(`修改奖项失败! ${res.exc}`);
+              }
+            }).catch(err => {
+              alert(`错误! ${err}`);
+            });
         }
 
         this.ClearFormData();
@@ -313,18 +441,46 @@ export default {
       this.ShowDialog = true;
     },
     ChangeItem(item) {
-      this.PrizeName = item.prizeName;
-      this.PrizeInfo = [{level: "", money: ""}];//这个没有确定好
+      this.NowTableItem = item;
+
+      this.prizeName = item.prizeName;
+      this.prizeAccount = item.prizeAccount;
       this.applyDeadline = item.applyDeadline;
       this.applyCondition = item.applyCondition;
-      this.AssessMethod = "";
+      this.vote = item.vote;
+      this.voteLimit = item.voteLimit;
 
       this.DialogType = 1;
       this.ShowDialog = true;
     },
     DeleteItem(item) {
-      confirm("你确定要删除这个奖项吗？") && this.desserts.splice(this.desserts.indexOf(item), 1);
+      if(confirm("你确定要删除这个奖项吗？")) {
+        axios.post("/api/admin/deleteprize", {prizeId: item.prizeId})
+            .then(res => {
+              if(res.flag != true) {
+                alert(`删除奖项失败! ${res.exc}`);
+              }
+              else {
+                this.desserts.splice(this.desserts.indexOf(item), 1);
+              }
+            }).catch(err => {
+          alert(`错误! ${err}`);
+        });
+      }
     }
+  },
+  mounted() {
+    axios.get("/api/admin/allprize")
+    .then(res => {
+      if(res.flag == true) {
+        this.desserts = res.data;
+      }
+      else {
+        alert(`从服务器获取失败! ${res.exc}`);
+      }
+    }).catch(err => {
+      alert(`错误! ${err}`);
+    })
   }
 }
 </script>
@@ -336,5 +492,24 @@ export default {
   width:80%;
   margin-left: 50%;
   transform: translate(-50%);
+}
+.attribution_name {
+  font-weight: bold;
+  display: inline-block;
+}
+.attr_data {
+  display: inline-block;
+}
+.detail_box {
+  width: 400px;
+  left: 50%;
+  position: relative;
+  transform: translate(-50%, 0);
+
+  margin-top: 30px;
+  margin-bottom: 20px;
+}
+.prize_money {
+  text-align: right;
 }
 </style>
